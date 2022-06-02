@@ -1,5 +1,5 @@
 export const IMAGES = {
-  splash: require('../assets/images/splash/splash.png'),
+  drawer_background: require('../assets/images/splash/drawer_background.png'),
   background: require('../assets/images/splash/background.png'),
   background2: require('../assets/images/splash/background2.png'),
   background3: require('../assets/images/splash/background3.png'),
@@ -7,16 +7,24 @@ export const IMAGES = {
   background5: require('../assets/images/splash/background5.png'),
   background6: require('../assets/images/splash/background6.png'),
   background7: require('../assets/images/splash/background7.png'),
+  background_brand: require('../assets/images/home/nike_background.png'),
+  avatar_url: require('../assets/images/user/avatar.jpeg'),
 };
 
 export const ICONS = {
   cartBlack: require('../assets/icons/cart-black.png'),
   cartWhite: require('../assets/icons/cart-white.png'),
   menu: require('../assets/icons/menu.png'),
+  home: require('../assets/icons/menu/home.png'),
+  profile: require('../assets/icons/menu/profile.png'),
+  setting: require('../assets/icons/menu/setting.png'),
+  notification: require('../assets/icons/menu/notification.png'),
+  order: require('../assets/icons/menu/order.png'),
   search: require('../assets/icons/search.png'),
+  heart: require('../assets/icons/menu/heart.png'),
   favorite: require('../assets/icons/favorite.png'),
   favorite_outline: require('../assets/icons/favorite_outline.png'),
   nike: require('../assets/icons/brand/nike.png'),
   adidas: require('../assets/icons/brand/adidas.png'),
-  converse: require('../assets/icons/brand/converse.png'),
+  van_converse: require('../assets/icons/brand/van_converse.png'),
 };

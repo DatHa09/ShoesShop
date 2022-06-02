@@ -17,14 +17,18 @@ import {
   faEye,
   faEyeSlash,
   faAngleLeft,
-  faPhone
+  faPhone,
+  faEnvelope
 } from '@fortawesome/free-solid-svg-icons';
 
 import {styles} from './style/RegisterStyle';
 import {IMAGES} from '../../common/Images';
 import {COLORS} from '../../common/Theme';
+import {StackActions, useNavigation} from '@react-navigation/native';
+import {screens} from '../../common/Contants';
 
 export default function RegisterScreen() {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -34,7 +38,9 @@ export default function RegisterScreen() {
           {/* 1 */}
           <View style={{flex: 2}}>
             {/* APP BAR */}
-            <TouchableOpacity style={styles.app_bar}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.app_bar}>
               <FontAwesomeIcon
                 icon={faAngleLeft}
                 color={COLORS.secondary}
@@ -57,12 +63,12 @@ export default function RegisterScreen() {
           {/* INPUT 1*/}
           <View style={styles.input_container}>
             <Text style={[styles.text, {color: '#fff', marginBottom: 8}]}>
-              Phone
+              Email
             </Text>
             <View style={styles.input_container__input}>
-            <FontAwesomeIcon icon={faPhone} />
+              <FontAwesomeIcon icon={faEnvelope} />
               <TextInput
-                placeholder={`Enter your phone email`}
+                placeholder={`Enter your email`}
                 placeholderTextColor="#fff"
                 style={[styles.input, styles.text_input]}
               />
@@ -70,14 +76,23 @@ export default function RegisterScreen() {
           </View>
           {/* BUTTON 2*/}
           <View style={styles.btn_container}>
-            <TouchableOpacity style={[styles.btn, styles.btn_sign_in__shadow]}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.dispatch(
+                  StackActions.replace(screens.profile_password_screen),
+                )
+              }
+              style={[styles.btn, styles.btn_sign_in__shadow]}>
               <Text style={styles.btn_sign_in}>Continue</Text>
             </TouchableOpacity>
           </View>
           {/* LOGIN 1*/}
           <View style={styles.text_sign_up}>
             <Text style={styles.text_gray}>Have an account?</Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.dispatch(StackActions.replace(screens.login_screen))
+              }>
               <Text style={styles.text_secondary}> SIGN IN </Text>
             </TouchableOpacity>
           </View>

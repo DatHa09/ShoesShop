@@ -3,12 +3,19 @@ import React, {useEffect, useState} from 'react';
 import {COLORS, FONTS, SIZES} from '../../../../common/Theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {onSelectedCategory} from '../../HomeSlice';
-import {fetchCategories, fetchCategoriesFirstTime} from '../../HomeThunk';
+import {
+  fetchCategories,
+  fetchCategoriesFirstTime,
+  fetchCategoriesGender,
+  fetchProducts,
+} from '../../HomeThunk';
 
 export default function Categories() {
   const dispatch = useDispatch();
 
-  const dataCategories = useSelector(state => state.homeReducer.dataCategories);
+  const dataCategoriesGender = useSelector(
+    state => state.homeReducer.dataCategoriesGender,
+  );
 
   const currentCategory = useSelector(
     state => state.homeReducer.categorySelected,
@@ -23,8 +30,12 @@ export default function Categories() {
   }, [categorySelectedFirstTime]);
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchCategoriesGender());
   }, [currentCategory]);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  });
 
   const renderItem = (item, index) => {
     //C1
@@ -33,42 +44,46 @@ export default function Categories() {
     //   isEnd = true;
     // }
     //C2
-    let isEnd = index === dataCategories.length - 1;
+    let isEnd = index === dataCategoriesGender.length - 1;
     return (
       <>
-        <View
+        <TouchableOpacity
+          onPress={() => dispatch(onSelectedCategory(item.id))}
           style={{
-            borderRadius: 8,
-            borderBottomWidth: item.id === currentCategory ? 4 : 0,
-            borderBottomColor: item.id === currentCategory && COLORS.secondary,
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 56,
+            width: SIZES.width / 2 - 16,
           }}>
-          <TouchableOpacity
-            onPress={() => dispatch(onSelectedCategory(item.id))}
+          <Text
             style={{
-              height: 56,
-              justifyContent: 'center',
-              paddingHorizontal: 16,
+              fontFamily: FONTS.fontFamilyBold,
+              fontSize: 16,
+              color:
+                item.id === currentCategory ? COLORS.secondary : COLORS.black3,
             }}>
-            <Text
-              style={{
-                color:
-                  item.id === currentCategory
-                    ? COLORS.secondary
-                    : COLORS.black3,
-                fontFamily: FONTS.fontFamilyBold,
-                fontSize: 16,
-              }}>
-              {item.category}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        {!isEnd && (
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            {item.category}
+          </Text>
+          {currentCategory === item.id && (
             <View
               style={{
-                height: 24,
-                width: 1,
+                position: 'absolute',
+                bottom: 0,
+                width: SIZES.width / 4,
+                height: 3,
                 backgroundColor: COLORS.secondary,
+              }}
+            />
+          )}
+        </TouchableOpacity>
+        {!isEnd && (
+          <View style={{justifyContent: 'center'}}>
+            <View
+              style={{
+                height: 32,
+                width: 1,
+                backgroundColor: COLORS.black,
+                borderRadius: 8,
               }}
             />
           </View>
@@ -77,34 +92,35 @@ export default function Categories() {
     );
   };
   return (
-    <View
-      style={{
-        height: 56,
-        marginTop: 24,
-      }}>
-      {/* set background */}
+    <>
       {/* show categories */}
       <View
         style={{
-          position: 'absolute',
-          height: 56,
-          width: SIZES.width,
-          opacity: 0.4,
-        }}
-      />
-      <View
-        style={{
-          height: 56,
-          width: SIZES.width,
+          heigh: 56,
           flexDirection: 'row',
+          marginHorizontal: 16,
+          marginBottom: 16,
+          alignItems: 'center',
+          borderRadius: 8,
+
+          shadowColor: COLORS.black3,
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+
+          elevation: 10,
+          backgroundColor: COLORS.lightGray,
         }}>
         <FlatList
-          data={dataCategories}
+          data={dataCategoriesGender}
           horizontal
           showsHorizontalScrollIndicator={false}
           renderItem={({item, index}) => renderItem(item, index)}
         />
       </View>
-    </View>
+    </>
   );
 }
