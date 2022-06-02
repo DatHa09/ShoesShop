@@ -16,6 +16,7 @@ import {
   faUser,
   faUnlock,
   faEye,
+  faEnvelope,
   faEyeSlash,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -23,13 +24,19 @@ import {styles} from './styles/LoginStyles';
 import {IMAGES} from '../../common/Images';
 import {COLORS} from '../../common/Theme';
 import {screens} from '../../common/Contants';
-export default function LoginScreen({navigation}) {
+import {useNavigation} from '@react-navigation/native';
+export default function LoginScreen() {
+  const navigation = useNavigation();
   const [isHide, setIsHide] = useState(true);
 
   // const navigation = useNavigation();
 
   const onPressRegister = () => {
-    // navigation.navigate(screens.register);
+    navigation.navigate(screens.register_screen);
+  };
+
+  const onForgotPassword = () => {
+    navigation.navigate(screens.forgot_password_screen);
   };
 
   return (
@@ -47,7 +54,7 @@ export default function LoginScreen({navigation}) {
           {/* INPUT */}
           <View style={styles.input_container}>
             <View style={styles.input_container__input}>
-              <FontAwesomeIcon icon={faUser} />
+              <FontAwesomeIcon icon={faEnvelope} />
               <TextInput
                 placeholder={`Email`}
                 placeholderTextColor="#fff"
@@ -70,7 +77,7 @@ export default function LoginScreen({navigation}) {
           </View>
           {/* BUTTON SIGN IN */}
           <TouchableOpacity
-            onPress={() => onPressRegister()}
+            onPress={() => navigation.navigate(screens.drawer_menu)}
             style={[styles.btn, styles.btn_sign_in__shadow]}>
             <Text style={styles.btn_sign_in}>SIGN IN</Text>
           </TouchableOpacity>
@@ -87,7 +94,7 @@ export default function LoginScreen({navigation}) {
 
             {/* FORGOT PASSWORD */}
             <View style={styles.forgot_password}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => onForgotPassword()}>
                 <Text style={styles.text_secondary}>Forgot Password?</Text>
               </TouchableOpacity>
             </View>

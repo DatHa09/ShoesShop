@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {
   fetchCategories,
   fetchCategoriesFirstTime,
+  fetchCategoriesGender,
   fetchProducts,
   fetchProductsByCategory,
   fetchProductsByFeature,
@@ -12,12 +13,21 @@ const initialState = {
   isLoading: false,
   dataProducts: [],
   dataProductsByCategory: [],
+
   dataMenShoes: [],
   dataWomenShoes: [],
   dataFeaturedShoes: [],
   dataCategories: [],
+
+  dataCategoriesGender: [],
+  dataCategoriesBrand: [],
+  dataProductsByBrandAndMen: [],
+  dataProductsByBrandAndWomen: [],
+
   categorySelected: '',
   categorySelectedFirstTime: '',
+
+  showMenu: false,
 };
 
 const homeSlice = createSlice({
@@ -27,6 +37,11 @@ const homeSlice = createSlice({
     onSelectedCategory: (state, action) => {
       let categoryId = action.payload;
       state.categorySelected = categoryId;
+    },
+
+    onSelectedMenu: (state, action) => {
+      let showMenu = action.payload;
+      state.showMenu = showMenu;
     },
   },
   extraReducers: builder => {
@@ -43,6 +58,22 @@ const homeSlice = createSlice({
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.dataCategories = action.payload;
       })
+      .addCase(fetchCategoriesGender.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchCategoriesGender.fulfilled, (state, action) => {
+        let dataCategoriesGender = action.payload.filter(
+          item => item.id === 'MEN' || item.id === 'WOMEN',
+        );
+        // console.log(dataCategoriesGender);
+        state.dataCategoriesGender = dataCategoriesGender;
+
+        let dataBrand = action.payload.filter(item => item.id === 'MEN');
+
+        state.dataCategoriesBrand = JSON.parse(dataBrand[0].categoryChild);
+
+        // console.log(state.dataCategoriesBrand);
+      })
       .addCase(fetchProductsByCategory.pending, (state, action) => {
         state.isLoading = true;
       })
@@ -53,6 +84,7 @@ const homeSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchCategoriesFirstTime.fulfilled, (state, action) => {
+        // console.log("🚀 ~ file: HomeSlice.js ~ line 81 ~ .addCase ~ dataCategoriesGender", dataCategoriesGender[0].id)
         state.categorySelectedFirstTime = action.payload[0].id;
         state.categorySelected = action.payload[0].id;
       })
@@ -76,5 +108,5 @@ const homeSlice = createSlice({
       });
   },
 });
-export const {onSelectedCategory} = homeSlice.actions;
+export const {onSelectedCategory, onSelectedMenu} = homeSlice.actions;
 export default homeSlice.reducer;

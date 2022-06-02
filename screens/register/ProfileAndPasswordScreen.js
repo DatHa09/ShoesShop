@@ -27,7 +27,9 @@ import {styles} from './style/ProfileAndPasswordScreenStyle';
 import {IMAGES} from '../../common/Images';
 import {COLORS} from '../../common/Theme';
 import {screens} from '../../common/Contants';
+import {StackActions, useNavigation} from '@react-navigation/native';
 export default function ProfileAndPasswordScreen() {
+  const navigation = useNavigation();
   const [isHideNewPassword, setIsHideNewPassword] = useState(true);
   const [isHideConfirmPassword, setIsHideConfirmPassword] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState();
@@ -142,7 +144,11 @@ export default function ProfileAndPasswordScreen() {
 
           {/* BUTTON 2*/}
           <View style={styles.btn_container}>
-            <TouchableOpacity style={[styles.btn, styles.btn_sign_in__shadow]}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.dispatch(StackActions.replace(screens.login_screen))
+              }
+              style={[styles.btn, styles.btn_sign_in__shadow]}>
               <Text style={styles.btn_sign_in}>Confirmation</Text>
             </TouchableOpacity>
           </View>

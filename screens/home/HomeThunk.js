@@ -1,4 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
+import {PAGING} from '../../common/Contants';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
@@ -8,6 +9,28 @@ export const fetchProducts = createAsyncThunk(
     return json.content;
   },
 );
+
+export const fetchCategoriesGender = createAsyncThunk(
+  'category/fetchCategoriesGender',
+  async () => {
+    const resp = await fetch(
+      'http://svcy3.myclass.vn/api/Product/getAllCategory',
+    );
+    const json = await resp.json();
+
+    // dispatch(fetchProductsByCategory(getState().homeReducer.categorySelected));
+
+    return json.content;
+  },
+);
+
+export const fetchCategoriesShoesBrand = createAsyncThunk(async () => {
+  const resp = await fetch(
+    'http://svcy3.myclass.vn/api/Product/getAllCategory',
+  );
+  const json = await resp.json();
+  return json.content;
+});
 
 export const fetchCategories = createAsyncThunk(
   'category/fetchCategories',
@@ -23,6 +46,22 @@ export const fetchCategories = createAsyncThunk(
   },
 );
 
+export const fetchCategoriesFirstTime = createAsyncThunk(
+  'category/fetchCategoriesFirstTime',
+  async () => {
+    const resp = await fetch(
+      'http://svcy3.myclass.vn/api/Product/getAllCategory',
+    );
+    const json = await resp.json();
+
+    let data = json.content.filter(
+      item => item.id === 'MEN' || item.id === 'WOMEN',
+    );
+
+    return data;
+  },
+);
+
 export const fetchProductsByCategory = createAsyncThunk(
   'productsByCategory/fetchProductsByCategory',
   async category => {
@@ -35,18 +74,6 @@ export const fetchProductsByCategory = createAsyncThunk(
     } else {
       return [];
     }
-  },
-);
-
-export const fetchCategoriesFirstTime = createAsyncThunk(
-  'category/fetchCategoriesFirstTime',
-  async () => {
-    const resp = await fetch(
-      'http://svcy3.myclass.vn/api/Product/getAllCategory',
-    );
-    const json = await resp.json();
-
-    return json.content;
   },
 );
 
@@ -77,7 +104,13 @@ export const fetchProductsByFeature = createAsyncThunk(
   async () => {
     const resp = await fetch('http://svcy3.myclass.vn/api/Product');
     const json = await resp.json();
-    let data = json.content.filter(item => item.feature === true);
-    return data;
+    let paging = 0;
+    let dataFilter = json.content.filter(item => {
+      if (paging <= 3 && item.feature === true) {
+        paging = paging + 1;
+        return item;
+      }
+    });
+    return dataFilter;
   },
 );

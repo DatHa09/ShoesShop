@@ -1,20 +1,25 @@
 import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect} from 'react';
-import {COLORS, FONTS, SIZES} from '../../../../../common/Theme';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faHeart} from '@fortawesome/free-solid-svg-icons';
+import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchProductsByFeature} from '../../../HomeThunk';
+import {COLORS, FONTS, SIZES} from '../../../../../common/Theme';
+import {useNavigation} from '@react-navigation/native';
+import {screens} from '../../../../../common/Contants';
 
 export default function FeaturedShoes() {
   const dispatch = useDispatch();
 
-  const dataProducts = useSelector(state => state.homeReducer.dataFeaturedShoes);
+  const navigation = useNavigation();
+
+  const dataProducts = useSelector(
+    state => state.homeReducer.dataFeaturedShoes,
+  );
 
   useEffect(() => {
     dispatch(fetchProductsByFeature());
   }, []);
-
 
   const renderFeaturedShoes = item => {
     return (
@@ -109,18 +114,41 @@ export default function FeaturedShoes() {
 
   return (
     <View style={{flex: 1, marginTop: 16}}>
-      <Text
+      <View
         style={{
-          paddingLeft: 16,
-          color: COLORS.black3,
-          fontSize: 24,
-          fontFamily: FONTS.fontFamilyBold,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingHorizontal: 16,
         }}>
-        Featured Shoes
-      </Text>
+        <Text
+          style={{
+            color: COLORS.black3,
+            fontSize: 24,
+            fontFamily: FONTS.fontFamilyBold,
+          }}>
+          Featured Shoes
+        </Text>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate(screens.products, {
+              nameScreen: screens.feature_screen,
+            })
+          }>
+          <Text
+            style={{
+              fontFamily: FONTS.fontFamilySemiBold,
+              color: COLORS.darkGray,
+              fontSize: 16,
+            }}>
+            See more...
+          </Text>
+        </TouchableOpacity>
+      </View>
       <View style={{marginHorizontal: 8}}>
         <FlatList
           horizontal
+          initialNumToRender={4}
           showsHorizontalScrollIndicator={false}
           data={dataProducts}
           renderItem={({item}) => renderFeaturedShoes(item)}

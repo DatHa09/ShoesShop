@@ -17,14 +17,18 @@ import {
   faEye,
   faEyeSlash,
   faAngleLeft,
+  faEnvelope,
   faPhone,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {styles} from './styles/ForgotPasswordScreenStyle';
 import {IMAGES} from '../../common/Images';
 import {COLORS} from '../../common/Theme';
+import {StackActions, useNavigation} from '@react-navigation/native';
+import {screens} from '../../common/Contants';
 
 export default function ForgotPasswordScreen() {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -32,7 +36,9 @@ export default function ForgotPasswordScreen() {
         style={styles.container_background_image}>
         <View style={styles.container_background_overlay}>
           {/* APP BAR */}
-          <TouchableOpacity style={styles.app_bar}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.app_bar}>
             <FontAwesomeIcon
               icon={faAngleLeft}
               color={COLORS.secondary}
@@ -64,7 +70,7 @@ export default function ForgotPasswordScreen() {
               Email
             </Text>
             <View style={[styles.input_container__input, styles.opacity]}>
-              <FontAwesomeIcon icon={faPhone} />
+              <FontAwesomeIcon icon={faEnvelope} />
               <TextInput
                 placeholder={`Enter your email`}
                 placeholderTextColor="#fff"
@@ -75,6 +81,11 @@ export default function ForgotPasswordScreen() {
             {/* BUTTON */}
             <View style={styles.btn_container}>
               <TouchableOpacity
+                onPress={() =>
+                  navigation.dispatch(
+                    StackActions.replace(screens.update_password_screen),
+                  )
+                }
                 style={[styles.btn, styles.btn_sign_in__shadow]}>
                 <Text style={styles.btn_sign_in}>Reset</Text>
               </TouchableOpacity>
