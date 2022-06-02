@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
-// import {useNavigation} from '@react-navigation/native';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
@@ -22,7 +21,6 @@ import {
 
 import {styles} from './styles/LoginStyles';
 import {IMAGES} from '../../common/Images';
-import {COLORS} from '../../common/Theme';
 import {screens} from '../../common/Contants';
 import {useNavigation} from '@react-navigation/native';
 export default function LoginScreen() {
