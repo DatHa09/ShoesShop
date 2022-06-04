@@ -79,13 +79,15 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
+    marginTop: 233,
+    marginBottom:24
   },
 
   btn: {
     width: '80%',
     height: 48,
     borderRadius: 8,
-    marginBottom: 24,
+   
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: COLORS.secondary,

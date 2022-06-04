@@ -28,3 +28,6 @@ export const categories = {
   adidas: 'ADIDAS',
   vans_converse: 'VANS_CONVERSE',
 };
+
+export const KEY_LOCAL_STORAGE = 'localStorage';
+export const KEY_ACCESS_TOKEN = 'accessToken';

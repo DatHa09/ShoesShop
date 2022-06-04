@@ -65,13 +65,14 @@ export const styles = StyleSheet.create({
   btn_container: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 293,
   },
 
   btn: {
     width: '100%',
     height: 48,
     borderRadius: 8,
-    marginBottom: 24,
+  
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: COLORS.secondary,

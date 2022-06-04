@@ -6,6 +6,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   TextInput,
+  ScrollView
 } from 'react-native';
 import React from 'react';
 
@@ -31,6 +32,9 @@ export default function RegisterScreen() {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView >
+
+
       <ImageBackground
         source={IMAGES.background2}
         style={styles.container_background_image}>
@@ -56,7 +60,7 @@ export default function RegisterScreen() {
               ]}>
               Register Account
             </Text>
-            <Text style={[styles.text, styles.marginLeft16]}>
+            <Text style={[styles.text, styles.marginLeft16, {marginBottom:124}]}>
               Enter Email to Register
             </Text>
           </View>
@@ -98,6 +102,7 @@ export default function RegisterScreen() {
           </View>
         </View>
       </ImageBackground>
+      </ScrollView>
     </SafeAreaView>
   );
 }

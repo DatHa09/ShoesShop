@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {COLORS, SIZES} from '../../../common/Theme';
+import {COLORS, FONTS, SIZES} from '../../../common/Theme';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -9,6 +9,8 @@ export const styles = StyleSheet.create({
   },
   container_background_overlay: {
     flex: 1,
+    // flex: 1,
+    // flexGrow: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     // justifyContent: 'center',
     // alignItems: 'flex-start',
@@ -19,7 +21,8 @@ export const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    marginVertical: 32,
+    marginTop: 32,
+    marginBottom:24,
   },
   text: {
     fontFamily: 'Quicksand-Bold',
@@ -37,71 +40,29 @@ export const styles = StyleSheet.create({
     marginRight: 90,
   },
 
-  input_container: {
-    marginHorizontal: 16,
-    opacity: 0.5,
-    justifyContent: 'center',
-  },
-  input_container__input: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingLeft: 16,
-    paddingRight: 8,
-    backgroundColor: COLORS.lightGray5,
-    marginBottom: 32,
-    borderRadius: 8,
-  },
-  input: {
-    height: 48,
-    paddingHorizontal: 16,
-    // width: SIZES.width-140,
-    flexGrow: 1,
-    // backgroundColor: COLORS.secondary,
-  },
-  text_input: {
-    fontSize: 14,
-    fontFamily: 'Quicksand-Bold',
-    color: COLORS.black,
-  },
 
-  gender: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 8,
-    paddingLeft: 16,
-    backgroundColor: COLORS.lightGray5,
-  },
 
-  genderPicker: {
-    flexGrow: 1,
-    fontFamily: 'Quicksand-Bold',
+  marginTop16: {
+    marginTop: 16,
   },
 
   btn_container: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    // flex: 1,
     alignItems: 'center',
+    // justifyContent: 'flex-end',
+    marginTop: 46,
+    marginBottom: 32,
   },
 
   btn: {
     width: '80%',
-    height: 48,
+    // height: 48,
+    padding: 16,
     borderRadius: 8,
-    marginBottom: 24,
+    // marginBott: 24,
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     backgroundColor: COLORS.secondary,
-  },
-  btn_sign_in__shadow: {
-    shadowColor: COLORS.secondary,
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.0,
-
-    elevation: 24,
   },
   btn_sign_in: {
     fontFamily: 'Quicksand-Bold',
