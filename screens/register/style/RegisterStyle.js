@@ -35,6 +35,7 @@ export const styles = StyleSheet.create({
   },
   input_container: {
     flex: 1,
+    marginBottom: 184,
     marginHorizontal: 16,
     // width: '100%',
     opacity: 0.5,
@@ -65,13 +66,14 @@ export const styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'flex-end',
     alignItems: 'center',
+    marginTop:29
   },
 
   btn: {
     width: '80%',
     height: 48,
     borderRadius: 8,
-    marginBottom: 24,
+   
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: COLORS.secondary,

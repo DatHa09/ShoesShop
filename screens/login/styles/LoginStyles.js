@@ -10,10 +10,11 @@ export const styles = StyleSheet.create({
   container_background_overlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    paddingVertical: 184
   },
   input_container: {
-    // flex: 1,
+    flex: 3,
     marginHorizontal: 16,
     // width: '100%',
     opacity: 0.5,
@@ -24,7 +25,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 8,
     backgroundColor: COLORS.lightGray5,
-    marginBottom: 16,
+    marginVertical: 16,
     borderRadius: 8,
   },
 
@@ -52,6 +53,7 @@ export const styles = StyleSheet.create({
     height: 48,
     borderRadius: 8,
     marginHorizontal: 16,
+    marginTop: 16,
     marginBottom: 24,
     alignItems: 'center',
     justifyContent: 'center',
@@ -87,5 +89,6 @@ export const styles = StyleSheet.create({
 
   forgot_password: {
     marginTop: 16,
+    marginBottom:45
   },
 });
