@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     marginBottom: 56,
   },
   title: {
-    fontSize: 32,
+    fontSize: 30,
     marginTop: 32,
     marginBottom:24,
   },

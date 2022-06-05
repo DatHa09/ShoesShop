@@ -1,5 +1,5 @@
-import {View, Text, TextInput, TouchableOpacity, Button} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, TextInput, TouchableOpacity, Modal} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {styles} from './style/RegisterFormStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
@@ -14,14 +14,27 @@ import {
   faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import {StackActions, useNavigation} from '@react-navigation/native';
-import {screens} from '../../../common/Contants';
+import {
+  lowercaseRegex,
+  numericRegex,
+  phoneRegex,
+  screens,
+  specialCharsRegex,
+  uppercaseRegex,
+} from '../../../common/Contants';
 import {Picker} from '@react-native-picker/picker';
 import {COLORS, FONTS} from '../../../common/Theme';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {useDispatch, useSelector} from 'react-redux';
+import {checkRegister} from '../RegisterThunk';
+import {globalStyles} from '../../../common/style/globalStyle';
 
 export default function RegisterForm() {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const initialValues = {
     name: '',
@@ -35,24 +48,17 @@ export default function RegisterForm() {
   const [isHideNewPassword, setIsHideNewPassword] = useState(true);
   const [isHideConfirmPassword, setIsHideConfirmPassword] = useState(true);
 
-  // const [haveMinEightChars, setHaveMinEightChars] = useState(false);
-  // const [haveUpperCase, setHaveUpperCase] = useState(false);
-  // const [haveLowerCase, setHaveLowerCase] = useState(false);
-  // const [haveOneNumber, setHaveOneNumber] = useState(false);
-  // const [haveSpecialChars, setHaveSpecialChars] = useState(false);
-  const emailRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  const uppercaseRegex = /(?=.*[A-Z])/;
-  const lowercaseRegex = /(?=.*[a-z])/;
-  const numericRegex = /(?=.*[0-9])/;
-  const specialCharsRegex = /(?=.*[!\@\#\$\%\^\&\*\(\)\_\-\=\+\?\>\<\.\,])/;
-  const phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    console.log('isSuccess: ', isSuccess);
+  }, [isSuccess]);
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Please enter your name.').min(5, 'Too short.'),
     email: Yup.string()
       .required('Please enter your email address.')
-      .email('Your email not valid.'),
+      .email('Your email is not valid.'),
     password: Yup.string()
       .required('Please enter your password.')
       .matches(uppercaseRegex, 'One uppercase is required.')
@@ -68,132 +74,31 @@ export default function RegisterForm() {
       .matches(phoneRegex, 'Your phone number not valid'),
   });
 
-  // const hintValidatePassword = () => (
-  //   <View style={styles.minimum_requirements}>
+  const onHandleSubmit = async values => {
+    const result = await dispatch(checkRegister(values));
+    if (result.payload.statusCode === 400) {
+      setIsSuccess(false);
+    } else if (
+      result.payload.statusCode === 201 ||
+      result.payload.statusCode === 200
+    ) {
+      setIsSuccess(true);
+    }
+    setModalVisible(true);
+  };
 
-  //     <View style={styles.minimum_requirements_characters_container}>
-  //       <Text
-  //         style={[
-  //           styles.characters_container__text,
-  //           {color: haveMinEightChars ? COLORS.green : COLORS.white},
-  //         ]}>
-  //         Minimum of 8 characters
-  //       </Text>
-  //       {haveMinEightChars ? (
-  //         <FontAwesomeIcon
-  //           icon={faCheck}
-  //           color={COLORS.green}
-  //           style={{marginLeft: 4, marginRight: 8}}
-  //         />
-  //       ) : (
-  //         <FontAwesomeIcon
-  //           icon={faXmark}
-  //           color={COLORS.red}
-  //           style={{marginLeft: 4, marginRight: 8}}
-  //         />
-  //       )}
-  //     </View>
-
-  //     <View style={styles.minimum_requirements_characters_container}>
-  //       <Text
-  //         style={[
-  //           styles.characters_container__text,
-  //           {color: haveUpperCase ? COLORS.green : COLORS.white},
-  //         ]}>
-  //         1 uppercase letter
-  //       </Text>
-  //       {haveUpperCase ? (
-  //         <FontAwesomeIcon
-  //           icon={faCheck}
-  //           color={COLORS.green}
-  //           style={{marginLeft: 4, marginRight: 8}}
-  //         />
-  //       ) : (
-  //         <FontAwesomeIcon
-  //           icon={faXmark}
-  //           color={COLORS.red}
-  //           style={{marginLeft: 4, marginRight: 8}}
-  //         />
-  //       )}
-  //     </View>
-
-  //     <View style={styles.minimum_requirements_characters_container}>
-  //       <Text
-  //         style={[
-  //           styles.characters_container__text,
-  //           {color: haveLowerCase ? COLORS.green : COLORS.white},
-  //         ]}>
-  //         1 lowercase letter
-  //       </Text>
-  //       {haveLowerCase ? (
-  //         <FontAwesomeIcon
-  //           icon={faCheck}
-  //           color={COLORS.green}
-  //           style={{marginLeft: 4, marginRight: 8}}
-  //         />
-  //       ) : (
-  //         <FontAwesomeIcon
-  //           icon={faXmark}
-  //           color={COLORS.red}
-  //           style={{marginLeft: 4, marginRight: 8}}
-  //         />
-  //       )}
-  //     </View>
-
-  //     <View style={styles.minimum_requirements_characters_container}>
-  //       <Text
-  //         style={[
-  //           styles.characters_container__text,
-  //           {color: haveOneNumber ? COLORS.green : COLORS.white},
-  //         ]}>
-  //         1 number
-  //       </Text>
-  //       {haveOneNumber ? (
-  // <FontAwesomeIcon
-  //   icon={faCheck}
-  //   color={COLORS.green}
-  //   style={{marginLeft: 4, marginRight: 8}}
-  // />
-  //       ) : (
-  //         <FontAwesomeIcon
-  //           icon={faXmark}
-  //           color={COLORS.red}
-  //           style={{marginLeft: 4, marginRight: 8}}
-  //         />
-  //       )}
-  //     </View>
-
-  //     <View style={styles.minimum_requirements_characters_container}>
-  //       <Text
-  //         style={[
-  //           styles.characters_container__text,
-  //           {color: haveSpecialChars ? COLORS.green : COLORS.white},
-  //         ]}>
-  //         1 special character
-  //       </Text>
-  //       {haveSpecialChars ? (
-  //         <FontAwesomeIcon
-  //           icon={faCheck}
-  //           color={COLORS.green}
-  //           style={{marginLeft: 4, marginRight: 8}}
-  //         />
-  //       ) : (
-  //         <FontAwesomeIcon
-  //           icon={faXmark}
-  //           color={COLORS.red}
-  //           style={{marginLeft: 4, marginRight: 8}}
-  //         />
-  //       )}
-  //     </View>
-  //   </View>
-  // );
+  const onConfirmRegister = () => {
+    isSuccess
+      ? navigation.dispatch(StackActions.replace(screens.login_screen))
+      : setModalVisible(!modalVisible);
+  };
 
   return (
     <View style={styles.input_container}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={values => console.log(values)}>
+        onSubmit={values => onHandleSubmit(values)}>
         {props => (
           <View>
             {/* Name */}
@@ -210,14 +115,14 @@ export default function RegisterForm() {
                 />
               </View>
               {props.touched.name && props.errors.name && (
-                <View style={styles.validate_container}>
+                <View style={globalStyles.validate_container}>
                   <FontAwesomeIcon
                     icon={faXmark}
                     color={COLORS.red}
                     size={24}
                     style={{marginLeft: 12}}
                   />
-                  <Text style={styles.validate_container__text}>
+                  <Text style={globalStyles.validate_container__text}>
                     {props.errors.name}
                   </Text>
                 </View>
@@ -238,14 +143,14 @@ export default function RegisterForm() {
                 />
               </View>
               {props.touched.email && props.errors.email && (
-                <View style={styles.validate_container}>
+                <View style={globalStyles.validate_container}>
                   <FontAwesomeIcon
                     icon={faXmark}
                     color={COLORS.red}
                     size={24}
                     style={{marginLeft: 12}}
                   />
-                  <Text style={styles.validate_container__text}>
+                  <Text style={globalStyles.validate_container__text}>
                     {props.errors.email}
                   </Text>
                 </View>
@@ -274,14 +179,14 @@ export default function RegisterForm() {
                 </TouchableOpacity>
               </View>
               {props.touched.password && props.errors.password && (
-                <View style={styles.validate_container}>
+                <View style={globalStyles.validate_container}>
                   <FontAwesomeIcon
                     icon={faXmark}
                     color={COLORS.red}
                     size={24}
                     style={{marginLeft: 12}}
                   />
-                  <Text style={styles.validate_container__text}>
+                  <Text style={globalStyles.validate_container__text}>
                     {props.errors.password}
                   </Text>
                 </View>
@@ -313,14 +218,14 @@ export default function RegisterForm() {
               </View>
 
               {props.touched.passwordConfirm && props.errors.passwordConfirm && (
-                <View style={styles.validate_container}>
+                <View style={globalStyles.validate_container}>
                   <FontAwesomeIcon
                     icon={faXmark}
                     color={COLORS.red}
                     size={24}
                     style={{marginLeft: 12}}
                   />
-                  <Text style={styles.validate_container__text}>
+                  <Text style={globalStyles.validate_container__text}>
                     {props.errors.passwordConfirm}
                   </Text>
                 </View>
@@ -342,14 +247,14 @@ export default function RegisterForm() {
                 />
               </View>
               {props.touched.phone && props.errors.phone && (
-                <View style={styles.validate_container}>
+                <View style={globalStyles.validate_container}>
                   <FontAwesomeIcon
                     icon={faXmark}
                     color={COLORS.red}
                     size={24}
                     style={{marginLeft: 12}}
                   />
-                  <Text style={styles.validate_container__text}>
+                  <Text style={globalStyles.validate_container__text}>
                     {props.errors.phone}
                   </Text>
                 </View>
@@ -367,13 +272,7 @@ export default function RegisterForm() {
                     'gender',
                     itemValue === 'male' ? true : false,
                   );
-                  // setFieldValue('gender', itemValue);
-                  // setFieldData({
-                  //   ...fieldData,
-                  //   gender: itemValue,
-                  // });
                 }}>
-                <Picker.Item label="Select gender" />
                 <Picker.Item label="Male" value="male" />
                 <Picker.Item label="Female" value="female" />
               </Picker>
@@ -382,12 +281,7 @@ export default function RegisterForm() {
             <View style={styles.btn_container}>
               <TouchableOpacity
                 disabled={!props.dirty || !props.isValid}
-                onPress={
-                  () => props.handleSubmit()
-                  // navigation.dispatch(
-                  //   StackActions.replace(screens.login_screen),
-                  // )
-                }
+                onPress={() => props.handleSubmit()}
                 style={[
                   styles.btn,
                   {
@@ -411,6 +305,50 @@ export default function RegisterForm() {
                 </Text>
               </TouchableOpacity>
             </View>
+
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(!modalVisible);
+              }}>
+              <View style={styles.centeredView}>
+                <View
+                  style={[
+                    styles.modalView,
+                    {
+                      backgroundColor: isSuccess
+                        ? COLORS.backgroundSuccess
+                        : COLORS.backgroundError,
+                      borderColor: isSuccess
+                        ? COLORS.borderSuccess
+                        : COLORS.borderError,
+                    },
+                  ]}>
+                  <View style={styles.modalView_container}>
+                    <FontAwesomeIcon
+                      icon={isSuccess ? faCheck : faXmark}
+                      color={isSuccess ? COLORS.green : COLORS.red}
+                      size={24}
+                      style={{marginRight: 12}}
+                    />
+                    <Text style={styles.modalText}>
+                      {isSuccess
+                        ? 'Register Successfully!'
+                        : 'Email address is already registered!'}
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => onConfirmRegister()}>
+                    <Text style={styles.textStyle}>
+                      {isSuccess ? 'Login Now' : 'OK'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
           </View>
         )}
       </Formik>

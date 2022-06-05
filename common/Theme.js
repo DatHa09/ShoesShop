@@ -20,6 +20,10 @@ export const COLORS = {
   white: '#FFFFFF',
 
   green: '#00FE9C',
+  backgroundSuccess: '#f6ffed',
+  backgroundError: '#fff2f0',
+  borderSuccess: '#b7eb8f',
+  borderError: '#ffccc7',
 
   red: '#f5222d',
 
