@@ -1,5 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {KEY_ACCESS_TOKEN} from '../../common/Contants';
+import { getLocalStorage } from '../../common/LocalStorage';
 
 export const checkLogin = createAsyncThunk(
   'login/checkLogin',
@@ -16,13 +17,7 @@ export const checkLogin = createAsyncThunk(
       }),
     });
     const json = await resp.json();
-    if (json.statusCode === 404) {
-      // console.log(json.message);
-      return json;
-    } else {
-      console.log(json);
-      return json;
-    }
+    return json;
   },
 );
 
@@ -31,7 +26,7 @@ export const getLocalAccessToken = createAsyncThunk(
   async () => {
     //xử lý login code trước khi update lên state trên store chung
     let token = await getLocalStorage(KEY_ACCESS_TOKEN);
-    console.log('token');
+    console.log('kiểm tra token local');
     console.log(token);
     if (token === undefined || token === null) {
       return 'no token';

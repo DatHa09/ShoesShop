@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Modal,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 
@@ -24,41 +25,78 @@ import {
 
 import {styles} from './styles/LoginStyles';
 import {IMAGES} from '../../common/Images';
-import {screens} from '../../common/Contants';
-import {useNavigation} from '@react-navigation/native';
+import {
+  lowercaseRegex,
+  numericRegex,
+  phoneRegex,
+  screens,
+  specialCharsRegex,
+  uppercaseRegex,
+} from '../../common/Contants';
+import {StackActions, useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {checkLogin, getLocalAccessToken} from './LoginThunk';
 import {COLORS} from '../../common/Theme';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {globalStyles} from '../../common/style/globalStyle';
 export default function LoginScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [isHide, setIsHide] = useState(true);
 
-  let email = '';
-  let password = '';
-
-  const accessToken = useSelector(state => state.loginReducer.accessToken);
-  const message = useSelector(state => state.loginReducer.message);
   useEffect(() => {
+    console.log('useEffect');
     dispatch(getLocalAccessToken());
   }, []);
 
-  const onChangeEmail = text => {
-    email = text;
-  };
-  const onChangePassword = text => {
-    password = text;
+  useEffect(() => {}, [isSuccess === true]);
+
+  const [isHideNewPassword, setIsHideNewPassword] = useState(true);
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const initialValues = {
+    email: '',
+    password: '',
   };
 
-  // console.log('email: ' + email + ' password: ' + userPassword);
+  // const accessToken = useSelector(state => state.loginReducer.accessToken);
 
-  const onSignIn = () => {
-    // console.log('email: ', email);
-    if (email === '' || password === '') {
-      console.log('email: ' + email, 'password' + password);
-      console.log('Please enter your email and password');
-    } else {
-      dispatch(checkLogin({email: email, password: password}));
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .required('Please enter your email address.')
+      .email('Your email ís not valid.'),
+    password: Yup.string()
+      .required('Please enter your password.')
+      .matches(uppercaseRegex, 'One uppercase is required.')
+      .matches(lowercaseRegex, 'One lowercase is required.')
+      .matches(numericRegex, 'One number is required.')
+      .matches(specialCharsRegex, 'One special character is required.')
+      .min(6, 'Minimum 6 characters required.'),
+  });
+
+  const onSignIn = async values => {
+    const result = await dispatch(checkLogin(values));
+    if (
+      result.payload.statusCode === 404 ||
+      result.payload.statusCode === 400
+    ) {
+      console.log('Login failed');
+      setIsSuccess(false);
+      setModalVisible(true);
+    } else if (
+      result.payload.statusCode === 201 ||
+      result.payload.statusCode === 200
+    ) {
+      console.log('Login successful');
+      setIsSuccess(true);
+      setModalVisible(true);
+      setTimeout(() => {
+        setModalVisible(!modalVisible);
+        navigation.dispatch(StackActions.replace(screens.drawer_menu));
+      }, 500);
     }
   };
 
@@ -89,40 +127,149 @@ export default function LoginScreen() {
               </View>
             </View>
 
-            {/* INPUT */}
-            <View style={styles.input_container}>
-              <View style={styles.input_container__input}>
-                <FontAwesomeIcon icon={faEnvelope} />
-                <TextInput
-                  placeholder={`Email`}
-                  onChangeText={text => onChangeEmail(text)}
-                  placeholderTextColor="#fff"
-                  style={[styles.input, styles.text]}
-                />
-              </View>
-              <View style={styles.input_container__input}>
-                <FontAwesomeIcon icon={faUnlock} />
-                <TextInput
-                  secureTextEntry={isHide}
-                  placeholder={`Password`}
-                  onChangeText={text => onChangePassword(text)}
-                  placeholderTextColor="#FFF"
-                  style={[styles.input, styles.text]}
-                />
-                <TouchableOpacity onPress={() => setIsHide(!isHide)}>
-                  <FontAwesomeIcon icon={isHide ? faEyeSlash : faEye} />
-                </TouchableOpacity>
-              </View>
-            </View>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={values => onSignIn(values)}>
+              {props => (
+                <View style={styles.input_container}>
+                  {/* Email */}
+                  <View style={styles.input_container__input}>
+                    <FontAwesomeIcon icon={faEnvelope} />
+                    <TextInput
+                      placeholder={`Email`}
+                      onChangeText={props.handleChange('email')}
+                      onBlur={props.handleBlur('email')}
+                      value={props.values.email}
+                      placeholderTextColor="#fff"
+                      style={[styles.input, styles.text]}
+                    />
+                  </View>
+                  {props.touched.email && props.errors.email && (
+                    <View style={globalStyles.validate_container}>
+                      <FontAwesomeIcon
+                        icon={faXmark}
+                        color={COLORS.red}
+                        size={24}
+                        style={{marginLeft: 12}}
+                      />
+                      <Text style={globalStyles.validate_container__text}>
+                        {props.errors.email}
+                      </Text>
+                    </View>
+                  )}
 
-            {/* BUTTON SIGN IN */}
-            <View style={{flex: 1}}>
-              <TouchableOpacity
-                onPress={() => onSignIn()}
-                style={[styles.btn, styles.btn_sign_in__shadow]}>
-                <Text style={styles.btn_sign_in}>SIGN IN</Text>
-              </TouchableOpacity>
-            </View>
+                  {/* Password */}
+                  <View style={styles.marginVertical16}>
+                    <View style={styles.input_container__input}>
+                      <FontAwesomeIcon icon={faUnlock} size={20} />
+                      <TextInput
+                        secureTextEntry={isHideNewPassword}
+                        placeholder={`Password`}
+                        onChangeText={props.handleChange('password')}
+                        onBlur={props.handleBlur('password')}
+                        value={props.values.password}
+                        placeholderTextColor="#FFF"
+                        style={[styles.input, styles.text]}
+                      />
+                      <TouchableOpacity
+                        onPress={() =>
+                          setIsHideNewPassword(!isHideNewPassword)
+                        }>
+                        <FontAwesomeIcon
+                          icon={isHideNewPassword ? faEyeSlash : faEye}
+                          style={{flexGrow: 1}}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    {props.touched.password && props.errors.password && (
+                      <View style={globalStyles.validate_container}>
+                        <FontAwesomeIcon
+                          icon={faXmark}
+                          color={COLORS.red}
+                          size={24}
+                          style={{marginLeft: 12}}
+                        />
+                        <Text style={globalStyles.validate_container__text}>
+                          {props.errors.password}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+
+                  {/* Button Confirm */}
+                  <TouchableOpacity
+                    disabled={!props.dirty || !props.isValid}
+                    onPress={() => props.handleSubmit()}
+                    style={[
+                      styles.btn,
+                      {
+                        backgroundColor:
+                          !props.dirty || !props.isValid
+                            ? COLORS.lightGray4
+                            : COLORS.secondary,
+                      },
+                    ]}>
+                    <Text
+                      style={[
+                        styles.btn_sign_in,
+                        {
+                          color:
+                            !props.dirty || !props.isValid
+                              ? COLORS.darkGray
+                              : COLORS.black3,
+                        },
+                      ]}>
+                      SIGN IN
+                    </Text>
+                  </TouchableOpacity>
+
+                  <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                      setModalVisible(!modalVisible);
+                    }}>
+                    <View style={styles.centeredView}>
+                      <View
+                        style={[
+                          styles.modalView,
+                          {
+                            backgroundColor: isSuccess
+                              ? COLORS.backgroundSuccess
+                              : COLORS.backgroundError,
+                            borderColor: isSuccess
+                              ? COLORS.borderSuccess
+                              : COLORS.borderError,
+                          },
+                        ]}>
+                        <View style={styles.modalView_container}>
+                          <FontAwesomeIcon
+                            icon={isSuccess ? faCheck : faXmark}
+                            color={isSuccess ? COLORS.green : COLORS.red}
+                            size={24}
+                            style={{marginRight: 12}}
+                          />
+                          <Text style={styles.modalText}>
+                            {isSuccess
+                              ? 'Login Successfully!'
+                              : 'Incorrect email address or password!'}
+                          </Text>
+                        </View>
+                        {!isSuccess && (
+                          <TouchableOpacity
+                            style={[styles.button, styles.buttonClose]}
+                            onPress={() => setModalVisible(!modalVisible)}>
+                            <Text style={styles.textStyle}>OK</Text>
+                          </TouchableOpacity>
+                        )}
+                      </View>
+                    </View>
+                  </Modal>
+                </View>
+              )}
+            </Formik>
 
             <View style={styles.text_container}>
               {/* REGISTER */}

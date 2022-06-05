@@ -5,7 +5,7 @@ import {checkLogin, getLocalAccessToken} from './LoginThunk';
 const initialState = {
   isLoading: false,
   accessToken: '',
-  message: '',
+  // message: '',
 };
 
 const loginSlice = createSlice({
@@ -18,14 +18,7 @@ const loginSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(checkLogin.fulfilled, (state, action) => {
-        const json = action.payload;
-        if (json.statusCode === 404) {
-          state.message = json.message;
-        }
-        if (json.statusCode === 200) {
-          state.message = json.message;
-          state.accessToken = action.payload.content.accessToken;
-        }
+        state.accessToken = action.payload.content.accessToken;
         //lưu vào LocalStorage
         saveLocalStorage(KEY_ACCESS_TOKEN, action.payload);
       })
