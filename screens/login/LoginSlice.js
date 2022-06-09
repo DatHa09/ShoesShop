@@ -1,10 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {KEY_ACCESS_TOKEN} from '../../common/Contants';
 import {saveLocalStorage} from '../../common/LocalStorage';
-import {checkLogin, getLocalAccessToken} from './LoginThunk';
+import {checkLogin, getLocalAccessToken, getProfile} from './LoginThunk';
 const initialState = {
   isLoading: false,
   accessToken: '',
+  profile: [],
   // message: '',
 };
 
@@ -27,6 +28,12 @@ const loginSlice = createSlice({
       })
       .addCase(getLocalAccessToken.fulfilled, (state, action) => {
         state.accessToken = action.payload;
+      })
+      .addCase(getProfile.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(getProfile.fulfilled, (state, action) => {
+        state.profile = action.payload;
       });
   },
 });

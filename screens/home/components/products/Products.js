@@ -7,8 +7,6 @@ import {
   ImageBackground,
 } from 'react-native';
 import React from 'react';
-import MenShoes from './components/MenShoes';
-import WomenShoes from './components/WomenShoes.';
 import FeaturedShoes from './components/FeaturedShoes';
 import {useSelector} from 'react-redux';
 import {COLORS, FONTS, SIZES} from '../../../../common/Theme';
@@ -45,7 +43,8 @@ export default function Products() {
             key={item.id}
             onPress={() =>
               navigation.navigate(screens.products, {
-                nameScreen: item.id,
+                idScreen: item.id,
+                nameScreen: item.category,
                 gender:
                   currentCategory === categories.men
                     ? categories.men
@@ -66,6 +65,7 @@ export default function Products() {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
+            {/* Brand name */}
             <Text
               style={{
                 fontFamily: FONTS.fontFamilyBold,
@@ -77,6 +77,7 @@ export default function Products() {
               }}>
               {item.category}
             </Text>
+            {/* Brand icon */}
             <Image
               source={
                 item.id === categories.nike

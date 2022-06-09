@@ -1,9 +1,7 @@
 import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect} from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchProductsByFeature} from '../../../HomeThunk';
+import {fetchProducts} from '../../../HomeThunk';
 import {COLORS, FONTS, SIZES} from '../../../../../common/Theme';
 import {useNavigation} from '@react-navigation/native';
 import {screens} from '../../../../../common/Contants';
@@ -13,13 +11,27 @@ export default function FeaturedShoes() {
 
   const navigation = useNavigation();
 
-  const dataProducts = useSelector(
-    state => state.homeReducer.dataFeaturedShoes,
+  const dataProducts = useSelector(state => state.homeReducer.dataProducts);
+
+  const isLoadingFeatured = useSelector(
+    state => state.homeReducer.isLoadingFeatured,
   );
 
   useEffect(() => {
-    dispatch(fetchProductsByFeature());
+    dispatch(fetchProducts());
   }, []);
+  const featuredShoes = length => {
+    let newDataProducts = [];
+    let numberItem = 0;
+    dataProducts.filter(item => {
+      //lọc sản phẩm tiêu biểu với số lượng sản phẩm là length
+      if (numberItem < length && item.feature === true) {
+        numberItem = numberItem + 1;
+        newDataProducts.push(item);
+      }
+    });
+    return newDataProducts;
+  };
 
   const renderFeaturedShoes = item => {
     return (
@@ -30,14 +42,6 @@ export default function FeaturedShoes() {
           padding: 16,
           borderRadius: 5,
           backgroundColor: '#FFF',
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          elevation: 5,
         }}>
         {/* TAG and LIKE */}
         {item.feature ? (
@@ -132,7 +136,9 @@ export default function FeaturedShoes() {
         <TouchableOpacity
           onPress={() =>
             navigation.navigate(screens.products, {
-              nameScreen: screens.feature_screen,
+              idScreen: screens.feature_screen,
+              nameScreen: 'Featured Shoes',
+              gender: '',
             })
           }>
           <Text
@@ -146,13 +152,26 @@ export default function FeaturedShoes() {
         </TouchableOpacity>
       </View>
       <View style={{marginHorizontal: 8}}>
-        <FlatList
-          horizontal
-          initialNumToRender={4}
-          showsHorizontalScrollIndicator={false}
-          data={dataProducts}
-          renderItem={({item}) => renderFeaturedShoes(item)}
-        />
+        {isLoadingFeatured ? (
+          <View>
+            <Text
+              style={{
+                fontFamily: FONTS.fontFamilyBold,
+                color: COLORS.black3,
+                fontSize: 24,
+              }}>
+              Loading...
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            horizontal
+            initialNumToRender={4}
+            showsHorizontalScrollIndicator={false}
+            data={featuredShoes(4)}
+            renderItem={({item}) => renderFeaturedShoes(item)}
+          />
+        )}
       </View>
     </View>
   );

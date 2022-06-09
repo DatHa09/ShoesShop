@@ -4,7 +4,7 @@ import {styles} from './style/AppBarStyle';
 import {COLORS, FONTS} from './Theme';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';
+import {faMagnifyingGlass, faShoppingCart} from '@fortawesome/free-solid-svg-icons';
 import {ICONS} from './Images';
 import {useDispatch} from 'react-redux';
 import {onSelectedMenu} from '../screens/home/HomeSlice';
@@ -70,7 +70,7 @@ export default function AppBar() {
       </TouchableOpacity>
       {/* SEARCH */}
       <TouchableOpacity
-        onPress={() => navigation.navigate(screens.products, {nameScreen: screens.tab_search})}
+        onPress={() => navigation.navigate(screens.search_screen)}
         style={{
           flexDirection: 'row',
           flexGrow: 1,
@@ -81,13 +81,10 @@ export default function AppBar() {
           height: 56,
           backgroundColor: COLORS.black3,
         }}>
-        <Image
-          source={ICONS.search}
-          style={{
-            height: 24,
-            width: 24,
-            tintColor: COLORS.secondary,
-          }}
+        <FontAwesomeIcon
+          icon={faMagnifyingGlass}
+          size={24}
+          color={COLORS.secondary}
         />
         <Text
           style={{
@@ -99,11 +96,6 @@ export default function AppBar() {
           }}>
           Search here...
         </Text>
-        {/* <TextInput
-          placeholder="Search here..."
-          placeholderTextColor={COLORS.darkGray}
-          style={{flexGrow: 1, color: COLORS.secondary}}
-        /> */}
       </TouchableOpacity>
       {/* CART */}
       <TouchableOpacity
@@ -113,9 +105,10 @@ export default function AppBar() {
           padding: 8,
           borderRadius: 32,
         }}>
-        <Image
-          source={ICONS.cartBlack}
-          style={{height: 24, width: 24, tintColor: COLORS.secondary}}
+        <FontAwesomeIcon
+          icon={faShoppingCart}
+          size={24}
+          color={COLORS.secondary}
         />
       </TouchableOpacity>
     </Animated.View>

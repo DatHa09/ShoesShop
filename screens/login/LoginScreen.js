@@ -35,7 +35,7 @@ import {
 } from '../../common/Contants';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {checkLogin, getLocalAccessToken} from './LoginThunk';
+import {checkLogin, getLocalAccessToken, getProfile} from './LoginThunk';
 import {COLORS} from '../../common/Theme';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -44,10 +44,10 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log('useEffect');
-    dispatch(getLocalAccessToken());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getLocalAccessToken());
+    
+  // }, []);
 
   useEffect(() => {}, [isSuccess === true]);
 
@@ -91,6 +91,7 @@ export default function LoginScreen() {
       result.payload.statusCode === 200
     ) {
       console.log('Login successful');
+      dispatch(getLocalAccessToken());
       setIsSuccess(true);
       setModalVisible(true);
       setTimeout(() => {

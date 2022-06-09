@@ -20,7 +20,7 @@ export const ICONS = {
   setting: require('../assets/icons/menu/setting.png'),
   notification: require('../assets/icons/menu/notification.png'),
   order: require('../assets/icons/menu/order.png'),
-  search: require('../assets/icons/search.png'),
+  search: require('../assets/icons/search4.png'),
   heart: require('../assets/icons/menu/heart.png'),
   favorite: require('../assets/icons/favorite.png'),
   favorite_outline: require('../assets/icons/favorite_outline.png'),
