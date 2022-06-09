@@ -10,8 +10,12 @@ import {
 import {COLORS, FONTS} from '../../common/Theme';
 import {ICONS, IMAGES} from '../../common/Images';
 import {screens} from '../../common/Contants';
+import {useSelector} from 'react-redux';
 export default function CustomDrawerContent({navigation}) {
   const [currentTab, setCurrentTab] = useState(screens.tab_home);
+
+  const profileData = useSelector(state => state.loginReducer.profile);
+
   // const navigation = useNavigation();
 
   useEffect(() => {
@@ -117,7 +121,7 @@ export default function CustomDrawerContent({navigation}) {
               color: COLORS.secondary,
               marginTop: 16,
             }}>
-            Jenna Ezarik
+            {profileData.name}
           </Text>
           <View>
             <Text
@@ -126,7 +130,7 @@ export default function CustomDrawerContent({navigation}) {
                 color: COLORS.secondary,
                 marginTop: 8,
               }}>
-              jennaezarik@gmail.com
+              {profileData.email}
             </Text>
           </View>
         </View>
@@ -159,6 +163,7 @@ export default function CustomDrawerContent({navigation}) {
             ICONS.setting,
           )}
         </View>
+        {/* Logout */}
         <TouchableOpacity
           onPress={() => onSignOut()}
           style={{

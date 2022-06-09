@@ -4,6 +4,7 @@ export const screens = {
   forgot_password_screen: 'ForgotPasswordScreen',
   register_screen: 'RegisterScreen',
   home_screen: 'HomeScreen',
+  search_screen: 'SearchScreen',
   detail_screen: 'DetailScreen',
   cart_screen: 'CartScreen',
   feature_screen: 'FeatureScreen',

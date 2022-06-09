@@ -25,6 +25,7 @@ import DetailScreen from './screens/detail/DetailScreen';
 import ProductsScreen from './screens/products/ProductsScreen';
 import CartScreen from './screens/cart/CartScreen';
 import CustomDrawer from './navigation/CustomDrawer';
+import SearchScreen from './screens/search/SearchScreen';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,7 @@ export default function App() {
           <Stack.Screen name={screens.detail_screen} component={DetailScreen} />
           <Stack.Screen name={screens.products} component={ProductsScreen} />
           <Stack.Screen name={screens.cart_screen} component={CartScreen} />
+          <Stack.Screen name={screens.search_screen} component={SearchScreen} />
           <Stack.Screen
             name={screens.forgot_password_screen}
             component={ForgotPasswordScreen}

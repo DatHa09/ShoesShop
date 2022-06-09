@@ -1,5 +1,4 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {PAGING} from '../../common/Contants';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
@@ -32,19 +31,19 @@ export const fetchCategoriesShoesBrand = createAsyncThunk(async () => {
   return json.content;
 });
 
-export const fetchCategories = createAsyncThunk(
-  'category/fetchCategories',
-  async (_, {dispatch, getState}) => {
-    const resp = await fetch(
-      'http://svcy3.myclass.vn/api/Product/getAllCategory',
-    );
-    const json = await resp.json();
+// export const fetchCategories = createAsyncThunk(
+//   'category/fetchCategories',
+//   async (_, {dispatch, getState}) => {
+//     const resp = await fetch(
+//       'http://svcy3.myclass.vn/api/Product/getAllCategory',
+//     );
+//     const json = await resp.json();
 
-    dispatch(fetchProductsByCategory(getState().homeReducer.categorySelected));
+//     dispatch(fetchProductsByCategory(getState().homeReducer.categorySelected));
 
-    return json.content;
-  },
-);
+//     return json.content;
+//   },
+// );
 
 export const fetchCategoriesFirstTime = createAsyncThunk(
   'category/fetchCategoriesFirstTime',
@@ -62,55 +61,45 @@ export const fetchCategoriesFirstTime = createAsyncThunk(
   },
 );
 
-export const fetchProductsByCategory = createAsyncThunk(
-  'productsByCategory/fetchProductsByCategory',
-  async category => {
+export const fetchProductsByBrand = createAsyncThunk(
+  'productsByBrand/fetchProductsByBrand',
+  async params => {
     const resp = await fetch(
-      `http://svcy3.myclass.vn/api/Product/getProductByCategory?categoryId=${category}`,
+      `http://svcy3.myclass.vn/api/Product/getProductByCategory?categoryId=${params.idScreen}`,
     );
     if (resp.status === 200 || resp.status === 201) {
       const json = await resp.json();
-      return json.content;
+      const data = {gender: params.gender, content: json.content};
+      return data;
     } else {
       return [];
     }
   },
 );
 
-export const fetchProductsByMenShoes = createAsyncThunk(
-  'productsByCategory/fetchProductsByMenShoes',
-  async () => {
-    const resp = await fetch(
-      'http://svcy3.myclass.vn/api/Product/getProductByCategory?categoryId=MEN',
-    );
-    const json = await resp.json();
-    return json.content;
-  },
-);
-
-export const fetchProductsByWomenShoes = createAsyncThunk(
-  'productsByCategory/fetchProductsByWomenShoes',
-  async () => {
-    const resp = await fetch(
-      'http://svcy3.myclass.vn/api/Product/getProductByCategory?categoryId=WOMEN',
-    );
-    const json = await resp.json();
-    return json.content;
-  },
-);
-
-export const fetchProductsByFeature = createAsyncThunk(
-  'productsByCategory/fetchProductsByFeature',
-  async () => {
-    const resp = await fetch('http://svcy3.myclass.vn/api/Product');
-    const json = await resp.json();
-    let paging = 0;
-    let dataFilter = json.content.filter(item => {
-      if (paging <= 3 && item.feature === true) {
-        paging = paging + 1;
-        return item;
-      }
-    });
-    return dataFilter;
-  },
-);
+// export const fetchProductsByFeature = createAsyncThunk(
+//   'productsByCategory/fetchProductsByFeature',
+//   async pagingNumber => {
+//     const resp = await fetch('http://svcy3.myclass.vn/api/Product');
+//     const json = await resp.json();
+//     let paging = 0;
+//     let dataFilter = json.content.filter(item => {
+//       //nếu không có tham số hoặc số <= 0 thì render toàn bộ
+//       if (
+//         pagingNumber === undefined ||
+//         pagingNumber === null ||
+//         pagingNumber <= 0
+//       ) {
+//         if (item.feature === true) {
+//           return item;
+//         }
+//       }
+//       //nếu có tham số thì render theo tham số
+//       if (paging <= 3 && item.feature === true) {
+//         paging = paging + 1;
+//         return item;
+//       }
+//     });
+//     return dataFilter;
+//   },
+// );
