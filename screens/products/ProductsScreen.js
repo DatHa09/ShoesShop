@@ -131,7 +131,7 @@ export default function ProductsScreen({route}) {
 
   return (
     <>
-      <AppBarProduct idScreen={idScreen} nameScreen={nameScreen} />
+      <AppBarProduct idScreen={idScreen} nameScreen={nameScreen} gender={gender}/>
       {isLoading ? (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
           <Text
