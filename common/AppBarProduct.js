@@ -10,9 +10,12 @@ import {
   faMagnifyingGlass,
   faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons';
+import {useDispatch} from 'react-redux';
+import {fetchSearchProducts} from '../screens/search/SearchThunk';
 
-export default function AppBarProduct({idScreen, nameScreen}) {
+export default function AppBarProduct({idScreen, nameScreen, gender}) {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const goBack = () => {
     return (
@@ -20,6 +23,35 @@ export default function AppBarProduct({idScreen, nameScreen}) {
         <FontAwesomeIcon icon={faAngleLeft} color={COLORS.black3} size={32} />
       </TouchableOpacity>
     );
+  };
+
+  const onChange = text => {
+    if (text.length >= 3) {
+      dispatch(fetchSearchProducts(text));
+    }
+  };
+
+  const capitalize = str => {
+    //split the string into an array of strings
+    //whenever a blank space is encountered
+    const arr = str.toLowerCase().split(' ');
+    //example: ['van','converse']
+
+    const newArr = [];
+
+    //loop through each element of the array and capitalize the first letter.
+    arr.forEach(item => {
+      item = item.charAt(0).toUpperCase() + item.slice(1);
+      newArr.push(item);
+    });
+    //example: ['Van','Converse']
+
+    //Join all the elements of the array back into a string
+    //using a blankspace as a separator
+    const newStr = newArr.join(' ');
+    //example: 'Van Converse'
+    
+    return newStr;
   };
 
   const productAppBar = () => {
@@ -39,12 +71,12 @@ export default function AppBarProduct({idScreen, nameScreen}) {
               style={{
                 fontFamily: FONTS.fontFamilyBold,
                 color: COLORS.black3,
-                fontSize: 24,
+                fontSize: 16,
                 paddingBottom: 4,
               }}>
               {idScreen === screens.feature_screen
                 ? 'Featured Shoes'
-                : nameScreen}
+                : `${capitalize(nameScreen)} For ${capitalize(gender)}`}
             </Text>
           </View>
         </View>
@@ -97,12 +129,12 @@ export default function AppBarProduct({idScreen, nameScreen}) {
         {/* Title */}
         <View style={{justifyContent: 'center', marginLeft: 16}}>
           <TextInput
-            placeholder={'Search here...'}
+            onChangeText={text => onChange(text)}
+            placeholder={'Enter at least 3 characters...'}
             placeholderTextColor={COLORS.darkGray}
             selectionColor={COLORS.black3}
             style={{
               flexGrow: 1,
-              // backgroundColor: COLORS.red,
               width: SIZES.width - 100,
               color: COLORS.black3,
             }}
