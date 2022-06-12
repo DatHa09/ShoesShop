@@ -21,13 +21,14 @@ export const checkLogin = createAsyncThunk(
   },
 );
 
+//loginScreen gọi
 export const getLocalAccessToken = createAsyncThunk(
   'token/getLocalAccessToken',
   async (_, {dispatch}) => {
     //xử lý login code trước khi update lên state trên store chung
     let token = await getLocalStorage(KEY_ACCESS_TOKEN);
-    console.log('kiểm tra token local');
-    console.log(token);
+    // console.log('kiểm tra token local');
+    // console.log(token);
     if (token === undefined || token === null) {
       return 'no token';
     } else {

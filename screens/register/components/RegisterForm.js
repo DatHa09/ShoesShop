@@ -1,4 +1,11 @@
-import {View, Text, TextInput, TouchableOpacity, Modal} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Modal,
+  Image,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {styles} from './style/RegisterFormStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -29,6 +36,7 @@ import * as Yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
 import {checkRegister} from '../RegisterThunk';
 import {globalStyles} from '../../../common/style/globalStyle';
+import {ICONS} from '../../../common/Images';
 
 export default function RegisterForm() {
   const dispatch = useDispatch();
@@ -172,9 +180,9 @@ export default function RegisterForm() {
                 />
                 <TouchableOpacity
                   onPress={() => setIsHideNewPassword(!isHideNewPassword)}>
-                  <FontAwesomeIcon
-                    icon={isHideNewPassword ? faEyeSlash : faEye}
-                    style={{flexGrow: 1}}
+                  <Image
+                    source={isHideNewPassword ? ICONS.hide : ICONS.show}
+                    style={{width: 24, height: 24}}
                   />
                 </TouchableOpacity>
               </View>
@@ -211,8 +219,9 @@ export default function RegisterForm() {
                   onPress={() =>
                     setIsHideConfirmPassword(!isHideConfirmPassword)
                   }>
-                  <FontAwesomeIcon
-                    icon={isHideConfirmPassword ? faEyeSlash : faEye}
+                  <Image
+                    source={isHideConfirmPassword ? ICONS.hide : ICONS.show}
+                    style={{width: 24, height: 24}}
                   />
                 </TouchableOpacity>
               </View>

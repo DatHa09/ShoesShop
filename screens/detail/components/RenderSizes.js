@@ -1,0 +1,42 @@
+import {Text, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {COLORS, FONTS} from '../../../common/Theme';
+import {useDispatch, useSelector} from 'react-redux';
+import {onSizeSelected} from '../DetailScreenSlice';
+
+export default function RenderSizes({item}) {
+  const currentSize = useSelector(state => state.detailReducer.sizeSelected);
+  const dispatch = useDispatch();
+  return (
+    <TouchableOpacity
+      onPress={() => dispatch(onSizeSelected(item))}
+      style={[
+        {
+          width: 80,
+          height: 48,
+          backgroundColor: COLORS.lightGray,
+          borderColor: COLORS.secondary,
+          borderWidth: 1,
+          margin: 8,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 16,
+        },
+        currentSize === item && {
+          backgroundColor: COLORS.secondary,
+        },
+      ]}>
+      <Text
+        style={[
+          {
+            fontFamily: FONTS.fontFamilyBold,
+            color: COLORS.secondary,
+            fontSize: 16,
+          },
+          currentSize === item && {color: COLORS.black3},
+        ]}>
+        {item}
+      </Text>
+    </TouchableOpacity>
+  );
+}

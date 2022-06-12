@@ -60,8 +60,8 @@ export default function CustomDrawerContent({navigation}) {
           <Image
             source={image}
             style={{
-              width: 32,
-              height: 32,
+              width: currentTab === title ? 32 : 24,
+              height: currentTab === title ? 32 : 24,
               tintColor:
                 currentTab === title ? COLORS.black3 : COLORS.secondary,
             }}
@@ -148,7 +148,7 @@ export default function CustomDrawerContent({navigation}) {
             screens.tab_profile,
             ICONS.profile,
           )}
-          {TabButton(currentTab, screens.tab_order, ICONS.order)}
+          {TabButton(currentTab, screens.tab_cart, ICONS.buy)}
           {TabButton(currentTab, screens.tab_like, ICONS.heart)}
           {TabButton(
             currentTab,
@@ -176,17 +176,16 @@ export default function CustomDrawerContent({navigation}) {
             borderRadius: 8,
             marginTop: 16,
           }}>
-          <FontAwesomeIcon
-            icon={faArrowRightFromBracket}
-            color={COLORS.secondary}
-            size={24}
+          <Image
+            source={ICONS.logOut}
+            style={{height: 24, width: 24, tintColor: COLORS.secondary}}
           />
           <Text
             style={{
               fontSize: 16,
               fontFamily: FONTS.fontFamilyBold,
               color: COLORS.secondary,
-              paddingLeft: 16,
+              paddingLeft: 8,
             }}>
             Sign Out
           </Text>

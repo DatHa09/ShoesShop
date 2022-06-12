@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity, Image, TextInput} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {COLORS, FONTS, SIZES} from './Theme';
 import {ICONS} from './Images';
 import {screens} from './Contants';
@@ -7,6 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faAngleLeft,
+  faHeart,
   faMagnifyingGlass,
   faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons';
@@ -14,13 +15,15 @@ import {useDispatch} from 'react-redux';
 import {fetchSearchProducts} from '../screens/search/SearchThunk';
 
 export default function AppBarProduct({idScreen, nameScreen, gender}) {
+  const [isLike, setIsLike] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const goBack = () => {
     return (
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <FontAwesomeIcon icon={faAngleLeft} color={COLORS.black3} size={32} />
+        {/* <FontAwesomeIcon icon={faAngleLeft} color={COLORS.black3} size={32} /> */}
+        <Image source={ICONS.goBack} style={{height: 32, width: 32}} />
       </TouchableOpacity>
     );
   };
@@ -50,7 +53,7 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
     //using a blankspace as a separator
     const newStr = newArr.join(' ');
     //example: 'Van Converse'
-    
+
     return newStr;
   };
 
@@ -92,23 +95,16 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
             onPress={() => navigation.navigate(screens.search_screen)}
             style={{
               justifyContent: 'center',
+              alignItems: 'center',
               height: 56,
             }}>
-            {/* <Image
-              source={ICONS.search}
-              style={{
-                height: 24,
-                width: 24,
-                tintColor: COLORS.black3,
-              }}
-            /> */}
-            <FontAwesomeIcon icon={faMagnifyingGlass} size={24} />
+            <Image source={ICONS.search} style={{height: 24, width: 24}} />
           </TouchableOpacity>
           {/* CART */}
           <TouchableOpacity
             onPress={() => navigation.navigate(screens.cart_screen)}
             style={{marginLeft: 32}}>
-            <FontAwesomeIcon icon={faShoppingCart} size={24} />
+            <Image source={ICONS.buy} style={{height: 24, width: 24}} />
           </TouchableOpacity>
         </View>
       </>
@@ -155,18 +151,6 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
           }}>
           {/* GoBack */}
           {goBack()}
-          {/* Title */}
-          <View style={{justifyContent: 'center', marginLeft: 16}}>
-            <Text
-              style={{
-                fontFamily: FONTS.fontFamilyBold,
-                color: COLORS.black3,
-                fontSize: 24,
-                paddingBottom: 4,
-              }}>
-              {idScreen === screens.feature_screen ? 'Detail Shoes' : idScreen}
-            </Text>
-          </View>
         </View>
         <View
           style={{
@@ -179,7 +163,17 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
           <TouchableOpacity
             onPress={() => navigation.navigate(screens.cart_screen)}
             style={{marginLeft: 32}}>
-            <FontAwesomeIcon icon={faShoppingCart} size={24} />
+            <Image source={ICONS.buy} style={{height: 24, width: 24}} />
+          </TouchableOpacity>
+          {/* Like */}
+          <TouchableOpacity
+            onPress={() => setIsLike(!isLike)}
+            style={{marginLeft: 32}}>
+            <FontAwesomeIcon
+              icon={faHeart}
+              size={32}
+              color={isLike ? COLORS.secondary : COLORS.lightGray4}
+            />
           </TouchableOpacity>
         </View>
       </>
@@ -193,9 +187,14 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
         justifyContent: 'space-between',
         height: 56,
         paddingHorizontal: 16,
-        backgroundColor: COLORS.white,
+        backgroundColor:
+          idScreen === screens.detail_screen ? COLORS.lightGray : COLORS.white,
       }}>
-      {idScreen === screens.search_screen ? searchAppBar() : productAppBar()}
+      {idScreen === screens.search_screen
+        ? searchAppBar()
+        : idScreen === screens.detail_screen
+        ? detailAppBar()
+        : productAppBar()}
     </View>
   );
 }

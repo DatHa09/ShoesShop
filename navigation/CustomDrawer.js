@@ -13,6 +13,7 @@ import FavoriteScreen from '../screens/favorite/FavoriteScreen';
 import NotificationScreen from '../screens/notification/NotificationScreen';
 import SettingScreen from '../screens/setting/SettingScreen';
 import LoginScreen from '../screens/login/LoginScreen';
+import CartScreen from '../screens/cart/CartScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -62,7 +63,7 @@ export default function CustomDrawer() {
         </Drawer.Screen> */}
         <Drawer.Screen name={screens.tab_home} component={HomeScreen} />
         <Drawer.Screen name={screens.tab_profile} component={ProfileScreen} />
-        <Drawer.Screen name={screens.tab_order} component={OrderScreen} />
+        <Drawer.Screen name={screens.tab_cart} component={CartScreen} />
         <Drawer.Screen name={screens.tab_like} component={FavoriteScreen} />
         <Drawer.Screen
           name={screens.tab_notifications}

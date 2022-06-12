@@ -33,9 +33,18 @@ export default function FeaturedShoes() {
     return newDataProducts;
   };
 
+  const onSelectedItem = item => {
+    navigation.navigate(screens.detail_screen, {
+      idScreen: screens.detail_screen,
+      nameScreen: item.name,
+      idProduct: item.id,
+    });
+  };
+
   const renderFeaturedShoes = item => {
     return (
       <TouchableOpacity
+        onPress={() => onSelectedItem(item)}
         style={{
           width: SIZES.width / 2 - 24,
           margin: 8,

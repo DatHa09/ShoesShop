@@ -1,20 +1,19 @@
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect} from 'react';
 import {COLORS, FONTS, SIZES} from '../../common/Theme';
-import {
-  fetchProducts,
-  fetchProductsByBrand,
-} from '../home/HomeThunk';
+import {fetchProducts, fetchProductsByBrand} from '../home/HomeThunk';
 import {useDispatch, useSelector} from 'react-redux';
 import StaggeredList from '@mindinventory/react-native-stagger-view';
 import {screens} from '../../common/Contants';
 import AppBarProduct from '../../common/AppBarProduct';
+import {useNavigation} from '@react-navigation/native';
 
 export default function ProductsScreen({route}) {
   const {idScreen, nameScreen, gender} = route.params;
   const params = {idScreen: idScreen, gender: gender};
 
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const isLoading = useSelector(state => state.homeReducer.isLoading);
 
   const dataMenShoes = useSelector(
@@ -31,9 +30,18 @@ export default function ProductsScreen({route}) {
     dispatch(fetchProducts());
   }, [idScreen || gender]);
 
+  const onselectProduct = item => {
+    navigation.navigate(screens.detail_screen, {
+      idScreen: screens.detail_screen,
+      nameScreen: item.name,
+      idProduct: item.id
+    });
+  };
+
   const renderItem = item => {
     return (
       <TouchableOpacity
+        onPress={() => onselectProduct(item)}
         style={{
           width: SIZES.width / 2 - 24,
           margin: 8,
@@ -131,7 +139,11 @@ export default function ProductsScreen({route}) {
 
   return (
     <>
-      <AppBarProduct idScreen={idScreen} nameScreen={nameScreen} gender={gender}/>
+      <AppBarProduct
+        idScreen={idScreen}
+        nameScreen={nameScreen}
+        gender={gender}
+      />
       {isLoading ? (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
           <Text

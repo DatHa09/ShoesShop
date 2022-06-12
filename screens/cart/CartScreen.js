@@ -4,7 +4,7 @@ import {COLORS, FONTS} from '../../common/Theme';
 
 export default function CartScreen() {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:COLORS.white}}>
       <Text
         style={{
           fontFamily: FONTS.fontFamilySemiBold,

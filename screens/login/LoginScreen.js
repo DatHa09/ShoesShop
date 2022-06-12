@@ -24,7 +24,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import {styles} from './styles/LoginStyles';
-import {IMAGES} from '../../common/Images';
+import {ICONS, IMAGES} from '../../common/Images';
 import {
   lowercaseRegex,
   numericRegex,
@@ -36,7 +36,7 @@ import {
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {checkLogin, getLocalAccessToken, getProfile} from './LoginThunk';
-import {COLORS} from '../../common/Theme';
+import {COLORS, FONTS} from '../../common/Theme';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {globalStyles} from '../../common/style/globalStyle';
@@ -46,10 +46,10 @@ export default function LoginScreen() {
 
   // useEffect(() => {
   //   dispatch(getLocalAccessToken());
-    
+
   // }, []);
 
-  useEffect(() => {}, [isSuccess === true]);
+  // useEffect(() => {}, [isSuccess === true]);
 
   const [isHideNewPassword, setIsHideNewPassword] = useState(true);
 
@@ -136,6 +136,10 @@ export default function LoginScreen() {
                 <View style={styles.input_container}>
                   {/* Email */}
                   <View style={styles.input_container__input}>
+                    {/* <Image
+                      source={ICONS.email}
+                      style={{width: 24, height: 24}}
+                    /> */}
                     <FontAwesomeIcon icon={faEnvelope} />
                     <TextInput
                       placeholder={`Email`}
@@ -164,6 +168,10 @@ export default function LoginScreen() {
                   <View style={styles.marginVertical16}>
                     <View style={styles.input_container__input}>
                       <FontAwesomeIcon icon={faUnlock} size={20} />
+                      {/* <Image
+                        source={ICONS.password}
+                        style={{width: 24, height: 24}}
+                      /> */}
                       <TextInput
                         secureTextEntry={isHideNewPassword}
                         placeholder={`Password`}
@@ -177,10 +185,14 @@ export default function LoginScreen() {
                         onPress={() =>
                           setIsHideNewPassword(!isHideNewPassword)
                         }>
-                        <FontAwesomeIcon
+                        <Image
+                          source={isHideNewPassword ? ICONS.hide : ICONS.show}
+                          style={{width: 24, height: 24}}
+                        />
+                        {/* <FontAwesomeIcon
                           icon={isHideNewPassword ? faEyeSlash : faEye}
                           style={{flexGrow: 1}}
-                        />
+                        /> */}
                       </TouchableOpacity>
                     </View>
                     {props.touched.password && props.errors.password && (
