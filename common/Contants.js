@@ -7,6 +7,7 @@ export const screens = {
   search_screen: 'SearchScreen',
   detail_screen: 'DetailScreen',
   cart_screen: 'CartScreen',
+  favorite_screen: 'FavoriteScreen',
   feature_screen: 'FeatureScreen',
   forgot_password_screen: 'ForgotPasswordScreen',
   update_password_screen: 'UpdatePasswordScreen',
@@ -18,7 +19,7 @@ export const screens = {
   tab_profile: 'Profile',
   tab_notifications: 'Notifications',
   tab_settings: 'Settings',
-  tab_order: 'My Order',
+  tab_cart: 'Cart',
   tab_like: 'Favorite',
 };
 

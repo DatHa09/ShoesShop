@@ -25,8 +25,8 @@ import ProductByCategory from './components/productByCategory/ProductByCategory'
 import Animated from 'react-native-reanimated';
 
 export default function HomeScreen({drawerAnimationStyle}) {
-  const dispatch = useDispatch();
-  const showMenu = useSelector(state => state.homeReducer.showMenu);
+  // const dispatch = useDispatch();
+  // const showMenu = useSelector(state => state.homeReducer.showMenu);
   // //Animated Properties...
   // const offsetValue = useRef(new Animated.Value(0)).current;
 

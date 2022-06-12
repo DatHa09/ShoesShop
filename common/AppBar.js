@@ -4,7 +4,10 @@ import {styles} from './style/AppBarStyle';
 import {COLORS, FONTS} from './Theme';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faMagnifyingGlass, faShoppingCart} from '@fortawesome/free-solid-svg-icons';
+import {
+  faMagnifyingGlass,
+  faShoppingCart,
+} from '@fortawesome/free-solid-svg-icons';
 import {ICONS} from './Images';
 import {useDispatch} from 'react-redux';
 import {onSelectedMenu} from '../screens/home/HomeSlice';
@@ -81,10 +84,14 @@ export default function AppBar() {
           height: 56,
           backgroundColor: COLORS.black3,
         }}>
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           icon={faMagnifyingGlass}
           size={24}
           color={COLORS.secondary}
+        /> */}
+        <Image
+          source={ICONS.search}
+          style={{height: 24, width: 24, tintColor: COLORS.secondary}}
         />
         <Text
           style={{
@@ -105,10 +112,14 @@ export default function AppBar() {
           padding: 8,
           borderRadius: 32,
         }}>
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           icon={faShoppingCart}
           size={24}
           color={COLORS.secondary}
+        /> */}
+        <Image
+          source={ICONS.buy}
+          style={{height: 24, width: 24, tintColor: COLORS.secondary}}
         />
       </TouchableOpacity>
     </Animated.View>

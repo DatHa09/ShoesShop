@@ -5,12 +5,23 @@ import AppBarProduct from '../../common/AppBarProduct';
 import {screens} from '../../common/Contants';
 import {useDispatch, useSelector} from 'react-redux';
 import StaggeredList from '@mindinventory/react-native-stagger-view';
+import {IMAGES} from '../../common/Images';
+import {useNavigation} from '@react-navigation/native';
 
 export default function SearchScreen() {
   const dataSearch = useSelector(state => state.searchReducer.dataSearch);
+  const navigation = useNavigation();
+  const onSelectedItem = item => {
+    navigation.navigate(screens.detail_screen, {
+      idScreen: screens.detail_screen,
+      nameScreen: item.name,
+      idProduct: item.id,
+    });
+  };
   const renderItem = item => {
     return (
       <TouchableOpacity
+        onPress={() => onSelectedItem(item)}
         style={{
           width: SIZES.width / 2 - 24,
           margin: 8,
@@ -92,12 +103,44 @@ export default function SearchScreen() {
   return (
     <>
       <AppBarProduct idScreen={screens.search_screen} />
-      <StaggeredList
-        style={{padding: 8, paddingTop: 0, flex: 1, flexGrow: 1}}
-        data={dataSearch}
-        animationType={'SLIDE_DOWN'}
-        renderItem={({item}) => renderItem(item)}
-      />
+
+      {dataSearch.length === 0 ? (
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginHorizontal: 16,
+          }}>
+          <Image source={IMAGES.not_found} />
+          <Text
+            style={{
+              fontFamily: FONTS.fontFamilyBold,
+              color: COLORS.black3,
+              textAlign: 'center',
+              fontSize: 24,
+              marginBottom: 16,
+            }}>
+            Item not found
+          </Text>
+          <Text
+            style={{
+              fontFamily: FONTS.fontFamilyMedium,
+              color: COLORS.black3,
+              textAlign: 'center',
+              fontSize: 16,
+            }}>
+            Try a more generic search term or try looking for alternative
+            products.
+          </Text>
+        </View>
+      ) : (
+        <StaggeredList
+          style={{padding: 8, paddingTop: 0, flex: 1, flexGrow: 1}}
+          data={dataSearch}
+          animationType={'SLIDE_DOWN'}
+          renderItem={({item}) => renderItem(item)}
+        />
+      )}
     </>
   );
 }

@@ -35,8 +35,8 @@ export const styles = StyleSheet.create({
 
   input: {
     height: 48,
-    paddingHorizontal: 8,
-    width: SIZES.width - 140,
+    paddingLeft: 8,
+    // width: SIZES.width - 180,
     flexGrow: 1,
   },
 

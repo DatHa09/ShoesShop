@@ -18,9 +18,7 @@ export const styles = StyleSheet.create({
   input: {
     height: 48,
     paddingHorizontal: 16,
-    width: SIZES.width - 90,
-    // flexGrow: 1,
-    // backgroundColor: COLORS.secondary,
+    flexGrow: 1,
   },
   text_input: {
     fontSize: 14,
