@@ -5,23 +5,30 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {COLORS, FONTS, SIZES} from '../../common/Theme';
 import AppBarProduct from '../../common/AppBarProduct';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchProductDetails} from './DetailScreenThunk';
-import {onSizeSelected} from './DetailScreenSlice';
 import {screens} from '../../common/Contants';
-import {useNavigation} from '@react-navigation/native';
 import RenderSizes from './components/RenderSizes';
 import RenderRelatedProduct from './components/RenderRelatedProduct';
+import {globalStyles} from '../../common/style/globalStyle';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faCheck, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {onAddToCart} from '../cart/CartScreenSlice';
 
 export default function DetailScreen({route}) {
   const {idScreen, nameScreen, idProduct} = route.params;
+  const [modalVisible, setModalVisible] = useState(false);
+  // const [isSuccess, setIsSuccess] = useState(false);
+
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+
   const scrollRef = useRef();
+
   const productDetails = useSelector(
     state => state.detailReducer.productDetails,
   );
@@ -29,9 +36,17 @@ export default function DetailScreen({route}) {
     state => state.detailReducer.relatedProducts,
   );
 
+  const currentSize = useSelector(state => state.detailReducer.sizeSelected);
+
+  const cart = useSelector(state => state.cartReducer.cart);
+
   useEffect(() => {
     dispatch(fetchProductDetails(idProduct));
   }, [idProduct]);
+
+  useEffect(() => {
+    console.log('cart ', cart);
+  }, [cart]);
 
   const renderSizes = item => {
     return <RenderSizes item={item} />;
@@ -39,6 +54,105 @@ export default function DetailScreen({route}) {
 
   const renderRelatedProduct = item => {
     return <RenderRelatedProduct item={item} scrollRef={scrollRef} />;
+  };
+
+  /*  cart có item?
+        true  -> trùng id item?
+            false  -> trùng size?
+                true  -> thông báo 'trùng size'
+                false  -> thêm mới 1 item vào cart
+            false  -> thêm mới item vào cart
+        false  -> thêm mới item vào cart
+   */
+  const onPressAddToCart = () => {
+    if (currentSize === '') {
+      console.log('Please select a size');
+      // setModalVisible(true);
+      // notification(false, 'Please select a size');
+    } else {
+      // setModalVisible(false);
+      const item = {
+        id: productDetails.id,
+        image: productDetails.image,
+        name: productDetails.name,
+        price: productDetails.price,
+        size: currentSize,
+      };
+      // existProductIndex
+      const existProductIndex = cart.findIndex(
+        item => item.id === productDetails.id,
+      );
+      const existSizeInProductIndex = cart.findIndex(
+        item => item.size === currentSize && item.id === productDetails.id,
+      );
+
+      if (existProductIndex !== -1) {
+        if (existSizeInProductIndex !== -1) {
+          console.log('There is a product with the same size');
+          // setIsSuccess(false);
+          // setModalVisible(true);
+          // notification(false, 'There is a product with the same size');
+        } else {
+          console.log('Add to Cart Successfully!');
+          const newCart = [...cart, item];
+          dispatch(onAddToCart(newCart));
+        }
+      } else {
+        console.log('Add to Cart Successfully!');
+        // notification(false, 'The product already exists in the cart!');
+        const newCart = [...cart, item];
+        dispatch(onAddToCart(newCart));
+      }
+    }
+  };
+
+  const notification = (isSuccess, text) => {
+    console.log('modalVisible ', modalVisible);
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={globalStyles.centeredView}>
+          <View
+            style={[
+              globalStyles.modalView,
+              {
+                backgroundColor: isSuccess
+                  ? COLORS.backgroundSuccess
+                  : COLORS.backgroundError,
+                borderColor: isSuccess
+                  ? COLORS.borderSuccess
+                  : COLORS.borderError,
+              },
+            ]}>
+            <View style={globalStyles.modalView_container}>
+              <FontAwesomeIcon
+                icon={isSuccess ? faCheck : faXmark}
+                color={isSuccess ? COLORS.green : COLORS.red}
+                size={24}
+                style={{marginRight: 12}}
+              />
+              <Text style={globalStyles.modalText}>{text}</Text>
+              {/* <Text style={globalStyles.modalText}>
+              {isSuccess
+                ? 'Add to Cart Successfully!'
+                : 'The product already exists in the cart!'}
+            </Text> */}
+            </View>
+
+            <TouchableOpacity
+              style={[globalStyles.button, globalStyles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={globalStyles.textStyle}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    );
   };
   return (
     <>
@@ -163,11 +277,11 @@ export default function DetailScreen({route}) {
                 }}
               />
             </View>
-            {/* button add to cart */}
           </View>
         </View>
       </ScrollView>
 
+      {/* Button add and price */}
       <View
         style={{
           height: 160,
@@ -206,7 +320,10 @@ export default function DetailScreen({route}) {
             ${productDetails.price}
           </Text>
         </View>
+
+        {/* button add to cart */}
         <TouchableOpacity
+          onPress={() => onPressAddToCart()}
           style={{
             justifyContent: 'flex-end',
             marginVertical: 24,

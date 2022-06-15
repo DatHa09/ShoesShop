@@ -322,10 +322,10 @@ export default function RegisterForm() {
               onRequestClose={() => {
                 setModalVisible(!modalVisible);
               }}>
-              <View style={styles.centeredView}>
+              <View style={globalStyles.centeredView}>
                 <View
                   style={[
-                    styles.modalView,
+                    globalStyles.modalView,
                     {
                       backgroundColor: isSuccess
                         ? COLORS.backgroundSuccess
@@ -335,23 +335,23 @@ export default function RegisterForm() {
                         : COLORS.borderError,
                     },
                   ]}>
-                  <View style={styles.modalView_container}>
+                  <View style={globalStyles.modalView_container}>
                     <FontAwesomeIcon
                       icon={isSuccess ? faCheck : faXmark}
                       color={isSuccess ? COLORS.green : COLORS.red}
                       size={24}
                       style={{marginRight: 12}}
                     />
-                    <Text style={styles.modalText}>
+                    <Text style={globalStyles.modalText}>
                       {isSuccess
                         ? 'Register Successfully!'
                         : 'Email address is already registered!'}
                     </Text>
                   </View>
                   <TouchableOpacity
-                    style={[styles.button, styles.buttonClose]}
+                    style={[globalStyles.button, globalStyles.buttonClose]}
                     onPress={() => onConfirmRegister()}>
-                    <Text style={styles.textStyle}>
+                    <Text style={globalStyles.textStyle}>
                       {isSuccess ? 'Login Now' : 'OK'}
                     </Text>
                   </TouchableOpacity>
