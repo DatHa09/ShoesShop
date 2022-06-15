@@ -244,10 +244,10 @@ export default function LoginScreen() {
                     onRequestClose={() => {
                       setModalVisible(!modalVisible);
                     }}>
-                    <View style={styles.centeredView}>
+                    <View style={globalStyles.centeredView}>
                       <View
                         style={[
-                          styles.modalView,
+                          globalStyles.modalView,
                           {
                             backgroundColor: isSuccess
                               ? COLORS.backgroundSuccess
@@ -257,14 +257,14 @@ export default function LoginScreen() {
                               : COLORS.borderError,
                           },
                         ]}>
-                        <View style={styles.modalView_container}>
+                        <View style={globalStyles.modalView_container}>
                           <FontAwesomeIcon
                             icon={isSuccess ? faCheck : faXmark}
                             color={isSuccess ? COLORS.green : COLORS.red}
                             size={24}
                             style={{marginRight: 12}}
                           />
-                          <Text style={styles.modalText}>
+                          <Text style={globalStyles.modalText}>
                             {isSuccess
                               ? 'Login Successfully!'
                               : 'Incorrect email address or password!'}
@@ -272,7 +272,7 @@ export default function LoginScreen() {
                         </View>
                         {!isSuccess && (
                           <TouchableOpacity
-                            style={[styles.button, styles.buttonClose]}
+                            style={[globalStyles.button, globalStyles.buttonClose]}
                             onPress={() => setModalVisible(!modalVisible)}>
                             <Text style={styles.textStyle}>OK</Text>
                           </TouchableOpacity>

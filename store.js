@@ -5,6 +5,7 @@ import loginReducer from './screens/login/LoginSlice';
 import registerReducer from './screens/register/RegisterSlice';
 import searchReducer from './screens/search/SearchSlice';
 import detailReducer from './screens/detail/DetailScreenSlice';
+import cartReducer from './screens/cart/CartScreenSlice';
 
 export default store = configureStore({
   reducer: {
@@ -13,5 +14,6 @@ export default store = configureStore({
     registerReducer,
     searchReducer,
     detailReducer,
+    cartReducer,
   },
 });
