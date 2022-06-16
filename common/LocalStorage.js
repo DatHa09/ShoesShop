@@ -24,10 +24,12 @@ export const getLocalStorage = async key => {
       autoSync: true,
       syncInBackground: true,
     });
-    // console.log('get successful');
+    // console.log('get successful ', result);
     return result;
   } catch (err) {
-    return 'err' + err;
+    // console.log('get failed ', err);
+    saveLocalStorage(key, []);
+    return [];
   }
 };
 

@@ -179,6 +179,49 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
       </>
     );
   };
+
+  const cartAppBar = () => {
+    return (
+      <>
+        <View
+          style={{
+            flexGrow: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          {/* GoBack */}
+          {goBack()}
+          {/* Title */}
+          <View style={{justifyContent: 'center', marginLeft: 16}}>
+            <Text
+              style={{
+                fontFamily: FONTS.fontFamilyBold,
+                color: COLORS.black3,
+                fontSize: 16,
+                paddingBottom: 4,
+              }}>
+              Cart
+            </Text>
+          </View>
+        </View>
+      </>
+    );
+  };
+
+  const appBar = () => {
+    switch (idScreen) {
+      case screens.search_screen:
+        return searchAppBar();
+      case screens.detail_screen:
+        return detailAppBar();
+      case screens.cart_screen:
+        return cartAppBar();
+      default:
+        return productAppBar();
+    }
+  };
+  console.log('idScreen: ', idScreen);
+
   return (
     <View
       style={{
@@ -188,13 +231,9 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
         height: 56,
         paddingHorizontal: 16,
         backgroundColor:
-          idScreen === screens.detail_screen ? COLORS.lightGray : COLORS.white,
+          idScreen === screens.detail_screen || screens.cart_screen ? COLORS.lightGray : COLORS.white,
       }}>
-      {idScreen === screens.search_screen
-        ? searchAppBar()
-        : idScreen === screens.detail_screen
-        ? detailAppBar()
-        : productAppBar()}
+      {appBar()}
     </View>
   );
 }
