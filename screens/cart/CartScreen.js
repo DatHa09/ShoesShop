@@ -20,26 +20,24 @@ import {onUpdateCart} from './CartScreenSlice';
 
 export default function CartScreen() {
   const dispatch = useDispatch();
+  const [grandTotal, setGrandTotal] = useState(0);
 
-  const cart = useSelector(state => state.cartReducer.cart);
+  const cart = useSelector(state => state.cartReducer.cart) || [];
+  const countChange = useSelector(state => state.cartReducer.count);
 
   // const totalReduce = cart =>
   //   cart.reduce((total, item) => total + item.price, 0);
 
   // let grandTotal = totalReduce(cart)
   const [totalPrice, setTotalPrice] = useState(0);
-  console.log('totalReduce', totalPrice);
+  // console.log('totalReduce', totalPrice);
 
   useEffect(() => {
-    console.log('cart: ', cart);
     dispatch(getLocalCart());
-  });
-
-  const updateCategory = (id, size, qty, price) => {
-    console.log('updateCategory', id, size, qty, price);
+  }, [countChange]);
+  const updateItemCart = (id, size, qty, price) => {
     const newData = cart.map(item => {
       if (item.id === id && item.size === size) {
-        // item.qty = qty;
         let newItem = {
           ...item,
           qty: qty,
@@ -49,20 +47,31 @@ export default function CartScreen() {
       }
       return item;
     });
+    // const newArr = [...cart, newCartList];
     console.log('newData ', newData);
-     dispatch(onUpdateCart(newData));
+    dispatch(onUpdateCart(newData));
   };
 
-  const renderProduct = item => {
-    return (
-      <RenderCart
-        item={item}
-        totalPrice={totalPrice}
-        setTotalPrice={setTotalPrice}
-        updateCategory={updateCategory}
-      />
-    );
+  const renderProduct = (item, index) => {
+    return <RenderCart item={item} updateItemCart={updateItemCart} />;
   };
+
+  // let grandCount = 0;
+
+  // const renderCart = () => {
+  //   return cart.map((item, index) => {
+  //     console.log('item ', item);
+  //     // setGrandTotal(grandTotal + item.totalPrice);
+  //     return (
+  //       <RenderCart
+  //         key={index}
+  //         item={item}
+  //         updateItemCart={updateItemCart}
+  //         index={index}
+  //       />
+  //     );
+  //   });
+  // };
 
   return (
     <>
@@ -78,9 +87,10 @@ export default function CartScreen() {
           <FlatList
             showsVerticalScrollIndicator={false}
             data={cart}
-            renderItem={({item}) => renderProduct(item)}
+            renderItem={({item, index}) => renderProduct(item, index)}
             keyExtractor={(item, index) => index}
           />
+          {/* {renderCart()} */}
         </View>
 
         {/* Button add and price */}
@@ -119,7 +129,7 @@ export default function CartScreen() {
                 fontSize: 20,
                 marginBottom: 16,
               }}>
-              ${totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              ${grandTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             </Text>
           </View>
           {/* button add to cart */}

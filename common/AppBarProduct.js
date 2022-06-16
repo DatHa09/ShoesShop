@@ -220,7 +220,7 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
         return productAppBar();
     }
   };
-  console.log('idScreen: ', idScreen);
+  // console.log('idScreen: ', idScreen);
 
   return (
     <View

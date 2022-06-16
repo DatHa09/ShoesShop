@@ -1,18 +1,13 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {COLORS, FONTS} from '../../../common/Theme';
 import {screens} from '../../../common/Contants';
 import {useNavigation} from '@react-navigation/native';
 
-export default function RenderCart({
-  item,
-  totalPrice,
-  setTotalPrice,
-  updateCategory,
-}) {
-  const [count, setCount] = useState(item.qty);
+export default function RenderCart({item, updateItemCart}) {
+  const [quantity, setQuantity] = useState(item.qty);
   const navigation = useNavigation();
 
   const onSelectedItem = () => {
@@ -24,29 +19,24 @@ export default function RenderCart({
   };
 
   const onPressMinus = async () => {
-    if (count === 1) {
-      setCount(1);
-      let price = count * item.price;
-      updateCategory(item.id, item.size, 1, price);
+    let newQuantity = quantity - 1;
+    if (quantity <= 1) {
+      newQuantity = 1;
+      setQuantity(1);
+      let price = quantity * item.price;
+      updateItemCart(item.id, item.size, newQuantity, price);
     } else {
-      setCount(count - 1);
-      // grandTotal = grandTotal - count * item.price;
-      // setTotalPrice(totalPrice - count * item.price);
-      let qty = count - 1;
-      let price = qty * item.price;
-      updateCategory(item.id, item.size, qty, price);
-      // setTotalPrice(totalPrice + count * item.price);
+      setQuantity(quantity - 1);
+      let price = quantity * item.price;
+      updateItemCart(item.id, item.size, newQuantity, price);
     }
   };
 
   const onPressPlus = () => {
-    setCount(count + 1);
-    // setTotalPrice(totalPrice + count * item.price);
-    let qty = count + 1;
-    let price = qty * item.price;
-    updateCategory(item.id, item.size, qty, price);
-    // grandTotal = grandTotal + count * item.price;
-    // setTotalPrice(totalPrice + count * item.price);
+    let newQuantity = quantity + 1;
+    setQuantity(quantity + 1);
+    let price = quantity * item.price;
+    updateItemCart(item.id, item.size, newQuantity, price);
   };
 
   return (
@@ -119,14 +109,15 @@ export default function RenderCart({
             }}>
             <TouchableOpacity
               onPress={() => onPressMinus()}
-              disabled={count === 1 ? true : false}
+              disabled={quantity === 1 ? true : false}
               style={{marginRight: 4}}>
               <FontAwesomeIcon
                 icon={faMinus}
                 size={20}
-                color={count === 1 ? COLORS.lightGray4 : COLORS.black3}
+                color={quantity === 1 ? COLORS.lightGray4 : COLORS.black3}
               />
             </TouchableOpacity>
+            {/* qty */}
             <Text
               style={{
                 textAlign: 'center',
@@ -134,18 +125,18 @@ export default function RenderCart({
                 color: COLORS.black3,
                 fontSize: 24,
                 fontFamily: FONTS.fontFamilyMedium,
-                // backgroundColor: COLORS.red,
+                paddingBottom: 4,
                 width: 32,
               }}>
-              {count}
+              {quantity}
             </Text>
             <TouchableOpacity
               onPress={() => onPressPlus()}
-              disabled={count === 30 ? true : false}>
+              disabled={quantity === 30 ? true : false}>
               <FontAwesomeIcon
                 icon={faPlus}
                 size={20}
-                color={count === 30 ? COLORS.lightGray4 : COLORS.black3}
+                color={quantity === 30 ? COLORS.lightGray4 : COLORS.black3}
               />
             </TouchableOpacity>
           </View>
@@ -157,7 +148,7 @@ export default function RenderCart({
               paddingBottom: 8,
             }}>
             $
-            {(count * item.price)
+            {(quantity * item.price)
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           </Text>

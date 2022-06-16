@@ -54,18 +54,9 @@ export default function DetailScreen({route}) {
   const renderRelatedProduct = item => {
     return <RenderRelatedProduct item={item} scrollRef={scrollRef} />;
   };
-
-  // const cart = getLocalStorage(KEY_LOCAL_CART);
-  // useEffect(() => {
-  //   console.log('useEffect detail')
-  //   dispatch(getLocalCart());
-  // },[cart]);
-  // console.log('cart: ', cart);
   useEffect(() => {
-    // console.log('useEffect detail');
-    // console.log('cart: ', cart);
     dispatch(getLocalCart());
-  }, [cart]);
+  });
 
   /*  cart có item?
         true  -> trùng id item?

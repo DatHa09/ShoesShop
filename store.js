@@ -16,4 +16,8 @@ export default store = configureStore({
     detailReducer,
     cartReducer,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false, //bỏ qua check cảnh báo dữ liệu state lớn
+    }),
 });

@@ -5,6 +5,7 @@ import {fetchProducts} from '../../../HomeThunk';
 import {COLORS, FONTS, SIZES} from '../../../../../common/Theme';
 import {useNavigation} from '@react-navigation/native';
 import {screens} from '../../../../../common/Contants';
+import { getLocalCart } from '../../../../cart/CartScreenThunk';
 
 export default function FeaturedShoes() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ export default function FeaturedShoes() {
 
   useEffect(() => {
     dispatch(fetchProducts());
+    // dispatch(getLocalCart())
   }, []);
   const featuredShoes = length => {
     let newDataProducts = [];
