@@ -1,8 +1,15 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {fetchProductDetails, fetchRelatedProducts} from './DetailScreenThunk';
+import { KEY_LOCAL_CART } from '../../common/Contants';
+import { saveLocalStorage } from '../../common/LocalStorage';
+import {
+  fetchProductDetails,
+  fetchRelatedProducts,
+  getLocalCart,
+} from './DetailScreenThunk';
 const initialState = {
   productDetails: {},
   relatedProducts: [],
+
   isLoadingProduct: false,
   isLoadingRelated: false,
   sizeSelected: '',
@@ -16,6 +23,11 @@ const detailSlice = createSlice({
       let size = action.payload;
       state.sizeSelected = size;
     },
+    onAddToCart: (state, action) => {
+      const data = action.payload;
+      saveLocalStorage(KEY_LOCAL_CART, data);
+    },
+    
   },
   extraReducers: builder => {
     builder
@@ -36,5 +48,5 @@ const detailSlice = createSlice({
   },
 });
 
-export const {onSizeSelected} = detailSlice.actions;
+export const {onSizeSelected, onAddToCart} = detailSlice.actions;
 export default detailSlice.reducer;

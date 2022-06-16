@@ -1,4 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {KEY_LOCAL_CART} from '../../common/Contants';
+import {saveLocalStorage} from '../../common/LocalStorage';
+import {getLocalCart} from './CartScreenThunk';
 const initialState = {
   cart: [],
   isLoading: false,
@@ -8,13 +11,17 @@ const cartSlice = createSlice({
   name: 'cartSlice',
   initialState,
   reducers: {
-    onAddToCart: (state, action) => {
+    onUpdateCart: (state, action) => {
       const data = action.payload;
-      state.cart = data;
-    },
+      saveLocalStorage(KEY_LOCAL_CART, data);
+    }
   },
-  extraReducers: builder => {},
+  extraReducers: builder => {
+    builder.addCase(getLocalCart.fulfilled, (state, action) => {
+      state.cart = action.payload;
+    });
+  },
 });
 
-export const {onAddToCart} = cartSlice.actions;
+export const {onUpdateCart} = cartSlice.actions;
 export default cartSlice.reducer;
