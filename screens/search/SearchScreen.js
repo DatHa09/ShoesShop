@@ -100,47 +100,49 @@ export default function SearchScreen() {
       </TouchableOpacity>
     );
   };
+
+  const emptySearchedList = () => {
+    return (
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginHorizontal: 16,
+        }}>
+        <Image source={IMAGES.not_found} />
+        <Text
+          style={{
+            fontFamily: FONTS.fontFamilyBold,
+            color: COLORS.black3,
+            textAlign: 'center',
+            fontSize: 24,
+            marginBottom: 16,
+          }}>
+          Item not found
+        </Text>
+        <Text
+          style={{
+            fontFamily: FONTS.fontFamilyMedium,
+            color: COLORS.black3,
+            textAlign: 'center',
+            fontSize: 16,
+          }}>
+          Try a more generic search term or try looking for alternative
+          products.
+        </Text>
+      </View>
+    );
+  };
   return (
     <>
       <AppBarProduct idScreen={screens.search_screen} />
-
-      {dataSearch.length === 0 ? (
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginHorizontal: 16,
-          }}>
-          <Image source={IMAGES.not_found} />
-          <Text
-            style={{
-              fontFamily: FONTS.fontFamilyBold,
-              color: COLORS.black3,
-              textAlign: 'center',
-              fontSize: 24,
-              marginBottom: 16,
-            }}>
-            Item not found
-          </Text>
-          <Text
-            style={{
-              fontFamily: FONTS.fontFamilyMedium,
-              color: COLORS.black3,
-              textAlign: 'center',
-              fontSize: 16,
-            }}>
-            Try a more generic search term or try looking for alternative
-            products.
-          </Text>
-        </View>
-      ) : (
-        <StaggeredList
-          style={{padding: 8, paddingTop: 0, flex: 1, flexGrow: 1}}
-          data={dataSearch}
-          animationType={'SLIDE_DOWN'}
-          renderItem={({item}) => renderItem(item)}
-        />
-      )}
+      <StaggeredList
+        style={{padding: 8, paddingTop: 0, flex: 1, flexGrow: 1}}
+        data={dataSearch}
+        animationType={'SLIDE_DOWN'}
+        ListEmptyComponent={() => emptySearchedList()}
+        renderItem={({item}) => renderItem(item)}
+      />
     </>
   );
 }

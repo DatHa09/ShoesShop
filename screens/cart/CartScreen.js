@@ -19,9 +19,12 @@ import RenderCart from './components/RenderCart';
 import {onUpdateCart} from './CartScreenSlice';
 import uuid from 'react-native-uuid';
 import moment from 'moment';
+import {IMAGES} from '../../common/Images';
+import {useNavigation} from '@react-navigation/native';
 
 export default function CartScreen() {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const cart = useSelector(state => state.cartReducer.cart) || [];
   const countChange = useSelector(state => state.cartReducer.count);
@@ -63,8 +66,52 @@ export default function CartScreen() {
     console.log('newData ', ordersInfo);
   };
 
-  const renderProduct = item => {
-    return <RenderCart item={item} updateItemCart={updateItemCart} />;
+  const onPressDeleteItem = deleteItemIndex => {
+    const newCart = cart.filter((_, index) => index !== deleteItemIndex);
+    dispatch(onUpdateCart(newCart));
+  };
+
+  const renderProduct = (item, index) => {
+    return (
+      <RenderCart
+        item={item}
+        index={index}
+        updateItemCart={updateItemCart}
+        onPressDeleteItem={onPressDeleteItem}
+      />
+    );
+  };
+
+  const emptyCart = () => {
+    return (
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginHorizontal: 16,
+        }}>
+        <Image source={IMAGES.not_found} />
+        <Text
+          style={{
+            fontFamily: FONTS.fontFamilyBold,
+            color: COLORS.black3,
+            textAlign: 'center',
+            fontSize: 24,
+            marginBottom: 16,
+          }}>
+          Your Bag is empty.
+        </Text>
+        <Text
+          style={{
+            fontFamily: FONTS.fontFamilyMedium,
+            color: COLORS.black3,
+            textAlign: 'center',
+            fontSize: 16,
+          }}>
+          When you add products, they'll appear here.
+        </Text>
+      </View>
+    );
   };
 
   return (
@@ -80,59 +127,19 @@ export default function CartScreen() {
           <FlatList
             showsVerticalScrollIndicator={false}
             data={cart}
+            ListEmptyComponent={() => emptyCart()}
             renderItem={({item, index}) => renderProduct(item, index)}
             keyExtractor={(item, index) => index}
+            contentContainerStyle={{marginHorizontal: 8}}
           />
         </View>
-
-        {/* Button add and price */}
-        <View
-          style={{
-            height: 160,
-            justifyContent: 'flex-end',
-            backgroundColor: COLORS.lightGray,
-            paddingHorizontal: 16,
-          }}>
-          {/* price info */}
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              borderBottomWidth: 1,
-              borderBottomColor: COLORS.secondary,
-            }}>
-            {/* total */}
-            <Text
-              style={{
-                fontFamily: FONTS.fontFamilySemiBold,
-                color: COLORS.black3,
-                fontSize: 20,
-                marginBottom: 16,
-                textAlign: 'center',
-              }}>
-              Total
-            </Text>
-            {/* price */}
-            <Text
-              style={{
-                fontFamily: FONTS.fontFamilySemiBold,
-                color: COLORS.black3,
-                fontSize: 20,
-                marginBottom: 16,
-              }}>
-              $
-              {totalReduce(cart)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            </Text>
-          </View>
-          {/* button add to cart */}
+        {cart.length === 0 ? (
           <TouchableOpacity
-            onPress={() => onPressCheckout()}
+            onPress={() => navigation.navigate(screens.drawer_menu)} //screen default của drawer_menu là home screen
             style={{
               justifyContent: 'flex-end',
               marginVertical: 24,
+              marginHorizontal: 16,
             }}>
             <Text
               style={{
@@ -141,15 +148,81 @@ export default function CartScreen() {
                 paddingTop: 8,
                 borderRadius: 8,
                 fontFamily: FONTS.fontFamilySemiBold,
-                color: COLORS.secondary,
+                color: COLORS.black3,
                 fontSize: 18,
-                backgroundColor: COLORS.black3,
+                backgroundColor: COLORS.secondary,
                 height: 48,
               }}>
-              Checkout
+              Shopping now
             </Text>
           </TouchableOpacity>
-        </View>
+        ) : (
+          // Button add and price
+          <View
+            style={{
+              height: 160,
+              justifyContent: 'flex-end',
+              backgroundColor: COLORS.lightGray,
+              paddingHorizontal: 16,
+            }}>
+            {/* price info */}
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderBottomWidth: 1,
+                borderBottomColor: COLORS.secondary,
+              }}>
+              {/* total */}
+              <Text
+                style={{
+                  fontFamily: FONTS.fontFamilySemiBold,
+                  color: COLORS.black3,
+                  fontSize: 20,
+                  marginBottom: 16,
+                  textAlign: 'center',
+                }}>
+                Total
+              </Text>
+              {/* price */}
+              <Text
+                style={{
+                  fontFamily: FONTS.fontFamilySemiBold,
+                  color: COLORS.black3,
+                  fontSize: 20,
+                  marginBottom: 16,
+                }}>
+                $
+                {totalReduce(cart)
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </Text>
+            </View>
+            {/* button add to cart */}
+            <TouchableOpacity
+              onPress={() => onPressCheckout()}
+              style={{
+                // justifyContent: 'flex-end',
+                marginVertical: 24,
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  padding: 4,
+                  paddingTop: 8,
+                  borderRadius: 8,
+                  fontFamily: FONTS.fontFamilySemiBold,
+                  color: COLORS.secondary,
+                  fontSize: 18,
+                  backgroundColor: COLORS.black3,
+                  height: 48,
+                }}>
+                Checkout
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </>
   );
