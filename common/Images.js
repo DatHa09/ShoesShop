@@ -14,6 +14,7 @@ export const IMAGES = {
 
 export const ICONS = {
   buy: require('../assets/icons/buy.png'),
+  trash: require('../assets/icons/trash.png'),
   cartWhite: require('../assets/icons/cart-white.png'),
   menu: require('../assets/icons/menu.png'),
   home: require('../assets/icons/menu/home2.png'),
@@ -33,5 +34,5 @@ export const ICONS = {
   hide: require('../assets/icons/input/hide.png'),
   email: require('../assets/icons/input/message.png'),
   password: require('../assets/icons/input/password.png'),
-  goBack: require('../assets/icons/goBack.png')
+  goBack: require('../assets/icons/goBack.png'),
 };
