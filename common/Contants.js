@@ -35,6 +35,7 @@ export const categories = {
 export const KEY_LOCAL_STORAGE = 'localStorage';
 export const KEY_ACCESS_TOKEN = 'accessToken';
 export const KEY_LOCAL_CART = 'localStore123'
+export const KEY_LOCAL_ORDERS='localOrders'
 
 export const emailRegex =
 /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;

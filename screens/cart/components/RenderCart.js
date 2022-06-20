@@ -50,15 +50,16 @@ export default function RenderCart({
     updateItemCart(item.id, item.size, newQuantity, price);
   };
 
-  const closeSwipeable = () => {
-    swipeableRef.current.close();
-  }
+  // const closeSwipeable = () => {
+  //   swipeableRef.current.close();
+  // };
 
   const renderRight = () => {
     return (
       <TouchableOpacity
         onPress={() => {
           onPressDeleteItem(index);
+          swipeableRef.current.close();
         }}
         style={{
           alignItems: 'center',
@@ -95,9 +96,9 @@ export default function RenderCart({
         }}
       />
       <Swipeable
-      ref={swipeableRef}
+        ref={swipeableRef}
         friction={2}
-        onSwipeableOpen={() => closeSwipeable()}
+        // onSwipeableOpen={() => closeSwipeable()}
         renderRightActions={renderRight}>
         <Animated.View
           style={[

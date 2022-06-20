@@ -35,7 +35,7 @@ import {
 } from '../../common/Contants';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {checkLogin, getLocalAccessToken, getProfile} from './LoginThunk';
+import {checkLogin, getLocalAccessToken} from './LoginThunk';
 import {COLORS, FONTS} from '../../common/Theme';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -263,7 +263,10 @@ export default function LoginScreen() {
                         </View>
                         {!isSuccess && (
                           <TouchableOpacity
-                            style={[globalStyles.button, globalStyles.buttonClose]}
+                            style={[
+                              globalStyles.button,
+                              globalStyles.buttonClose,
+                            ]}
                             onPress={() => setModalVisible(!modalVisible)}>
                             <Text style={styles.textStyle}>OK</Text>
                           </TouchableOpacity>

@@ -5,6 +5,7 @@ import {
   FlatList,
   Image,
   ScrollView,
+  Modal,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {COLORS, FONTS} from '../../common/Theme';
@@ -14,26 +15,33 @@ import {KEY_LOCAL_CART, screens} from '../../common/Contants';
 import {getLocalCart} from './CartScreenThunk';
 import AppBarProduct from '../../common/AppBarProduct';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faCheck, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
 import RenderCart from './components/RenderCart';
 import {onUpdateCart} from './CartScreenSlice';
 import uuid from 'react-native-uuid';
 import moment from 'moment';
 import {IMAGES} from '../../common/Images';
 import {useNavigation} from '@react-navigation/native';
+import {globalStyles} from '../../common/style/globalStyle';
+import { onAddOrder } from '../profile/profileScreenSlice';
 
 export default function CartScreen() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [notification, setNotification] = useState('');
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const cart = useSelector(state => state.cartReducer.cart) || [];
+
   const countChange = useSelector(state => state.cartReducer.count);
   const profileData = useSelector(state => state.loginReducer.profile);
 
   useEffect(() => {
     dispatch(getLocalCart());
   }, [countChange]);
+
+
   const updateItemCart = (id, size, qty, price) => {
     const newData = cart.map(item => {
       if (item.id === id && item.size === size) {
@@ -59,12 +67,22 @@ export default function CartScreen() {
       name: profileData.name,
       email: profileData.email,
       phone: profileData.phone,
-      summary: totalReduce(cart),
+      grandTotal: totalReduce(cart),
       date: moment().format('LL'),
       time: moment().format('LT'),
-      cart: cart,
+      ordersHistory: cart,
     };
-    console.log('newData ', ordersInfo);
+
+    const newOrders = [...orders, ordersInfo];
+    dispatch(onAddOrder(newOrders));
+
+    setModalVisible(true);
+    setNotification(
+      'Your order has been placed!\nThe store will contact you soon!',
+    );
+    setTimeout(() => {
+      setModalVisible(false);
+    }, 2000);
   };
 
   const onPressDeleteItem = deleteItemIndex => {
@@ -225,6 +243,35 @@ export default function CartScreen() {
           </View>
         )}
       </View>
+
+      {/* notification */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={globalStyles.centeredView}>
+          <View style={globalStyles.modalView}>
+            <View style={globalStyles.modalView_container}>
+              <FontAwesomeIcon
+                icon={faCheck}
+                color={COLORS.green}
+                size={24}
+                style={{marginRight: 12}}
+              />
+              <Text style={globalStyles.modalText}>{notification}</Text>
+            </View>
+
+            {/* <TouchableOpacity
+              style={[globalStyles.button, globalStyles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={globalStyles.textStyle}>OK</Text>
+            </TouchableOpacity> */}
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }

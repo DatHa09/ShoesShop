@@ -6,6 +6,7 @@ import registerReducer from './screens/register/RegisterSlice';
 import searchReducer from './screens/search/SearchSlice';
 import detailReducer from './screens/detail/DetailScreenSlice';
 import cartReducer from './screens/cart/CartScreenSlice';
+import profileReducer from './screens/profile/profileScreenSlice';
 
 export default store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export default store = configureStore({
     searchReducer,
     detailReducer,
     cartReducer,
+    profileReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

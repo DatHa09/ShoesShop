@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {KEY_ACCESS_TOKEN} from '../../common/Contants';
 import {getLocalStorage} from '../../common/LocalStorage';
+import { getProfile } from '../profile/profileScreenThunk';
 
 export const checkLogin = createAsyncThunk(
   'login/checkLogin',
@@ -38,17 +39,17 @@ export const getLocalAccessToken = createAsyncThunk(
   },
 );
 
-export const getProfile = createAsyncThunk('token/getProfile', async token => {
-  const resp = await fetch('http://svcy3.myclass.vn/api/Users/getProfile', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    // body: JSON.stringify(data)
-  });
+// export const getProfile = createAsyncThunk('token/getProfile', async token => {
+//   const resp = await fetch('http://svcy3.myclass.vn/api/Users/getProfile', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Accept: 'application/json',
+//       Authorization: `Bearer ${token}`,
+//     },
+//     // body: JSON.stringify(data)
+//   });
 
-  const json = await resp.json();
-  return json.content;
-});
+//   const json = await resp.json();
+//   return json.content;
+// });

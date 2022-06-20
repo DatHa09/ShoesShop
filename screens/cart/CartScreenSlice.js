@@ -17,6 +17,7 @@ const cartSlice = createSlice({
       state.count = state.count + 1; //xác định cart có thay đỗi với mỗi lần nhấn button + -
       saveLocalStorage(KEY_LOCAL_CART, data);
     },
+   
   },
   extraReducers: builder => {
     builder.addCase(getLocalCart.fulfilled, (state, action) => {

@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { KEY_LOCAL_CART } from '../../common/Contants';
-import { saveLocalStorage } from '../../common/LocalStorage';
+import {KEY_LOCAL_CART} from '../../common/Contants';
+import {saveLocalStorage} from '../../common/LocalStorage';
 import {
   fetchProductDetails,
   fetchRelatedProducts,
@@ -24,10 +24,11 @@ const detailSlice = createSlice({
       state.sizeSelected = size;
     },
     onAddToCart: (state, action) => {
+      // const data = {email: ,content: action.payload};
+      // console.log('data ', data)
       const data = action.payload;
       saveLocalStorage(KEY_LOCAL_CART, data);
     },
-    
   },
   extraReducers: builder => {
     builder
