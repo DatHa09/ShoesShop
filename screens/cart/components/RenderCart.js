@@ -1,5 +1,5 @@
 import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {COLORS, FONTS, SIZES} from '../../../common/Theme';
@@ -9,7 +9,15 @@ import Animated from 'react-native-reanimated';
 import {Swipeable} from 'react-native-gesture-handler';
 import {ICONS} from '../../../common/Images';
 
-export default function RenderCart({item, index, updateItemCart, onPressDeleteItem}) {
+export default function RenderCart({
+  item,
+  index,
+  updateItemCart,
+  onPressDeleteItem,
+}) {
+  //sử dụng reference để tránh swipeable vẫn active khi delete item
+  const swipeableRef = useRef(null);
+
   const [quantity, setQuantity] = useState(item.qty);
   const navigation = useNavigation();
 
@@ -42,10 +50,16 @@ export default function RenderCart({item, index, updateItemCart, onPressDeleteIt
     updateItemCart(item.id, item.size, newQuantity, price);
   };
 
+  const closeSwipeable = () => {
+    swipeableRef.current.close();
+  }
+
   const renderRight = () => {
     return (
       <TouchableOpacity
-        onPress={() => onPressDeleteItem(index)}
+        onPress={() => {
+          onPressDeleteItem(index);
+        }}
         style={{
           alignItems: 'center',
           justifyContent: 'center',
@@ -80,7 +94,11 @@ export default function RenderCart({item, index, updateItemCart, onPressDeleteIt
           width: SIZES.width - 24, //24 = margin(8) chính nó + margin(8) của RenderRight + margin(8) của FlatList
         }}
       />
-      <Swipeable renderRightActions={renderRight}>
+      <Swipeable
+      ref={swipeableRef}
+        friction={2}
+        onSwipeableOpen={() => closeSwipeable()}
+        renderRightActions={renderRight}>
         <Animated.View
           style={[
             {

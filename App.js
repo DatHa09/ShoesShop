@@ -27,6 +27,7 @@ import CartScreen from './screens/cart/CartScreen';
 import CustomDrawer from './navigation/CustomDrawer';
 import SearchScreen from './screens/search/SearchScreen';
 import FavoriteScreen from './screens/favorite/FavoriteScreen';
+import GetStartedScreen from './screens/splash/GetStartedScreen';
 
 const Stack = createStackNavigator();
 
@@ -36,10 +37,14 @@ export default function App() {
       <StatusBar backgroundColor={COLORS.black3} hidden={false} />
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={screens.login_screen}
+          initialRouteName={screens.get_started_screen}
           screenOptions={{
             headerShown: false,
           }}>
+          <Stack.Screen
+            name={screens.get_started_screen}
+            component={GetStartedScreen}
+          />
           <Stack.Screen name={screens.login_screen} component={LoginScreen} />
           <Stack.Screen name={screens.drawer_menu} component={CustomDrawer} />
           <Stack.Screen name={screens.detail_screen} component={DetailScreen} />

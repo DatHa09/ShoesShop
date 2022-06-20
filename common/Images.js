@@ -10,6 +10,7 @@ export const IMAGES = {
   background_brand: require('../assets/images/home/nike_background.png'),
   avatar_url: require('../assets/images/user/avatar.jpeg'),
   not_found: require('../assets/images/notfound/item_not_found.png'),
+  splash: require('../assets/images/splash/splash.jpg')
 };
 
 export const ICONS = {
