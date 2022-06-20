@@ -14,7 +14,7 @@ import {useSelector} from 'react-redux';
 export default function CustomDrawerContent({navigation}) {
   const [currentTab, setCurrentTab] = useState(screens.tab_home);
 
-  const profileData = useSelector(state => state.loginReducer.profile);
+  const profileData = useSelector(state => state.profileReducer.profile);
 
   // const navigation = useNavigation();
 

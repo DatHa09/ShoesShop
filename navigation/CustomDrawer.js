@@ -8,7 +8,6 @@ import HomeScreen from '../screens/home/HomeScreen';
 import CustomDrawerContent from './components/CustomDrawerContent';
 import Animated from 'react-native-reanimated';
 import ProfileScreen from '../screens/profile/ProfileScreen';
-import OrderScreen from '../screens/order/OrderScreen';
 import FavoriteScreen from '../screens/favorite/FavoriteScreen';
 import NotificationScreen from '../screens/notification/NotificationScreen';
 import SettingScreen from '../screens/setting/SettingScreen';
