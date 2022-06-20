@@ -1,4 +1,5 @@
 export const screens = {
+  get_started_screen: 'GetStartedScreen',
   drawer_menu: 'DrawerMenu',
   login_screen: 'LoginScreen',
   forgot_password_screen: 'ForgotPasswordScreen',

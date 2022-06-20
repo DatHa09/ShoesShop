@@ -44,13 +44,6 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(getLocalAccessToken());
-
-  // }, []);
-
-  // useEffect(() => {}, [isSuccess === true]);
-
   const [isHideNewPassword, setIsHideNewPassword] = useState(true);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -61,8 +54,6 @@ export default function LoginScreen() {
     email: '',
     password: '',
   };
-
-  // const accessToken = useSelector(state => state.loginReducer.accessToken);
 
   const validationSchema = Yup.object({
     email: Yup.string()

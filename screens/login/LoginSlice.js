@@ -27,7 +27,7 @@ const loginSlice = createSlice({
         isLoading = true;
       })
       .addCase(getLocalAccessToken.fulfilled, (state, action) => {
-        state.accessToken = action.payload;
+        state.accessToken = action.payload.content.accessToken;
       })
       .addCase(getProfile.pending, (state, action) => {
         state.isLoading = true;

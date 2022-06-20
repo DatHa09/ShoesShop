@@ -6,7 +6,7 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {COLORS, FONTS} from '../../common/Theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {getLocalStorage} from '../../common/LocalStorage';
@@ -23,6 +23,7 @@ import {IMAGES} from '../../common/Images';
 import {useNavigation} from '@react-navigation/native';
 
 export default function CartScreen() {
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
