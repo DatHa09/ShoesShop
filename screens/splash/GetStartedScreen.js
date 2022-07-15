@@ -24,6 +24,8 @@ export default function GetStartedScreen() {
     }
   };
 
+  
+
   return (
     <ImageBackground
       source={IMAGES.splash}

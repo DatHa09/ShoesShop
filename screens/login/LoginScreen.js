@@ -26,6 +26,7 @@ import {
 import {styles} from './styles/LoginStyles';
 import {ICONS, IMAGES} from '../../common/Images';
 import {
+  KEY_ACCESS_TOKEN,
   lowercaseRegex,
   numericRegex,
   phoneRegex,
@@ -40,6 +41,7 @@ import {COLORS, FONTS} from '../../common/Theme';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {globalStyles} from '../../common/style/globalStyle';
+import {getLocalStorage} from '../../common/LocalStorage';
 export default function LoginScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch();

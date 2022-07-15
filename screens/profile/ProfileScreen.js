@@ -1,5 +1,5 @@
 import {View, Text} from 'react-native';
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {COLORS, FONTS} from '../../common/Theme';
 import AppBar from '../../common/AppBar';
 import {useDispatch, useSelector} from 'react-redux';
@@ -7,7 +7,7 @@ import Animated from 'react-native-reanimated';
 import { getLocalOrders } from './profileScreenThunk';
 
 export default function ProfileScreen() {
-  const orders = useSelector(state => state.orderReducer.orders) || [];
+  const orders = useSelector(state => state.profileReducer.orders) || [];
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getLocalOrders());

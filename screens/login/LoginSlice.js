@@ -29,12 +29,12 @@ const loginSlice = createSlice({
       .addCase(getLocalAccessToken.fulfilled, (state, action) => {
         state.accessToken = action.payload.content.accessToken;
       });
-      // .addCase(getProfile.pending, (state, action) => {
-      //   state.isLoading = true;
-      // })
-      // .addCase(getProfile.fulfilled, (state, action) => {
-      //   state.profile = action.payload;
-      // });
+    // .addCase(getProfile.pending, (state, action) => {
+    //   state.isLoading = true;
+    // })
+    // .addCase(getProfile.fulfilled, (state, action) => {
+    //   state.profile = action.payload;
+    // });
   },
 });
 
