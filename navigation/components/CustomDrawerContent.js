@@ -9,12 +9,15 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {COLORS, FONTS} from '../../common/Theme';
 import {ICONS, IMAGES} from '../../common/Images';
-import {screens} from '../../common/Contants';
-import {useSelector} from 'react-redux';
+import {KEY_ACCESS_TOKEN, screens} from '../../common/Contants';
+import {useSelector, useDispatch} from 'react-redux';
+import {removeLocalStorage, saveLocalStorage} from '../../common/LocalStorage';
 export default function CustomDrawerContent({navigation}) {
   const [currentTab, setCurrentTab] = useState(screens.tab_home);
 
   const profileData = useSelector(state => state.profileReducer.profile);
+  const token = useSelector(state => state.loginReducer.accessToken);
+  const dispatch = useDispatch();
 
   // const navigation = useNavigation();
 
@@ -38,6 +41,7 @@ export default function CustomDrawerContent({navigation}) {
     // }
     // navigation.dispatch(StackActions.replace(screens.login_screen));
     navigation.dispatch(StackActions.replace(screens.login_screen));
+    saveLocalStorage(KEY_ACCESS_TOKEN, '');
   };
 
   //multiple buttons...

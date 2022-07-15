@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {KEY_ACCESS_TOKEN} from '../../common/Contants';
 import {getLocalStorage} from '../../common/LocalStorage';
-import { getProfile } from '../profile/profileScreenThunk';
+import {getProfile} from '../profile/profileScreenThunk';
 
 export const checkLogin = createAsyncThunk(
   'login/checkLogin',
@@ -29,13 +29,21 @@ export const getLocalAccessToken = createAsyncThunk(
     //xử lý login code trước khi update lên state trên store chung
     let token = await getLocalStorage(KEY_ACCESS_TOKEN);
     // console.log('kiểm tra token local');
-    // console.log(token);
     if (token === undefined || token === null) {
+      // console.log('log no token');
       return 'no token';
     } else {
-      dispatch(getProfile(token.content.accessToken));
-      return token;
+    dispatch(getProfile(token.content.accessToken));
+    // console.log(token);
+    return token;
     }
+    // if (token[0].length === 0) {
+    //   return 'no token';
+    // } else {
+    //   dispatch(getProfile(token.content.accessToken));
+    //   console.log('token: ', token);
+    //   return token;
+    // }
   },
 );
 
