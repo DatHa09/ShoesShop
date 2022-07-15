@@ -1,5 +1,5 @@
 import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {COLORS, FONTS, SIZES} from '../../../common/Theme';
@@ -20,6 +20,10 @@ export default function RenderCart({
 
   const [quantity, setQuantity] = useState(item.qty);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    setQuantity(item.qty);
+  }, [item.qty]);
 
   const onSelectedItem = () => {
     navigation.navigate(screens.detail_screen, {
@@ -165,7 +169,7 @@ export default function RenderCart({
 
             {/* content right */}
             {/* price, qty */}
-            <View style={{}}>
+            <View>
               <View
                 style={{
                   flexDirection: 'row',
