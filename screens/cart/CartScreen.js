@@ -23,7 +23,7 @@ import moment from 'moment';
 import {IMAGES} from '../../common/Images';
 import {useNavigation} from '@react-navigation/native';
 import {globalStyles} from '../../common/style/globalStyle';
-import { onAddOrder } from '../profile/profileScreenSlice';
+import {onAddOrder} from '../profile/profileScreenSlice';
 
 export default function CartScreen() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,7 +40,6 @@ export default function CartScreen() {
   useEffect(() => {
     dispatch(getLocalCart());
   }, [countChange]);
-
 
   const updateItemCart = (id, size, qty, price) => {
     const newData = cart.map(item => {

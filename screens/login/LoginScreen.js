@@ -270,7 +270,7 @@ export default function LoginScreen() {
                               globalStyles.buttonClose,
                             ]}
                             onPress={() => setModalVisible(!modalVisible)}>
-                            <Text style={styles.textStyle}>OK</Text>
+                            <Text style={globalStyles.textStyle}>OK</Text>
                           </TouchableOpacity>
                         )}
                       </View>
