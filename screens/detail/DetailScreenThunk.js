@@ -2,7 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 export const fetchProductDetails = createAsyncThunk(
   'productDetail/fetchProductDetails',
   async (idProduct, {dispatch, getState}) => {
-    const resp = await fetch('http://svcy3.myclass.vn/api/Product');
+    const resp = await fetch('https://shop.cyberlearn.vn/api/Product');
     const json = await resp.json();
     let data = json.content.filter(item => item.id === idProduct);
     const newData = {
@@ -18,7 +18,7 @@ export const fetchProductDetails = createAsyncThunk(
 export const fetchRelatedProducts = createAsyncThunk(
   'productDetail/fetchRelatedProducts',
   async relatedProducts => {
-    const resp = await fetch('http://svcy3.myclass.vn/api/Product');
+    const resp = await fetch('https://shop.cyberlearn.vn/api/Product');
     const json = await resp.json();
     let newData = [];
 

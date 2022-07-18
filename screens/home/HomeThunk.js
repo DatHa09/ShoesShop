@@ -3,7 +3,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async () => {
-    const resp = await fetch('http://svcy3.myclass.vn/api/Product');
+    const resp = await fetch('https://shop.cyberlearn.vn/api/Product');
     const json = await resp.json();
     return json.content;
   },
@@ -13,7 +13,7 @@ export const fetchCategoriesGender = createAsyncThunk(
   'category/fetchCategoriesGender',
   async () => {
     const resp = await fetch(
-      'http://svcy3.myclass.vn/api/Product/getAllCategory',
+      'https://shop.cyberlearn.vn/api/Product/getAllCategory',
     );
     const json = await resp.json();
 
@@ -25,7 +25,7 @@ export const fetchCategoriesGender = createAsyncThunk(
 
 export const fetchCategoriesShoesBrand = createAsyncThunk(async () => {
   const resp = await fetch(
-    'http://svcy3.myclass.vn/api/Product/getAllCategory',
+    'https://shop.cyberlearn.vn/api/Product/getAllCategory',
   );
   const json = await resp.json();
   return json.content;
@@ -49,7 +49,7 @@ export const fetchCategoriesFirstTime = createAsyncThunk(
   'category/fetchCategoriesFirstTime',
   async () => {
     const resp = await fetch(
-      'http://svcy3.myclass.vn/api/Product/getAllCategory',
+      'https://shop.cyberlearn.vn/api/Product/getAllCategory',
     );
     const json = await resp.json();
 
@@ -65,7 +65,7 @@ export const fetchProductsByBrand = createAsyncThunk(
   'productsByBrand/fetchProductsByBrand',
   async params => {
     const resp = await fetch(
-      `http://svcy3.myclass.vn/api/Product/getProductByCategory?categoryId=${params.idScreen}`,
+      `https://shop.cyberlearn.vn/api/Product/getProductByCategory?categoryId=${params.idScreen}`,
     );
     if (resp.status === 200 || resp.status === 201) {
       const json = await resp.json();

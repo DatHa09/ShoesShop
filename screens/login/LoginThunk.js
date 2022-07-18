@@ -6,7 +6,7 @@ import {getProfile} from '../profile/profileScreenThunk';
 export const checkLogin = createAsyncThunk(
   'login/checkLogin',
   async dataLogin => {
-    const resp = await fetch('http://svcy3.myclass.vn/api/Users/signin', {
+    const resp = await fetch('https://shop.cyberlearn.vn/api/Users/signin', {
       method: 'POST',
       headers: {
         // Accept: 'application/json',

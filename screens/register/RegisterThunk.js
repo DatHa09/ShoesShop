@@ -3,7 +3,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 export const checkRegister = createAsyncThunk(
   'register/checkRegister',
   async dataRegister => {
-    const resp = await fetch('http://svcy3.myclass.vn/api/Users/signup', {
+    const resp = await fetch('https://shop.cyberlearn.vn/api/Users/signup', {
       method: 'POST',
       headers: {
         // Accept: 'application/json',
