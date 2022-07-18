@@ -10,9 +10,9 @@ import {
 import React, {useEffect, useRef, useState} from 'react';
 import {COLORS, FONTS} from '../../common/Theme';
 import {useDispatch, useSelector} from 'react-redux';
-import {getLocalStorage} from '../../common/LocalStorage';
+import {getLocalStorage, saveLocalStorage} from '../../common/LocalStorage';
 import {KEY_LOCAL_CART, screens} from '../../common/Contants';
-import {getLocalCart} from './CartScreenThunk';
+import {checkoutOrder, getLocalCart} from './CartScreenThunk';
 import AppBarProduct from '../../common/AppBarProduct';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCheck, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
@@ -35,7 +35,8 @@ export default function CartScreen() {
   const cart = useSelector(state => state.cartReducer.cart) || [];
 
   const countChange = useSelector(state => state.cartReducer.count);
-  const profileData = useSelector(state => state.loginReducer.profile);
+  const profileData = useSelector(state => state.profileReducer.profile);
+  const orders = useSelector(state => state.profileReducer.orders);
 
   useEffect(() => {
     dispatch(getLocalCart());
@@ -60,25 +61,43 @@ export default function CartScreen() {
     cart.reduce((total, item) => total + item.totalPrice, 0);
 
   const onPressCheckout = () => {
-    const ordersInfo = {
-      id: uuid.v4(),
-      status: 'in process',
-      name: profileData.name,
-      email: profileData.email,
-      phone: profileData.phone,
-      grandTotal: totalReduce(cart),
-      date: moment().format('LL'),
-      time: moment().format('LT'),
-      ordersHistory: cart,
-    };
+    // const ordersInfo = {
+    //   id: uuid.v4(),
+    //   status: 'in process',
+    //   name: profileData.name,
+    //   email: profileData.email,
+    //   phone: profileData.phone,
+    //   grandTotal: totalReduce(cart),
+    //   date: moment().format('LL'),
+    //   time: moment().format('LT'),
+    //   ordersHistory: cart,
+    // };
 
-    const newOrders = [...orders, ordersInfo];
-    dispatch(onAddOrder(newOrders));
+    // const newOrders = [...orders, ordersInfo];
+    // dispatch(onAddOrder(newOrders));
+
+    const newCart = [];
+    cart.forEach((item, index) => {
+      const data = {
+        productId: item.id,
+        quantity: item.qty,
+      };
+      newCart.push(data);
+    });
+
+    const dataCheckout = {
+      orderDetail: [...newCart],
+      email: profileData.email,
+    };
+    console.log(dataCheckout);
+    dispatch(checkoutOrder(dataCheckout));
 
     setModalVisible(true);
     setNotification(
       'Your order has been placed!\nThe store will contact you soon!',
     );
+    //delete cart khi nhấn checkout
+    dispatch(onUpdateCart([]));
     setTimeout(() => {
       setModalVisible(false);
     }, 2000);
@@ -126,7 +145,7 @@ export default function CartScreen() {
             textAlign: 'center',
             fontSize: 16,
           }}>
-          When you add products, they'll appear here.
+          When you add products to cart,{'\n'}they'll appear here.
         </Text>
       </View>
     );
@@ -153,7 +172,7 @@ export default function CartScreen() {
         </View>
         {cart.length === 0 ? (
           <TouchableOpacity
-            onPress={() => navigation.navigate(screens.drawer_menu)} //screen default của drawer_menu là home screen
+            onPress={() => navigation.navigate(screens.tab_home)} //screen default của drawer_menu là home screen
             style={{
               justifyContent: 'flex-end',
               marginVertical: 24,

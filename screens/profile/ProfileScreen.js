@@ -4,15 +4,18 @@ import {COLORS, FONTS} from '../../common/Theme';
 import AppBar from '../../common/AppBar';
 import {useDispatch, useSelector} from 'react-redux';
 import Animated from 'react-native-reanimated';
-import { getLocalOrders } from './profileScreenThunk';
+import {getLocalOrders} from './profileScreenThunk';
 
 export default function ProfileScreen() {
-  const orders = useSelector(state => state.profileReducer.orders) || [];
+  const orders = useSelector(state => state.profileReducer.orders);
+  const profileData = useSelector(state => state.profileReducer.profile);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getLocalOrders());
-    console.log('Orders ', orders);
-  }, [orders]);
+  // useEffect(() => {
+  //   dispatch(getLocalOrders());
+  //   console.log('Orders ', orders);
+  // }, [orders]);
+
+  console.log(profileData.ordersHistory);
 
   return (
     <View style={{flex: 1}}>

@@ -3,7 +3,7 @@ import {KEY_LOCAL_ORDERS} from '../../common/Contants';
 import {getLocalStorage} from '../../common/LocalStorage';
 
 export const getProfile = createAsyncThunk('token/getProfile', async token => {
-  const resp = await fetch('http://svcy3.myclass.vn/api/Users/getProfile', {
+  const resp = await fetch('https://shop.cyberlearn.vn/api/Users/getProfile', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

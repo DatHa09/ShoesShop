@@ -19,8 +19,6 @@ export default function CustomDrawerContent({navigation}) {
   const token = useSelector(state => state.loginReducer.accessToken);
   const dispatch = useDispatch();
 
-  // const navigation = useNavigation();
-
   useEffect(() => {
     navigation.navigate(currentTab);
   }, [currentTab]);

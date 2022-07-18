@@ -5,7 +5,7 @@ import {checkLogin, getLocalAccessToken, getProfile} from './LoginThunk';
 const initialState = {
   isLoading: false,
   accessToken: '',
-  profile: [],
+  // profile: [],
   // message: '',
 };
 
