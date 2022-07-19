@@ -34,13 +34,15 @@ export const categories = {
 
 export const KEY_LOCAL_STORAGE = 'localStorage';
 export const KEY_ACCESS_TOKEN = 'accessToken';
-export const KEY_LOCAL_CART = 'localStore123'
-export const KEY_LOCAL_ORDERS='localOrders'
+export const KEY_LOCAL_CART = 'localStore123';
+export const KEY_LOCAL_WISHLIST = 'localWishList';
+export const KEY_LOCAL_ORDERS = 'localOrders';
 
 export const emailRegex =
-/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 export const uppercaseRegex = /(?=.*[A-Z])/;
 export const lowercaseRegex = /(?=.*[a-z])/;
 export const numericRegex = /(?=.*[0-9])/;
-export const specialCharsRegex = /(?=.*[!\@\#\$\%\^\&\*\(\)\_\-\=\+\?\>\<\.\,])/;
+export const specialCharsRegex =
+  /(?=.*[!\@\#\$\%\^\&\*\(\)\_\-\=\+\?\>\<\.\,])/;
 export const phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
