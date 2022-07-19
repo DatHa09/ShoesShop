@@ -1,23 +1,25 @@
-import {View, Text, TouchableOpacity, Image, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  Modal,
+} from 'react-native';
 import React, {useState} from 'react';
 import {COLORS, FONTS, SIZES} from './Theme';
 import {ICONS} from './Images';
 import {screens} from './Contants';
 import {useNavigation} from '@react-navigation/native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faAngleLeft,
-  faHeart,
-  faMagnifyingGlass,
-  faShoppingCart,
-} from '@fortawesome/free-solid-svg-icons';
+import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch} from 'react-redux';
 import {fetchSearchProducts} from '../screens/search/SearchThunk';
 
 export default function AppBarProduct({idScreen, nameScreen, gender}) {
-  const [isLike, setIsLike] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
 
   const goBack = () => {
     return (
@@ -56,6 +58,8 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
 
     return newStr;
   };
+
+  
 
   const productAppBar = () => {
     return (
@@ -165,16 +169,7 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
             style={{marginLeft: 32}}>
             <Image source={ICONS.buy} style={{height: 24, width: 24}} />
           </TouchableOpacity>
-          {/* Like */}
-          <TouchableOpacity
-            onPress={() => setIsLike(!isLike)}
-            style={{marginLeft: 32}}>
-            <FontAwesomeIcon
-              icon={faHeart}
-              size={32}
-              color={isLike ? COLORS.secondary : COLORS.lightGray4}
-            />
-          </TouchableOpacity>
+          
         </View>
       </>
     );
@@ -223,17 +218,21 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
   // console.log('idScreen: ', idScreen);
 
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        height: 56,
-        paddingHorizontal: 16,
-        backgroundColor:
-          idScreen === screens.detail_screen || screens.cart_screen ? COLORS.lightGray : COLORS.white,
-      }}>
-      {appBar()}
-    </View>
+    <>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          height: 56,
+          paddingHorizontal: 16,
+          backgroundColor:
+            idScreen === screens.detail_screen || screens.cart_screen
+              ? COLORS.lightGray
+              : COLORS.white,
+        }}>
+        {appBar()}
+      </View>
+    </>
   );
 }

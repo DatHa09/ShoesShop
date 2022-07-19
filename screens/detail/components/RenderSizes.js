@@ -4,12 +4,26 @@ import {COLORS, FONTS} from '../../../common/Theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {onSizeSelected} from '../DetailScreenSlice';
 
-export default function RenderSizes({item}) {
+export default function RenderSizes({item, wishlist, setIsLike, idProduct}) {
   const currentSize = useSelector(state => state.detailReducer.sizeSelected);
+
   const dispatch = useDispatch();
+
+  const onPressSize = () => {
+    const existProductInWishList = wishlist.findIndex(
+      (wishListItem, index) =>
+        item === wishListItem.size && wishListItem.id === idProduct,
+    );
+    if (existProductInWishList !== -1) {
+      setIsLike(true);
+    } else {
+      setIsLike(false);
+    }
+    dispatch(onSizeSelected(item));
+  };
   return (
     <TouchableOpacity
-      onPress={() => dispatch(onSizeSelected(item))}
+      onPress={() => onPressSize()}
       style={[
         {
           width: 80,
