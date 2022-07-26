@@ -75,8 +75,7 @@ export default function CartScreen() {
       orderDetail: [...newCart],
       email: profileData.email,
     };
-    console.log('cart screen')
-    console.log(dataCheckout);
+    // console.log(dataCheckout);
     dispatch(checkoutOrder(dataCheckout));
 
     setModalVisible(true);
