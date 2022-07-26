@@ -54,7 +54,6 @@ export default function DetailScreen({route}) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [isLike, setIsLike] = useState(false);
-  console.log("~ isLike", isLike)
 
   const [notification, setNotification] = useState({
     isSuccess: false,
@@ -138,7 +137,7 @@ export default function DetailScreen({route}) {
           setModalVisible(true);
           setNotification({
             isSuccess: true,
-            message: 'Add to Cart Successfully!',
+            message: 'Added to Cart Successfully!',
           });
           const newCart = [...cart, item];
           dispatch(onAddToCart(newCart));

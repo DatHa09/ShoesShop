@@ -34,13 +34,12 @@ export default function CartScreen() {
 
   const cart = useSelector(state => state.cartReducer.cart) || [];
 
-  const countChange = useSelector(state => state.cartReducer.count);
+  const countCartChange = useSelector(state => state.cartReducer.count);
   const profileData = useSelector(state => state.profileReducer.profile);
-  const orders = useSelector(state => state.profileReducer.orders);
 
   useEffect(() => {
     dispatch(getLocalCart());
-  }, [countChange]);
+  }, [countCartChange]);
 
   const updateItemCart = (id, size, qty) => {
     const newData = cart.map(item => {
@@ -76,12 +75,13 @@ export default function CartScreen() {
       orderDetail: [...newCart],
       email: profileData.email,
     };
+    console.log('cart screen')
     console.log(dataCheckout);
     dispatch(checkoutOrder(dataCheckout));
 
     setModalVisible(true);
     setNotification(
-      'Your order has been placed!\nThe store will contact you soon!',
+      "Your order has been placed!\nWe'll contact to you soon!",
     );
     //delete cart khi nhấn checkout
     dispatch(onUpdateCart([]));
