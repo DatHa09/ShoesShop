@@ -10,6 +10,7 @@ export default function RenderSizes({item, wishlist, setIsLike, idProduct}) {
   const dispatch = useDispatch();
 
   const onPressSize = () => {
+    //nếu sp với size đang chọn, tồn tại trong wishlist => đã like sp 
     const existProductInWishList = wishlist.findIndex(
       (wishListItem, index) =>
         item === wishListItem.size && wishListItem.id === idProduct,

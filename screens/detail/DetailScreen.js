@@ -54,7 +54,7 @@ export default function DetailScreen({route}) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [isLike, setIsLike] = useState(false);
-  console.log('isLike ', isLike);
+  console.log("~ isLike", isLike)
 
   const [notification, setNotification] = useState({
     isSuccess: false,
@@ -88,7 +88,13 @@ export default function DetailScreen({route}) {
   };
 
   const renderRelatedProduct = item => {
-    return <RenderRelatedProduct item={item} scrollRef={scrollRef} />;
+    return (
+      <RenderRelatedProduct
+        item={item}
+        scrollRef={scrollRef}
+        setIsLike={setIsLike}
+      />
+    );
   };
 
   /*  cart có item?

@@ -6,8 +6,8 @@ export const getLocalWishList = createAsyncThunk(
   'wishlist/getLocalWishList',
   async () => {
     let wishlist = await getLocalStorage(KEY_LOCAL_WISHLIST);
-    console.log('thunk.getLocalWishList');
-    console.log(wishlist);
+    // console.log('thunk.getLocalWishList');
+    // console.log(wishlist);
     if (wishlist === undefined || wishlist === null) {
       return [];
     } else {

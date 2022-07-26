@@ -5,6 +5,7 @@ import { getLocalWishList } from './FavoriteScreenThunk';
 
 const initialState = {
   wishlist: [],
+  count: 0,
   isLoading: false,
 };
 
@@ -18,6 +19,7 @@ const favoriteSlice = createSlice({
     },
     onUpdateWishList: (state, action) => {
       const data = action.payload;
+      state.count = state.count + 1; //getLocalWishList được gọi khi count thay đổi
       saveLocalStorage(KEY_LOCAL_WISHLIST, data);
     },
   },
