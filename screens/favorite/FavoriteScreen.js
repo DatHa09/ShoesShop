@@ -11,7 +11,7 @@ import {COLORS, FONTS} from '../../common/Theme';
 import {screens} from '../../common/Contants';
 import AppBarProduct from '../../common/AppBarProduct';
 import {globalStyles} from '../../common/style/globalStyle';
-import {faCheck} from '@fortawesome/free-solid-svg-icons';
+import {faCheck, faXmark} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
@@ -24,129 +24,81 @@ import {onUpdateCart} from '../cart/CartScreenSlice';
 
 export default function FavoriteScreen() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [notification, setNotification] = useState('');
+  const [notification, setNotification] = useState({
+    isSuccess: false,
+    message: '',
+  });
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const wishList = useSelector(state => state.favoriteReducer.wishlist);
   const cart = useSelector(state => state.cartReducer.cart);
-  const countChange = useSelector(state => state.favoriteReducer.count);
+
+  //Với mỗi lần press delete thì sẽ get cart và wishlist
+  const countFavoriteChange = useSelector(state => state.favoriteReducer.count);
+  const countCartChange = useSelector(state => state.cartReducer.count);
+
   useEffect(() => {
     dispatch(getLocalWishList());
+  }, [countFavoriteChange]);
+
+  useEffect(() => {
     dispatch(getLocalCart());
-  }, [countChange]);
+  }, [countCartChange]);
 
-  //còn bug ở đây
-  const onPressAddToCart = (item, setIsDisabled) => {
-    const newCart = [...cart];
-    let cartItemQty = 0;
-    let cartItemIndex = 0;
-    cart.forEach((cartItem, cartIndex) => {
-      if (cartItem.id === item.id && cartItem.size === item.size) {
-        cartItemQty = cartItem.qty + 1;
-        cartItemIndex = cartIndex;
+  const onCheckItemInCart = (item, setIsDisabled) => {
+    let isExist = false;
+    // check item trong cart
+    // cart empty
+    if (cart.length === 0) {
+      isExist = false;
+      //ko tồn tại item trong cart
+    } else {
+      //cart có item
+
+      //kiểm tra sp wishlist có trong cart ko
+      const existFavoriteIndex = cart.findIndex(
+        cartItem => cartItem.id === item.id && cartItem.size === item.size,
+      );
+      if (existFavoriteIndex !== -1) {
+        isExist = true;
+        setIsDisabled(true);
+      } else {
+        isExist = false;
+        setIsDisabled(false);
       }
-    });
+    }
 
-    if (cartItemQty === 0) {
-      setIsDisabled(false);
+    if (isExist) {
+      setModalVisible(true);
+      setNotification({
+        isSuccess: false,
+        message: 'This product is already in your cart!',
+      });
+      setTimeout(() => {
+        setModalVisible(false);
+      }, 1000);
+    } else {
+      const newCart = [...cart];
       newCart.push(item);
-    }
-    if ((cartItemQty >= 1) & (cartItemQty <= 4)) {
-      setIsDisabled(false);
-      const newItem = {
-        id: item.id,
-        image: item.image,
-        name: item.name,
-        price: item.price,
-        qty: cartItemQty,
-        size: item.size,
-        totalPrice: item.totalPrice,
-      };
-      newCart.splice(cartItemIndex, 1, newItem);
-    }
-    if ((cartItemQty = 5)) {
+      dispatch(onUpdateCart(newCart));
+
       setIsDisabled(true);
+
+      setModalVisible(true);
+      setNotification({
+        isSuccess: true,
+        message: 'Added to Cart Successfully!',
+      });
+
+      setTimeout(() => {
+        setModalVisible(false);
+      }, 500);
     }
-    console.log('~ cartItemQty', cartItemQty);
-    console.log('~ cartItemIndex', cartItemIndex);
-    console.log('newCart', newCart);
-    dispatch(onUpdateCart(newCart));
-  };
-
-  const onPressAddAll = () => {
-    console.log('onPressAddAll');
-    // let isExist = false;
-    // if (cart.length !== 0) {
-    //   const newCart = [...cart];
-    //   console.log('~ newCart', newCart.sort());
-    //   const newWishList = [...wishList];
-    //   console.log('~ newWishList', newWishList.sort());
-    //   newCart.sort().forEach((cartItem, cartIndex) => {
-    //     newWishList.sort().forEach(wishListItem => {
-    //       if (
-    // cartItem.id === wishListItem.id &&
-    // cartItem.size === wishListItem.size
-    //       ) {
-    //         isExist = true;
-    // const newItem = {
-    //   id: cartItem.id,
-    //   image: cartItem.image,
-    //   name: cartItem.name,
-    //   price: cartItem.price,
-    //   qty: cartItem.qty + 1,
-    //   size: cartItem.size,
-    //   totalPrice: cartItem.totalPrice,
-    // };
-    // newCart.splice(cartIndex, 1, newItem);
-    //       } else {
-    //         newCart.push(wishListItem);
-    //       }
-    //       // if (
-    //       // cartItem.id === wishListItem.id &&
-    //       // cartItem.size === wishListItem.size
-    //       // ) {
-    //       //   console.log('have item wishlist in cart');
-    //       // const newItem = {
-    //       //   id: cartItem.id,
-    //       //   image: cartItem.image,
-    //       //   name: cartItem.name,
-    //       //   price: cartItem.price,
-    //       //   qty: cartItem.qty + 1,
-    //       //   size: cartItem.size,
-    //       //   totalPrice: cartItem.totalPrice
-    //       // }
-    //       //   cartItem.qty = cartItem.qty + 1;
-    //       //   // console.log('cartItem: ', cartItem.id, cartItem.size, cartItem.qty)
-    //       // } else {
-    //       // newCart.push(wishListItem);
-    //       // console.log('no item wishlist in cart');
-    //       // }
-    //     });
-    //   });
-    //   dispatch(onUpdateCart(newCart));
-    //   // if (!isExist) {
-    //   //   console.log('no item wishlist in cart');
-    //   //   const newCart = [...cart, ...wishList];
-    //   //   dispatch(onUpdateCart(newCart));
-    //   //   console.log('newCart(cart != 0) ', newCart);
-    //   // }
-    // } else {
-    //   const newCart = [...cart, ...wishList];
-    //   dispatch(onUpdateCart(newCart));
-    //   console.log('newCart(cart = 0) ', newCart);
-    // }
-    // setModalVisible(true);
-    // setNotification('Added to cart successfully!');
-
-    // setTimeout(() => {
-    //   setModalVisible(false);
-    // }, 1000);
   };
 
   const onPressDeleteItem = deleteItemIndex => {
-    // console.log('onPressDeleteItem', deleteItemIndex);
     const newWishList = wishList.filter(
       (_, index) => index !== deleteItemIndex,
     );
@@ -160,7 +112,7 @@ export default function FavoriteScreen() {
         index={index}
         cart={cart}
         onPressDeleteItem={onPressDeleteItem}
-        onPressAddToCart={onPressAddToCart}
+        onCheckItemInCart={onCheckItemInCart}
       />
     );
   };
@@ -247,29 +199,7 @@ export default function FavoriteScreen() {
               paddingHorizontal: 16,
               borderTopWidth: 1,
               borderTopColor: COLORS.secondary,
-            }}>
-            {/* button add to cart */}
-            <TouchableOpacity
-              onPress={() => onPressAddAll()}
-              style={{
-                marginVertical: 24,
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  padding: 4,
-                  paddingTop: 8,
-                  borderRadius: 8,
-                  fontFamily: FONTS.fontFamilySemiBold,
-                  color: COLORS.secondary,
-                  fontSize: 18,
-                  backgroundColor: COLORS.black3,
-                  height: 48,
-                }}>
-                Add All To Cart
-              </Text>
-            </TouchableOpacity>
-          </View>
+            }}></View>
         )}
       </View>
 
@@ -282,15 +212,26 @@ export default function FavoriteScreen() {
           setModalVisible(!modalVisible);
         }}>
         <View style={globalStyles.centeredView}>
-          <View style={globalStyles.modalView}>
+          <View
+            style={[
+              globalStyles.modalView,
+              {
+                backgroundColor: notification.isSuccess
+                  ? COLORS.backgroundSuccess
+                  : COLORS.backgroundError,
+                borderColor: notification.isSuccess
+                  ? COLORS.borderSuccess
+                  : COLORS.borderError,
+              },
+            ]}>
             <View style={globalStyles.modalView_container}>
               <FontAwesomeIcon
-                icon={faCheck}
-                color={COLORS.green}
+                icon={notification.isSuccess ? faCheck : faXmark}
+                color={notification.isSuccess ? COLORS.green : COLORS.red}
                 size={24}
                 style={{marginRight: 12}}
               />
-              <Text style={globalStyles.modalText}>{notification}</Text>
+              <Text style={globalStyles.modalText}>{notification.message}</Text>
             </View>
           </View>
         </View>

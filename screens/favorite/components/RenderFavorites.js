@@ -10,14 +10,14 @@ import {Swipeable} from 'react-native-gesture-handler';
 import {ICONS} from '../../../common/Images';
 import {onUpdateCart} from '../../cart/CartScreenSlice';
 import {useDispatch} from 'react-redux';
-import { onSizeSelected } from '../../detail/DetailScreenSlice';
+import {onSizeSelected} from '../../detail/DetailScreenSlice';
 
 export default function RenderFavorites({
   item,
   index,
   cart,
   onPressDeleteItem,
-  onPressAddToCart,
+  onCheckItemInCart,
 }) {
   //sử dụng reference để tránh swipeable vẫn active khi delete item
   const swipeableRef = useRef(null);
@@ -25,6 +25,16 @@ export default function RenderFavorites({
   const dispatch = useDispatch();
 
   const [isDisabled, setIsDisabled] = useState(false);
+
+  const existFavoriteIndex = cart.findIndex(
+    cartItem => cartItem.id === item.id && cartItem.size === item.size,
+  );
+
+  useEffect(() => {
+    if (existFavoriteIndex !== -1) {
+      setIsDisabled(true);
+    } else setIsDisabled(false);
+  }, [existFavoriteIndex]);
 
   const onSelectedItem = () => {
     //set default value
@@ -169,7 +179,7 @@ export default function RenderFavorites({
             </View>
 
             <TouchableOpacity
-              onPress={() => onPressAddToCart(item, setIsDisabled)}
+              onPress={() => onCheckItemInCart(item, setIsDisabled)}
               disabled={isDisabled}>
               {/* content right */}
               <FontAwesomeIcon
