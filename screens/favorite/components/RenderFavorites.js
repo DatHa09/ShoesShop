@@ -1,69 +1,41 @@
 import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faCartPlus, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {COLORS, FONTS, SIZES} from '../../../common/Theme';
 import {screens} from '../../../common/Contants';
 import {useNavigation} from '@react-navigation/native';
 import Animated from 'react-native-reanimated';
 import {Swipeable} from 'react-native-gesture-handler';
 import {ICONS} from '../../../common/Images';
+import {onUpdateCart} from '../../cart/CartScreenSlice';
+import {useDispatch} from 'react-redux';
 import { onSizeSelected } from '../../detail/DetailScreenSlice';
-import { useDispatch } from 'react-redux';
 
-export default function RenderCart({
+export default function RenderFavorites({
   item,
   index,
-  updateItemCart,
+  cart,
   onPressDeleteItem,
+  onPressAddToCart,
 }) {
   //sử dụng reference để tránh swipeable vẫn active khi delete item
-
   const swipeableRef = useRef(null);
-
-  const [quantity, setQuantity] = useState(item.qty);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setQuantity(item.qty);
-  }, [item.qty]);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const onSelectedItem = () => {
     //set default value
     dispatch(onSizeSelected(''));
-    
+
     navigation.navigate(screens.detail_screen, {
       idScreen: screens.detail_screen,
       nameScreen: item.name,
       idProduct: item.id,
     });
   };
-
-  const onPressMinus = async () => {
-    let newQuantity = quantity - 1;
-    if (quantity <= 1) {
-      newQuantity = 1;
-      setQuantity(1);
-      let price = quantity * item.price;
-      updateItemCart(item.id, item.size, newQuantity, price);
-    } else {
-      setQuantity(quantity - 1);
-      let price = quantity * item.price;
-      updateItemCart(item.id, item.size, newQuantity, price);
-    }
-  };
-
-  const onPressPlus = () => {
-    let newQuantity = quantity + 1;
-    setQuantity(quantity + 1);
-    let price = quantity * item.price;
-    updateItemCart(item.id, item.size, newQuantity, price);
-  };
-
-  // const closeSwipeable = () => {
-  //   swipeableRef.current.close();
-  // };
 
   const renderRight = () => {
     return (
@@ -152,82 +124,61 @@ export default function RenderCart({
                 </Text>
                 <View
                   style={{
-                    width: 64,
-                    height: 32,
-                    borderColor: COLORS.secondary,
-                    borderWidth: 1,
-                    marginTop: 8,
-                    paddingBottom: 4,
-                    justifyContent: 'center',
+                    flexDirection: 'row',
                     alignItems: 'center',
-                    borderRadius: 16,
+                    marginTop: 8,
                   }}>
+                  <View
+                    style={{
+                      width: 64,
+                      height: 32,
+                      borderColor: COLORS.secondary,
+                      borderWidth: 1,
+                      // marginTop: 8,
+                      paddingBottom: 4,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 16,
+                    }}>
+                    <Text
+                      style={{
+                        fontFamily: FONTS.fontFamilyBold,
+                        color: COLORS.secondary,
+                        fontSize: 14,
+                      }}>
+                      size {item.size}
+                    </Text>
+                  </View>
+
                   <Text
                     style={{
-                      fontFamily: FONTS.fontFamilyBold,
-                      color: COLORS.secondary,
-                      fontSize: 14,
+                      height: 32,
+                      fontFamily: FONTS.fontFamilySemiBold,
+                      color: COLORS.black3,
+                      fontSize: 20,
+                      paddingBottom: 8,
+                      marginLeft: 8,
                     }}>
-                    size {item.size}
+                    $
+                    {item.price
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                   </Text>
                 </View>
               </View>
             </View>
 
-            {/* content right */}
-            {/* price, qty */}
-            <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <TouchableOpacity
-                  onPress={() => onPressMinus()}
-                  disabled={quantity === 1 ? true : false}
-                  style={{marginRight: 4}}>
-                  <FontAwesomeIcon
-                    icon={faMinus}
-                    size={20}
-                    color={quantity === 1 ? COLORS.lightGray4 : COLORS.black3}
-                  />
-                </TouchableOpacity>
-                {/* qty */}
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    marginRight: 4,
-                    color: COLORS.black3,
-                    fontSize: 24,
-                    fontFamily: FONTS.fontFamilyMedium,
-                    paddingBottom: 4,
-                    width: 32,
-                  }}>
-                  {quantity}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => onPressPlus()}
-                  disabled={quantity === 30 ? true : false}>
-                  <FontAwesomeIcon
-                    icon={faPlus}
-                    size={20}
-                    color={quantity === 30 ? COLORS.lightGray4 : COLORS.black3}
-                  />
-                </TouchableOpacity>
-              </View>
-              <Text
-                style={{
-                  fontFamily: FONTS.fontFamilyBold,
-                  color: COLORS.black3,
-                  fontSize: 16,
-                  paddingBottom: 8,
-                }}>
-                $
-                {(quantity * item.price)
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              </Text>
-            </View>
+            <TouchableOpacity
+              onPress={() => onPressAddToCart(item, setIsDisabled)}
+              disabled={isDisabled}>
+              {/* content right */}
+              <FontAwesomeIcon
+                icon={faCartPlus}
+                color={isDisabled ? COLORS.darkGray : COLORS.secondary}
+                size={32}
+                style={{paddingBottom: 8}}
+              />
+            </TouchableOpacity>
           </View>
         </Animated.View>
       </Swipeable>

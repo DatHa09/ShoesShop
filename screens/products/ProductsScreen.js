@@ -7,6 +7,7 @@ import StaggeredList from '@mindinventory/react-native-stagger-view';
 import {screens} from '../../common/Contants';
 import AppBarProduct from '../../common/AppBarProduct';
 import {useNavigation} from '@react-navigation/native';
+import { onSizeSelected } from '../detail/DetailScreenSlice';
 
 export default function ProductsScreen({route}) {
   const {idScreen, nameScreen, gender} = route.params;
@@ -31,6 +32,9 @@ export default function ProductsScreen({route}) {
   }, [idScreen || gender]);
 
   const onselectProduct = item => {
+    //set default value
+    dispatch(onSizeSelected(''));
+
     navigation.navigate(screens.detail_screen, {
       idScreen: screens.detail_screen,
       nameScreen: item.name,

@@ -24,8 +24,10 @@ export default function Products() {
   );
   return (
     <View>
-      {/* <MenShoes />
-      <WomenShoes /> */}
+      {/* 
+        MenShoes
+        WomenShoes
+      */}
       <Text
         style={{
           fontFamily: FONTS.fontFamilyBold,
@@ -97,7 +99,6 @@ export default function Products() {
         );
       })}
       <FeaturedShoes />
-      {/* <RelatedShoes/> */}
     </View>
   );
 }

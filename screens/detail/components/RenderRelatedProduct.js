@@ -1,17 +1,26 @@
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { screens } from '../../../common/Contants';
-import { COLORS, FONTS, SIZES } from '../../../common/Theme';
+import {useNavigation} from '@react-navigation/native';
+import {screens} from '../../../common/Contants';
+import {COLORS, FONTS, SIZES} from '../../../common/Theme';
+import { useDispatch } from 'react-redux';
+import { onSizeSelected } from '../DetailScreenSlice';
 
-export default function RenderRelatedProduct({item, scrollRef}) {
+export default function RenderRelatedProduct({item, scrollRef, setIsLike}) {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const onselectProduct = item => {
     //scrollTo Top
     scrollRef.current?.scrollTo({
       y: 0,
       animated: true,
     });
+
+    //set default
+    //setIsLike false
+    //dispatch(onSizeSelected(''))
+    setIsLike(false);
+    dispatch(onSizeSelected(''));
 
     navigation.navigate(screens.detail_screen, {
       idScreen: screens.detail_screen,

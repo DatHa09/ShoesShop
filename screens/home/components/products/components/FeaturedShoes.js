@@ -6,6 +6,7 @@ import {COLORS, FONTS, SIZES} from '../../../../../common/Theme';
 import {useNavigation} from '@react-navigation/native';
 import {screens} from '../../../../../common/Contants';
 import { getLocalCart } from '../../../../cart/CartScreenThunk';
+import { onSizeSelected } from '../../../../detail/DetailScreenSlice';
 
 export default function FeaturedShoes() {
   const dispatch = useDispatch();
@@ -36,6 +37,9 @@ export default function FeaturedShoes() {
   };
 
   const onSelectedItem = item => {
+    //set default value
+    dispatch(onSizeSelected(''));
+
     navigation.navigate(screens.detail_screen, {
       idScreen: screens.detail_screen,
       nameScreen: item.name,

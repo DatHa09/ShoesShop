@@ -42,7 +42,7 @@ export default function CartScreen() {
     dispatch(getLocalCart());
   }, [countChange]);
 
-  const updateItemCart = (id, size, qty, price) => {
+  const updateItemCart = (id, size, qty) => {
     const newData = cart.map(item => {
       if (item.id === id && item.size === size) {
         let newItem = {
@@ -61,21 +61,8 @@ export default function CartScreen() {
     cart.reduce((total, item) => total + item.totalPrice, 0);
 
   const onPressCheckout = () => {
-    // const ordersInfo = {
-    //   id: uuid.v4(),
-    //   status: 'in process',
-    //   name: profileData.name,
-    //   email: profileData.email,
-    //   phone: profileData.phone,
-    //   grandTotal: totalReduce(cart),
-    //   date: moment().format('LL'),
-    //   time: moment().format('LT'),
-    //   ordersHistory: cart,
-    // };
 
-    // const newOrders = [...orders, ordersInfo];
-    // dispatch(onAddOrder(newOrders));
-
+    //tạo data mới, có productId và quantity
     const newCart = [];
     cart.forEach((item, index) => {
       const data = {

@@ -20,7 +20,6 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-
   const goBack = () => {
     return (
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -58,8 +57,6 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
 
     return newStr;
   };
-
-  
 
   const productAppBar = () => {
     return (
@@ -169,7 +166,6 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
             style={{marginLeft: 32}}>
             <Image source={ICONS.buy} style={{height: 24, width: 24}} />
           </TouchableOpacity>
-          
         </View>
       </>
     );
@@ -203,6 +199,48 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
     );
   };
 
+  const wishListAppBar = () => {
+    return (
+      <>
+        <View
+          style={{
+            flexGrow: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          {/* GoBack */}
+          {goBack()}
+          {/* Title */}
+          <View style={{justifyContent: 'center', marginLeft: 16}}>
+            <Text
+              style={{
+                fontFamily: FONTS.fontFamilyBold,
+                color: COLORS.black3,
+                fontSize: 16,
+                paddingBottom: 4,
+              }}>
+              Favorites
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flexGrow: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          }}>
+          {/* CART */}
+          <TouchableOpacity
+            onPress={() => navigation.navigate(screens.cart_screen)}
+            style={{marginLeft: 32}}>
+            <Image source={ICONS.buy} style={{height: 24, width: 24}} />
+          </TouchableOpacity>
+        </View>
+      </>
+    );
+  };
+
   const appBar = () => {
     switch (idScreen) {
       case screens.search_screen:
@@ -211,6 +249,8 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
         return detailAppBar();
       case screens.cart_screen:
         return cartAppBar();
+      case screens.favorite_screen:
+        return wishListAppBar();
       default:
         return productAppBar();
     }
