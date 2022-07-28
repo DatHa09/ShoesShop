@@ -9,8 +9,10 @@ export const IMAGES = {
   background7: require('../assets/images/splash/background7.png'),
   background_brand: require('../assets/images/home/nike_background.png'),
   avatar_url: require('../assets/images/user/avatar.jpeg'),
+  avatar_url_2: require('../assets/images/user/avatar2.png'),
   not_found: require('../assets/images/notfound/item_not_found.png'),
-  splash: require('../assets/images/splash/splash.jpg')
+  favorite_not_found: require('../assets/images/notfound/favorite_not_found.png'),
+  splash: require('../assets/images/splash/splash.jpg'),
 };
 
 export const ICONS = {
@@ -20,10 +22,13 @@ export const ICONS = {
   menu: require('../assets/icons/menu.png'),
   home: require('../assets/icons/menu/home2.png'),
   profile: require('../assets/icons/menu/profile2.png'),
+  edit_profile: require('../assets/icons/profile/edit_profile.png'),
+  location: require('../assets/icons/profile/location.png'),
   setting: require('../assets/icons/menu/setting2.png'),
   logOut: require('../assets/icons/menu/logOut.png'),
   notification: require('../assets/icons/menu/notification2.png'),
   order: require('../assets/icons/menu/order2.png'),
+  order_history: require('../assets/icons/profile/order_history.png'),
   search: require('../assets/icons/search5.png'),
   heart: require('../assets/icons/menu/heart2.png'),
   favorite: require('../assets/icons/favorite.png'),
@@ -35,5 +40,7 @@ export const ICONS = {
   hide: require('../assets/icons/input/hide.png'),
   email: require('../assets/icons/input/message.png'),
   password: require('../assets/icons/input/password.png'),
+  edit_password: require('../assets/icons/profile/edit_password.png'),
   goBack: require('../assets/icons/goBack.png'),
+  arrow_right: require('../assets/icons/profile/arrow_right.png')
 };

@@ -241,6 +241,52 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
     );
   };
 
+  const profileAppBar = () => {
+    return (
+      <View
+        style={{
+          flexGrow: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        {/* GoBack */}
+        {goBack()}
+      </View>
+    );
+  };
+
+  const profileFeatureAppBar = () => {
+    return (
+      <>
+        <View
+          style={{
+            flexGrow: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          {/* GoBack */}
+          {goBack()}
+          {/* Title */}
+          <View style={{justifyContent: 'center', marginLeft: 16}}>
+            <Text
+              style={{
+                fontFamily: FONTS.fontFamilyBold,
+                color: COLORS.black3,
+                fontSize: 16,
+                paddingBottom: 4,
+              }}>
+              {idScreen === screens.change_password_screen
+                ? 'Change Password'
+                : idScreen === screens.edit_profile_screen
+                ? 'Edit Profile'
+                : idScreen === screens.order_history_screen && 'Order History'}
+            </Text>
+          </View>
+        </View>
+      </>
+    );
+  };
+
   const appBar = () => {
     switch (idScreen) {
       case screens.search_screen:
@@ -251,14 +297,22 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
         return cartAppBar();
       case screens.favorite_screen:
         return wishListAppBar();
+      case screens.profile_screen:
+        return profileAppBar();
+      case screens.change_password_screen:
+        return profileFeatureAppBar();
+      case screens.edit_profile_screen:
+        return profileFeatureAppBar();
+      case screens.order_history_screen:
+        return profileFeatureAppBar();
       default:
         return productAppBar();
     }
   };
-  // console.log('idScreen: ', idScreen);
 
   return (
     <>
+      {/* container appBar */}
       <View
         style={{
           flexDirection: 'row',
@@ -266,11 +320,9 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
           justifyContent: 'space-between',
           height: 56,
           paddingHorizontal: 16,
-          backgroundColor:
-            idScreen === screens.detail_screen || screens.cart_screen
-              ? COLORS.lightGray
-              : COLORS.white,
+          backgroundColor: COLORS.lightGray,
         }}>
+        {/* custom các elements trên appBar */}
         {appBar()}
       </View>
     </>

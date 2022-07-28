@@ -21,26 +21,6 @@ export default function AppBar() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(onSelectedMenu(showMenu));
-
-  //   Animated.timing(scaleValue, {
-  //     toValue: showMenu ? 0.88 : 1,
-  //     duration: 200,
-  //     useNativeDriver: true,
-  //     easing: EasingNode.ease,
-  //   }).start();
-
-  //   //Scaling the screen
-  //   Animated.timing(offsetValue, {
-  //     //your value...
-  //     toValue: showMenu ? 248 : 0,
-  //     duration: 200,
-  //     useNativeDriver: true,
-  //     easing: EasingNode.ease,
-  //   }).start();
-  // }, [showMenu]);
-
   const onShowMenu = () => {
     // setShowMenu(!showMenu);
     navigation.openDrawer();
@@ -84,11 +64,6 @@ export default function AppBar() {
           height: 56,
           backgroundColor: COLORS.black3,
         }}>
-        {/* <FontAwesomeIcon
-          icon={faMagnifyingGlass}
-          size={24}
-          color={COLORS.secondary}
-        /> */}
         <Image
           source={ICONS.search}
           style={{height: 24, width: 24, tintColor: COLORS.secondary}}
@@ -112,11 +87,6 @@ export default function AppBar() {
           padding: 8,
           borderRadius: 32,
         }}>
-        {/* <FontAwesomeIcon
-          icon={faShoppingCart}
-          size={24}
-          color={COLORS.secondary}
-        /> */}
         <Image
           source={ICONS.buy}
           style={{height: 24, width: 24, tintColor: COLORS.secondary}}

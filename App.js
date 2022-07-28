@@ -28,6 +28,9 @@ import CustomDrawer from './navigation/CustomDrawer';
 import SearchScreen from './screens/search/SearchScreen';
 import FavoriteScreen from './screens/favorite/FavoriteScreen';
 import GetStartedScreen from './screens/splash/GetStartedScreen';
+import EditProfileScreen from './screens/editProfile/EditProfileScreen';
+import ChangePasswordScreen from './screens/changePassword/ChangePasswordScreen';
+import OrderHistoryScreen from './screens/orderHistory/OrderHistoryScreen';
 
 const Stack = createStackNavigator();
 
@@ -66,6 +69,18 @@ export default function App() {
           <Stack.Screen
             name={screens.register_screen}
             component={RegisterScreen}
+          />
+          <Stack.Screen
+            name={screens.edit_profile_screen}
+            component={EditProfileScreen}
+          />
+          <Stack.Screen
+            name={screens.change_password_screen}
+            component={ChangePasswordScreen}
+          />
+          <Stack.Screen
+            name={screens.order_history_screen}
+            component={OrderHistoryScreen}
           />
           {/* <Stack.Screen
             name={screens.profile_password_screen}

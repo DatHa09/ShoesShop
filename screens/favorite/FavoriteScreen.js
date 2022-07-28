@@ -125,7 +125,7 @@ export default function FavoriteScreen() {
           alignItems: 'center',
           marginHorizontal: 16,
         }}>
-        <Image source={IMAGES.not_found} />
+        <Image source={IMAGES.favorite_not_found} />
         <Text
           style={{
             fontFamily: FONTS.fontFamilyBold,
