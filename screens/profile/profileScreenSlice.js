@@ -1,12 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {KEY_LOCAL_ORDERS} from '../../common/Contants';
 import {saveLocalStorage} from '../../common/LocalStorage';
-import { getLocalOrders, getProfile } from './profileScreenThunk';
+import {editProfile, getLocalOrders, getProfile} from './profileScreenThunk';
 const initialState = {
   profile: [],
   orders: [],
   isLoading: false,
-  // count: 0,
 };
 
 const profileSlice = createSlice({

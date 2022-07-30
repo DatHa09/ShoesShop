@@ -39,7 +39,7 @@ export const ICONS = {
   show: require('../assets/icons/input/show.png'),
   hide: require('../assets/icons/input/hide.png'),
   email: require('../assets/icons/input/message.png'),
-  password: require('../assets/icons/input/password.png'),
+  password: require('../assets/icons/profile/password.png'),
   edit_password: require('../assets/icons/profile/edit_password.png'),
   goBack: require('../assets/icons/goBack.png'),
   arrow_right: require('../assets/icons/profile/arrow_right.png')

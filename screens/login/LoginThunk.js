@@ -6,6 +6,7 @@ import {getProfile} from '../profile/profileScreenThunk';
 export const checkLogin = createAsyncThunk(
   'login/checkLogin',
   async dataLogin => {
+    console.log('Checking login ', dataLogin.password);
     const resp = await fetch('https://shop.cyberlearn.vn/api/Users/signin', {
       method: 'POST',
       headers: {

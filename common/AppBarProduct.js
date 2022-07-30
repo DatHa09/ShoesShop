@@ -320,7 +320,7 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
           justifyContent: 'space-between',
           height: 56,
           paddingHorizontal: 16,
-          backgroundColor: COLORS.lightGray,
+          backgroundColor: COLORS.lightGray2,
         }}>
         {/* custom các elements trên appBar */}
         {appBar()}

@@ -3,9 +3,9 @@ import React, {useEffect, useRef} from 'react';
 import {COLORS, FONTS} from '../../common/Theme';
 import {useDispatch, useSelector} from 'react-redux';
 import Animated from 'react-native-reanimated';
-import {getLocalOrders} from './profileScreenThunk';
+import {getLocalOrders, getProfile} from './profileScreenThunk';
 import AppBarProduct from '../../common/AppBarProduct';
-import {screens} from '../../common/Contants';
+import {KEY_ACCESS_TOKEN, screens} from '../../common/Contants';
 import {ICONS, IMAGES} from '../../common/Images';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
@@ -13,16 +13,25 @@ import {
   faPhone,
   faVenusMars,
 } from '@fortawesome/free-solid-svg-icons';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 import {styles} from './style/profileStyle';
+import { saveLocalStorage } from '../../common/LocalStorage';
 
 export default function ProfileScreen() {
   const orders = useSelector(state => state.profileReducer.orders);
   const profileData = useSelector(state => state.profileReducer.profile);
+  const token = useSelector(state => state.loginReducer.accessToken);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  console.log(profileData);
+  useEffect(() => {
+    dispatch(getProfile(token));
+  }, [profileData]);
+
+  const onSignOut = ()=>{
+    navigation.dispatch(StackActions.replace(screens.login_screen));
+    saveLocalStorage(KEY_ACCESS_TOKEN, '');
+  }
 
   return (
     <>
@@ -30,7 +39,7 @@ export default function ProfileScreen() {
       {/* container */}
       <View style={styles.container}>
         {/* title */}
-        <Text style={styles.title_container__text}>My Profile</Text>
+        <Text style={styles.title}>My Profile</Text>
         <View style={styles.content_container}>
           {/* profile container */}
           <View style={styles.profile_container}>
@@ -86,6 +95,9 @@ export default function ProfileScreen() {
             </View>
           </View>
 
+          {/* line */}
+          <View style={styles.line} />
+
           {/* edit profile container */}
           <TouchableOpacity
             onPress={() => navigation.navigate(screens.edit_profile_screen)}
@@ -97,14 +109,13 @@ export default function ProfileScreen() {
                 style={styles.tag_profile_container_content_left__image}
               />
               <Text style={styles.tag_profile_container_content_left__text}>
-                Edit profile
+                Edit Profile
               </Text>
             </View>
             <FontAwesomeIcon icon={faChevronRight} size={22} />
           </TouchableOpacity>
 
           {/* change password container */}
-          {/* tag profile */}
           <TouchableOpacity
             onPress={() => navigation.navigate(screens.change_password_screen)}
             style={styles.tag_profile_container}>
@@ -115,7 +126,7 @@ export default function ProfileScreen() {
                 style={styles.tag_profile_container_content_left__image}
               />
               <Text style={styles.tag_profile_container_content_left__text}>
-                Change password
+                Change Password
               </Text>
             </View>
             {/* tag profile content right */}
@@ -123,7 +134,6 @@ export default function ProfileScreen() {
           </TouchableOpacity>
 
           {/* order history container */}
-          {/* tag profile */}
           <TouchableOpacity
             onPress={() => navigation.navigate(screens.order_history_screen)}
             style={styles.tag_profile_container}>
@@ -134,11 +144,32 @@ export default function ProfileScreen() {
                 style={styles.tag_profile_container_content_left__image}
               />
               <Text style={styles.tag_profile_container_content_left__text}>
-                Order history
+                Order History
               </Text>
             </View>
             {/* tag profile content right */}
             <FontAwesomeIcon icon={faChevronRight} size={22} />
+          </TouchableOpacity>
+
+          {/* line */}
+          <View style={styles.line} />
+
+          {/* logout container */}
+          <TouchableOpacity
+            onPress={() => onSignOut()}
+            style={styles.tag_profile_container}>
+            {/* tag profile content left */}
+            <View style={styles.tag_profile_container_content_left}>
+              <Image
+                source={ICONS.logOut}
+                style={[styles.tag_profile_container_content_left__image, styles.logout_icon_color]}
+              />
+              <Text style={[styles.tag_profile_container_content_left__text, styles.logout_color]}>
+                Log Out
+              </Text>
+            </View>
+            {/* tag profile content right */}
+            <FontAwesomeIcon icon={faChevronRight} size={22} color={COLORS.red}/>
           </TouchableOpacity>
         </View>
       </View>

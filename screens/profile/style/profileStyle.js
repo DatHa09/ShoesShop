@@ -6,8 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.lightGray2,
   },
-  title_container: {},
-  title_container__text: {
+  title: {
     marginLeft: 32,
     fontFamily: FONTS.fontFamilySemiBold,
     color: COLORS.black3,
@@ -21,12 +20,19 @@ export const styles = StyleSheet.create({
 
   profile_container: {
     backgroundColor: COLORS.white,
-    marginTop: 40,
+    marginTop: 16,
     padding: 16,
     backgroundColor: COLORS.secondary,
     borderRadius: 16,
     elevation: 16,
   },
+
+  line: {
+    marginTop: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.secondary,
+  },
+
   profile_container_content_center: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -84,11 +90,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: COLORS.white,
-    marginTop: 40,
+    marginTop: 24,
     padding: 16,
-    backgroundColor: COLORS.secondary,
+    backgroundColor: COLORS.white,
     borderRadius: 16,
-    elevation: 16,
+    // elevation: 16,
   },
   tag_profile_container_content_left: {
     flexDirection: 'row',
@@ -103,6 +109,13 @@ export const styles = StyleSheet.create({
     fontFamily: FONTS.fontFamilySemiBold,
     fontSize: 22,
     color: COLORS.black3,
+  },
+
+  logout_color: {
+    color: COLORS.red,
+  },
+  logout_icon_color: {
+    tintColor: COLORS.red,
   },
 
   avatar: {
