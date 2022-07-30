@@ -58,10 +58,6 @@ export default function RegisterForm() {
 
   const [isSuccess, setIsSuccess] = useState(false);
 
-  useEffect(() => {
-    console.log('isSuccess: ', isSuccess);
-  }, [isSuccess]);
-
   const validationSchema = Yup.object({
     name: Yup.string().required('Please enter your name.').min(5, 'Too short.'),
     email: Yup.string()
@@ -76,7 +72,10 @@ export default function RegisterForm() {
       .min(6, 'Minimum 6 characters required.'),
     passwordConfirm: Yup.string()
       .required('Please enter your password again.')
-      .oneOf([Yup.ref('password')], 'Password must be the same!'),
+      .oneOf(
+        [Yup.ref('password')],
+        'Password does not match!',
+      ),
     phone: Yup.string()
       .required('Please enter your phone number.')
       .matches(phoneRegex, 'Your phone number not valid'),
