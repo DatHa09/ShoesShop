@@ -7,7 +7,7 @@ import StaggeredList from '@mindinventory/react-native-stagger-view';
 import {screens} from '../../common/Contants';
 import AppBarProduct from '../../common/AppBarProduct';
 import {useNavigation} from '@react-navigation/native';
-import { onSizeSelected } from '../detail/DetailScreenSlice';
+import {onSizeSelected} from '../detail/DetailScreenSlice';
 
 export default function ProductsScreen({route}) {
   const {idScreen, nameScreen, gender} = route.params;
@@ -38,7 +38,7 @@ export default function ProductsScreen({route}) {
     navigation.navigate(screens.detail_screen, {
       idScreen: screens.detail_screen,
       nameScreen: item.name,
-      idProduct: item.id
+      idProduct: item.id,
     });
   };
 
@@ -161,6 +161,7 @@ export default function ProductsScreen({route}) {
         </View>
       ) : (
         <StaggeredList
+          showsVerticalScrollIndicator={false}
           style={{padding: 8, paddingTop: 0}}
           data={confirmData()}
           animationType={'FADE_IN_FAST'}
