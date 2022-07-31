@@ -127,7 +127,7 @@ export default function SearchScreen() {
             textAlign: 'center',
             fontSize: 16,
           }}>
-          Try a more generic search term or try looking for alternative
+          Try a more generic search term {'\n'}or try looking for alternative
           products.
         </Text>
       </View>
