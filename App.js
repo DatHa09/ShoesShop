@@ -8,10 +8,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 //import screens
 import LoginScreen from './screens/login/LoginScreen';
-import ForgotPasswordScreen from './screens/forgotPassword/ForgotPasswordScreen';
-import UpdatePasswordScreen from './screens/forgotPassword/UpdatePasswordScreen';
 import RegisterScreen from './screens/register/RegisterScreen';
-// import ProfileAndPasswordScreen from './screens/register/ProfileAndPasswordScreen';
 import HomeScreen from './screens/home/HomeScreen';
 
 //import theme
@@ -59,14 +56,6 @@ export default function App() {
             component={FavoriteScreen}
           />
           <Stack.Screen
-            name={screens.forgot_password_screen}
-            component={ForgotPasswordScreen}
-          />
-          <Stack.Screen
-            name={screens.update_password_screen}
-            component={UpdatePasswordScreen}
-          />
-          <Stack.Screen
             name={screens.register_screen}
             component={RegisterScreen}
           />
@@ -82,10 +71,6 @@ export default function App() {
             name={screens.order_history_screen}
             component={OrderHistoryScreen}
           />
-          {/* <Stack.Screen
-            name={screens.profile_password_screen}
-            component={ProfileAndPasswordScreen}
-          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

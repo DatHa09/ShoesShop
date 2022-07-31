@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {KEY_LOCAL_CART} from '../../common/Contants';
 import {getLocalStorage} from '../../common/LocalStorage';
+import {getProfile} from '../profile/profileScreenThunk';
 
 export const getLocalCart = createAsyncThunk('cart/getLocalCart', async () => {
   let cart = await getLocalStorage(KEY_LOCAL_CART);
@@ -13,7 +14,7 @@ export const getLocalCart = createAsyncThunk('cart/getLocalCart', async () => {
 
 export const checkoutOrder = createAsyncThunk(
   'order/checkoutOrder',
-  async dataCheckout => {
+  async (dataCheckout, {dispatch}) => {
     const resp = await fetch('https://shop.cyberlearn.vn/api/Users/order', {
       method: 'POST',
       headers: {
@@ -25,6 +26,7 @@ export const checkoutOrder = createAsyncThunk(
         email: dataCheckout.email,
       }),
     });
+    dispatch(getProfile(dataCheckout.token));
     const json = await resp.json();
     return json;
   },

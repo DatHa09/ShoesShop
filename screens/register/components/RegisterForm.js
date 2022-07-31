@@ -56,7 +56,11 @@ export default function RegisterForm() {
   const [isHideNewPassword, setIsHideNewPassword] = useState(true);
   const [isHideConfirmPassword, setIsHideConfirmPassword] = useState(true);
 
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [notification, setNotification] = useState({
+    isSuccess: false,
+    message: '',
+    messageButton: '',
+  });
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Please enter your name.').min(5, 'Too short.'),
@@ -72,10 +76,7 @@ export default function RegisterForm() {
       .min(6, 'Minimum 6 characters required.'),
     passwordConfirm: Yup.string()
       .required('Please enter your password again.')
-      .oneOf(
-        [Yup.ref('password')],
-        'Password does not match!',
-      ),
+      .oneOf([Yup.ref('password')], 'Password does not match!'),
     phone: Yup.string()
       .required('Please enter your phone number.')
       .matches(phoneRegex, 'Your phone number not valid'),
@@ -84,18 +85,26 @@ export default function RegisterForm() {
   const onHandleSubmit = async values => {
     const result = await dispatch(checkRegister(values));
     if (result.payload.statusCode === 400) {
-      setIsSuccess(false);
+      setNotification({
+        isSuccess: false,
+        message: 'Email address is already registered!',
+        messageButton: 'OK',
+      });
     } else if (
       result.payload.statusCode === 201 ||
       result.payload.statusCode === 200
     ) {
-      setIsSuccess(true);
+      setNotification({
+        isSuccess: true,
+        message: 'Register Successfully!',
+        messageButton: 'Login Now',
+      });
     }
     setModalVisible(true);
   };
 
   const onConfirmRegister = () => {
-    isSuccess
+    notification.isSuccess
       ? navigation.dispatch(StackActions.replace(screens.login_screen))
       : setModalVisible(!modalVisible);
   };
@@ -326,32 +335,30 @@ export default function RegisterForm() {
                   style={[
                     globalStyles.modalView,
                     {
-                      backgroundColor: isSuccess
+                      backgroundColor: notification.isSuccess
                         ? COLORS.backgroundSuccess
                         : COLORS.backgroundError,
-                      borderColor: isSuccess
+                      borderColor: notification.isSuccess
                         ? COLORS.borderSuccess
                         : COLORS.borderError,
                     },
                   ]}>
                   <View style={globalStyles.modalView_container}>
                     <FontAwesomeIcon
-                      icon={isSuccess ? faCheck : faXmark}
-                      color={isSuccess ? COLORS.green : COLORS.red}
+                      icon={notification.isSuccess ? faCheck : faXmark}
+                      color={notification.isSuccess ? COLORS.green : COLORS.red}
                       size={24}
                       style={{marginRight: 12}}
                     />
                     <Text style={globalStyles.modalText}>
-                      {isSuccess
-                        ? 'Register Successfully!'
-                        : 'Email address is already registered!'}
+                      {notification.message}
                     </Text>
                   </View>
                   <TouchableOpacity
                     style={[globalStyles.button, globalStyles.buttonClose]}
                     onPress={() => onConfirmRegister()}>
                     <Text style={globalStyles.textStyle}>
-                      {isSuccess ? 'Login Now' : 'OK'}
+                      {notification.messageButton}
                     </Text>
                   </TouchableOpacity>
                 </View>

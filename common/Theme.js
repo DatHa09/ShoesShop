@@ -13,7 +13,7 @@ export const COLORS = {
   primary: '#434343',
   primary2: '#000000',
   secondary: '#e8c77a',
-  secondary2:'#F3D897',
+  secondary2: '#F3D897',
 
   black: '#1E1F20',
   black2: '#434343',
@@ -22,9 +22,11 @@ export const COLORS = {
 
   green: '#00FE9C',
   backgroundSuccess: '#f6ffed',
-  backgroundError: '#fff2f0',
   borderSuccess: '#b7eb8f',
+  backgroundError: '#fff2f0',
   borderError: '#ffccc7',
+  backgroundWarning: '#FFEBBB',
+  borderWarning: '#F9BB2D',
 
   red: '#f5222d',
 

@@ -4,26 +4,21 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
-  ScrollView,
   Modal,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {COLORS, FONTS} from '../../common/Theme';
 import {useDispatch, useSelector} from 'react-redux';
-import {getLocalStorage, saveLocalStorage} from '../../common/LocalStorage';
-import {KEY_LOCAL_CART, screens} from '../../common/Contants';
+import {screens} from '../../common/Contants';
 import {checkoutOrder, getLocalCart} from './CartScreenThunk';
 import AppBarProduct from '../../common/AppBarProduct';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCheck, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import RenderCart from './components/RenderCart';
 import {onUpdateCart} from './CartScreenSlice';
-import uuid from 'react-native-uuid';
-import moment from 'moment';
 import {IMAGES} from '../../common/Images';
 import {useNavigation} from '@react-navigation/native';
 import {globalStyles} from '../../common/style/globalStyle';
-import {onAddOrder} from '../profile/profileScreenSlice';
 
 export default function CartScreen() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,6 +28,8 @@ export default function CartScreen() {
   const navigation = useNavigation();
 
   const cart = useSelector(state => state.cartReducer.cart) || [];
+  console.log('~ cart', cart);
+  const token = useSelector(state => state.loginReducer.accessToken);
 
   const countCartChange = useSelector(state => state.cartReducer.count);
   const profileData = useSelector(state => state.profileReducer.profile);
@@ -60,7 +57,6 @@ export default function CartScreen() {
     cart.reduce((total, item) => total + item.totalPrice, 0);
 
   const onPressCheckout = () => {
-
     //tạo data mới, có productId và quantity
     const newCart = [];
     cart.forEach((item, index) => {
@@ -71,17 +67,18 @@ export default function CartScreen() {
       newCart.push(data);
     });
 
+    //thêm token vào để khi checkout, ta gọi luôn getProfile để update lại orderHistory
     const dataCheckout = {
       orderDetail: [...newCart],
       email: profileData.email,
+      token: token,
     };
+
     // console.log(dataCheckout);
     dispatch(checkoutOrder(dataCheckout));
 
     setModalVisible(true);
-    setNotification(
-      "Your order has been placed!\nWe'll contact to you soon!",
-    );
+    setNotification("Your order has been placed!\nWe'll contact to you soon!");
     //delete cart khi nhấn checkout
     dispatch(onUpdateCart([]));
     setTimeout(() => {

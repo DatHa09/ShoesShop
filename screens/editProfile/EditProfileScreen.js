@@ -13,8 +13,7 @@ import {Picker} from '@react-native-picker/picker';
 
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import moment from "moment";
-import 'moment/locale/en-gb'
+
 import {globalStyles} from '../../common/style/globalStyle';
 import {
   faCheck,
@@ -30,16 +29,25 @@ import {COLORS, SIZES} from '../../common/Theme';
 import {styles} from './style/EditProfileStyle';
 
 import {useDispatch, useSelector} from 'react-redux';
-import { editProfile, getProfile } from '../profile/profileScreenThunk';
+import {editProfile, getProfile} from '../profile/profileScreenThunk';
 
 export default function EditProfileScreen() {
   const profileData = useSelector(state => state.profileReducer.profile);
+  console.log("~ profileData", profileData)
+  const countProfile = useSelector(state => state.profileReducer.count);
   const token = useSelector(state => state.loginReducer.accessToken);
 
   const dispatch = useDispatch();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [notification, setNotification] = useState({
+    isSuccess: false,
+    message: '',
+  });
+
+  useEffect(() => {
+    getProfile(token);
+  }, [countProfile]);
 
   const initialValues = {
     name: profileData.name,
@@ -59,27 +67,21 @@ export default function EditProfileScreen() {
   });
 
   const onHandleSubmit = async values => {
-    if (values.email !== profileData.email) {
-      setIsSuccess(false);
-    } else {
-      const newValues = {
-        ...values,
-        password: '',
-        token: token,
-      };
-      const datetime = '2022-07-30T05:20:24'
-      console.log(moment(datetime).format('LL'));
+    const newValues = {
+      ...values,
+      password: '',
+      token: token,
+    };
 
-      const result = await dispatch(editProfile(newValues));
-      if (result.payload.statusCode === 500) {
-        //nhập sai email
-        setIsSuccess(false);
-      } else if (
-        result.payload.statusCode === 201 ||
-        result.payload.statusCode === 200
-      ) {
-        setIsSuccess(true);
-      }
+    const result = await dispatch(editProfile(newValues));
+    if (
+      result.payload.statusCode === 201 ||
+      result.payload.statusCode === 200
+    ) {
+      setNotification({
+        isSuccess: true,
+        message: 'Update profile successfully!',
+      });
     }
     setModalVisible(true);
   };
@@ -135,12 +137,17 @@ export default function EditProfileScreen() {
                   <View style={styles.input_container__input}>
                     <FontAwesomeIcon icon={faEnvelope} size={20} />
                     <TextInput
+                      editable={false}
                       placeholder={`Email`}
                       onChangeText={props.handleChange('email')}
                       onBlur={props.handleBlur('email')}
                       value={props.values.email}
                       placeholderTextColor="#fff"
-                      style={[styles.input, styles.text_input]}
+                      style={[
+                        styles.input,
+                        styles.text_input,
+                        styles.editable_text_input,
+                      ]}
                     />
                   </View>
                   {props.touched.email && props.errors.email && (
@@ -249,25 +256,25 @@ export default function EditProfileScreen() {
                       style={[
                         globalStyles.modalView,
                         {
-                          backgroundColor: isSuccess
+                          backgroundColor: notification.isSuccess
                             ? COLORS.backgroundSuccess
                             : COLORS.backgroundError,
-                          borderColor: isSuccess
+                          borderColor: notification.isSuccess
                             ? COLORS.borderSuccess
                             : COLORS.borderError,
                         },
                       ]}>
                       <View style={globalStyles.modalView_container}>
                         <FontAwesomeIcon
-                          icon={isSuccess ? faCheck : faXmark}
-                          color={isSuccess ? COLORS.green : COLORS.red}
+                          icon={notification.isSuccess ? faCheck : faXmark}
+                          color={
+                            notification.isSuccess ? COLORS.green : COLORS.red
+                          }
                           size={24}
                           style={{marginRight: 12}}
                         />
                         <Text style={globalStyles.modalText}>
-                          {isSuccess
-                            ? 'Update profile successfully!'
-                            : 'Email address not match, unable to update another account!'}
+                          {notification.message}
                         </Text>
                       </View>
                       <TouchableOpacity

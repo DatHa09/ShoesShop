@@ -12,6 +12,7 @@ export const IMAGES = {
   avatar_url_2: require('../assets/images/user/avatar2.png'),
   not_found: require('../assets/images/notfound/item_not_found.png'),
   favorite_not_found: require('../assets/images/notfound/favorite_not_found.png'),
+  orders_not_found: require('../assets/images/notfound/orders_not_found.png'),
   splash: require('../assets/images/splash/splash.jpg'),
 };
 
@@ -38,6 +39,7 @@ export const ICONS = {
   van_converse: require('../assets/icons/brand/van_converse.png'),
   show: require('../assets/icons/input/show.png'),
   hide: require('../assets/icons/input/hide.png'),
+  warning: require('../assets/icons/notification/warning.png'),
   email: require('../assets/icons/input/message.png'),
   password: require('../assets/icons/profile/password.png'),
   edit_password: require('../assets/icons/profile/edit_password.png'),
