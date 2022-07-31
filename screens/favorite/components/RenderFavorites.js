@@ -182,11 +182,19 @@ export default function RenderFavorites({
               onPress={() => onCheckItemInCart(item, setIsDisabled)}
               disabled={isDisabled}>
               {/* content right */}
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 icon={faCartPlus}
                 color={isDisabled ? COLORS.darkGray : COLORS.secondary}
                 size={32}
                 style={{paddingBottom: 8}}
+              /> */}
+              <Image
+                source={
+                  isDisabled
+                    ? ICONS.fill_add_to_cart_dark_gray
+                    : ICONS.fill_add_to_cart
+                }
+                style={{width: 32, height: 32}}
               />
             </TouchableOpacity>
           </View>

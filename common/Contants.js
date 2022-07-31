@@ -1,6 +1,5 @@
 export const screens = {
   get_started_screen: 'GetStartedScreen',
-  drawer_menu: 'DrawerMenu',
   login_screen: 'LoginScreen',
   forgot_password_screen: 'ForgotPasswordScreen',
   register_screen: 'RegisterScreen',
@@ -18,13 +17,8 @@ export const screens = {
   edit_profile_screen: 'EditProfileScreen',
   order_history_screen: 'OrderHistoryScreen',
   products: 'Products',
-  tab_home: 'Home',
-  tab_search: 'Search',
-  tab_profile: 'Profile',
-  tab_notifications: 'Notifications',
-  tab_settings: 'Settings',
-  tab_cart: 'Cart',
-  tab_like: 'Favorite',
+  bottom_tab_home: 'BottomTabHome',
+  
 };
 
 export const categories = {

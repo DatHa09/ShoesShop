@@ -251,6 +251,17 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
         }}>
         {/* GoBack */}
         {goBack()}
+        <View style={{justifyContent: 'center', marginLeft: 16}}>
+            <Text
+              style={{
+                fontFamily: FONTS.fontFamilyBold,
+                color: COLORS.black3,
+                fontSize: 16,
+                paddingBottom: 4,
+              }}>
+              My Profile
+            </Text>
+          </View>
       </View>
     );
   };

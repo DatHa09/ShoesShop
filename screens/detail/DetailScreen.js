@@ -24,6 +24,7 @@ import {
   onAddToWishList,
   onUpdateWishList,
 } from '../favorite/FavoriteScreenSlice';
+import {ICONS} from '../../common/Images';
 
 export default function DetailScreen({route}) {
   const {idScreen, nameScreen, idProduct} = route.params;
@@ -170,11 +171,13 @@ export default function DetailScreen({route}) {
           dispatch(onUpdateWishList(newWishList));
         }
       });
+      setModalVisible(true);
+        setNotification({isSuccess: true, message: 'Deleted from wishlist successfully!'});
     } else {
       //chưa like -> isLike false
       if (currentSize === '') {
         setModalVisible(true);
-        setNotification({isSuccess: false, message: 'Please select a size'});
+        setNotification({isSuccess: false, message: 'Please select a size!'});
       } else {
         const item = {
           id: productDetails.id,
@@ -199,7 +202,7 @@ export default function DetailScreen({route}) {
             setNotification({
               isSuccess: false,
               message:
-                'Already this product with the same size in your wishlist',
+                'Already this product with the same size in your wishlist!',
             });
           } else {
             setIsLike(!isLike);
@@ -269,10 +272,14 @@ export default function DetailScreen({route}) {
                 marginRight: 16,
                 marginBottom: 16,
               }}>
-              <FontAwesomeIcon
+              {/* <FontAwesomeIcon
                 icon={faHeart}
                 size={32}
                 color={isLike ? COLORS.secondary : COLORS.lightGray4}
+              /> */}
+              <Image
+                source={isLike ? ICONS.fill_heart_red : ICONS.heart}
+                style={{width: 32, height: 32}}
               />
             </TouchableOpacity>
           </View>

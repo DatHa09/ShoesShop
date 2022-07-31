@@ -6,12 +6,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.lightGray2,
   },
-  title: {
-    marginLeft: 32,
-    fontFamily: FONTS.fontFamilySemiBold,
-    color: COLORS.black3,
-    fontSize: 32,
-  },
 
   content_container: {
     flex: 1,
@@ -38,7 +32,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   profile_container_content_center__name: {
-    fontSize: 22,
+    fontSize: 20,
     fontFamily: FONTS.fontFamilyBold,
     color: COLORS.black3,
   },
@@ -79,7 +73,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   profile_container_content_left_phone_container__text: {
-    marginLeft: 12,
+    marginLeft: 8,
     fontFamily: FONTS.fontFamilySemiBold,
     fontSize: 16,
     color: COLORS.black3,
@@ -107,7 +101,7 @@ export const styles = StyleSheet.create({
   },
   tag_profile_container_content_left__text: {
     fontFamily: FONTS.fontFamilySemiBold,
-    fontSize: 22,
+    fontSize: 16,
     color: COLORS.black3,
   },
 
@@ -119,8 +113,8 @@ export const styles = StyleSheet.create({
   },
 
   avatar: {
-    width: 96,
-    height: 96,
+    width: 64,
+    height: 64,
     borderRadius: 99,
   },
 });

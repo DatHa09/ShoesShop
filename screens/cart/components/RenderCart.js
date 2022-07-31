@@ -61,10 +61,6 @@ export default function RenderCart({
     updateItemCart(item.id, item.size, newQuantity, price);
   };
 
-  // const closeSwipeable = () => {
-  //   swipeableRef.current.close();
-  // };
-
   const renderRight = () => {
     return (
       <TouchableOpacity
@@ -116,13 +112,10 @@ export default function RenderCart({
             {
               borderRadius: 24,
               borderColor: COLORS.secondary,
-              // borderWidth: 1,
-              // margin: 8,
               marginVertical: 8,
               paddingHorizontal: 8,
               backgroundColor: COLORS.white,
             },
-            // animatedStyle,
           ]}>
           <View
             style={{

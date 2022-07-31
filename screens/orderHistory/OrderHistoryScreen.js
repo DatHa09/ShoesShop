@@ -131,7 +131,7 @@ export default function OrderHistoryScreen() {
         />
         {profileData.ordersHistory.length === 0 && (
           <TouchableOpacity
-            onPress={() => navigation.navigate(screens.tab_home)} //screen default của drawer_menu là home screen
+            onPress={() => navigation.navigate(screens.home_screen)}
             style={{
               justifyContent: 'flex-end',
               marginVertical: 24,

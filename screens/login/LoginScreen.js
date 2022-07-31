@@ -95,7 +95,7 @@ export default function LoginScreen() {
       setModalVisible(true);
       setTimeout(() => {
         setModalVisible(!modalVisible);
-        navigation.dispatch(StackActions.replace(screens.drawer_menu));
+        navigation.dispatch(StackActions.replace(screens.bottom_tab_home));
       }, 500);
     }
   };

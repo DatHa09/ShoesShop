@@ -1,56 +1,25 @@
 import {View, Text, Image, TextInput, TouchableOpacity} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {styles} from './style/AppBarStyle';
 import {COLORS, FONTS} from './Theme';
-
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faMagnifyingGlass,
-  faShoppingCart,
-} from '@fortawesome/free-solid-svg-icons';
 import {ICONS} from './Images';
-import {useDispatch} from 'react-redux';
-import {onSelectedMenu} from '../screens/home/HomeSlice';
-import Animated, {EasingNode} from 'react-native-reanimated';
 import {useNavigation} from '@react-navigation/native';
 import {screens} from './Contants';
 
 export default function AppBar() {
-  const [showMenu, setShowMenu] = useState(false);
-
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
-  const onShowMenu = () => {
-    // setShowMenu(!showMenu);
-    navigation.openDrawer();
-    //Scaling the screen
-  };
   return (
-    <Animated.View
+    <View
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         height: 56,
-        paddingHorizontal: 16,
+        paddingRight: 16,
         marginTop: 8,
         marginBottom: 32,
         backgroundColor: COLORS.transparent,
       }}>
-      {/* MENU */}
-      <TouchableOpacity
-        onPress={() => onShowMenu()}
-        style={{
-          backgroundColor: COLORS.black3,
-          padding: 8,
-          borderRadius: 32,
-        }}>
-        <Image
-          source={ICONS.menu}
-          style={{height: 24, width: 24, tintColor: COLORS.secondary}}
-        />
-      </TouchableOpacity>
       {/* SEARCH */}
       <TouchableOpacity
         onPress={() => navigation.navigate(screens.search_screen)}
@@ -58,10 +27,11 @@ export default function AppBar() {
           flexDirection: 'row',
           flexGrow: 1,
           alignItems: 'center',
-          paddingHorizontal: 16,
-          marginHorizontal: 16,
+          paddingHorizontal: 8,
+          marginLeft: 16,
+          marginRight: 8,
           borderRadius: 99,
-          height: 56,
+          height: 48,
           backgroundColor: COLORS.black3,
         }}>
         <Image
@@ -86,12 +56,16 @@ export default function AppBar() {
           backgroundColor: COLORS.black3,
           padding: 8,
           borderRadius: 32,
+          height: 48,
+          width: 48,
+          alignItems: "center",
+          justifyContent: "center"
         }}>
         <Image
           source={ICONS.buy}
           style={{height: 24, width: 24, tintColor: COLORS.secondary}}
         />
       </TouchableOpacity>
-    </Animated.View>
+    </View>
   );
 }
