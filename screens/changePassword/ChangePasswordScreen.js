@@ -39,7 +39,10 @@ export default function ChangePasswordScreenSlice() {
   const [isHideConfirmPassword, setIsHideConfirmPassword] = useState(true);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [notification, setNotification] = useState({
+    isSuccess: false,
+    message: '',
+  });
 
   const validationSchema = Yup.object({
     newPassword: Yup.string()
@@ -61,24 +64,25 @@ export default function ChangePasswordScreenSlice() {
     };
     //kiểm tra mật khẩu cũ và mật khẩu mới có trùng không
     const checkPassword = await dispatch(checkLogin(loginData));
-    console.log('~ checkPassword', checkPassword.payload.statusCode);
     if (checkPassword.payload.statusCode === 200) {
-      setIsSuccess(false);
+      setNotification({
+        isSuccess: false,
+        message: 'Please enter new password!',
+      });
     } else {
       const newValues = {
         newPassword: values.confirmNewPassword,
         token: token,
       };
       const result = await dispatch(changePassword(newValues));
-      console.log("~ result", result)
-      if (result.payload.statusCode === 500) {
-        //nhập sai email
-        setIsSuccess(false);
-      } else if (
+      if (
         result.payload.statusCode === 201 ||
         result.payload.statusCode === 200
       ) {
-        setIsSuccess(true);
+        setNotification({
+          isSuccess: true,
+          message: 'Change password successfully!',
+        });
       }
     }
     setModalVisible(true);
@@ -213,25 +217,25 @@ export default function ChangePasswordScreenSlice() {
                     style={[
                       globalStyles.modalView,
                       {
-                        backgroundColor: isSuccess
+                        backgroundColor: notification.isSuccess
                           ? COLORS.backgroundSuccess
                           : COLORS.backgroundError,
-                        borderColor: isSuccess
+                        borderColor: notification.isSuccess
                           ? COLORS.borderSuccess
                           : COLORS.borderError,
                       },
                     ]}>
                     <View style={globalStyles.modalView_container}>
                       <FontAwesomeIcon
-                        icon={isSuccess ? faCheck : faXmark}
-                        color={isSuccess ? COLORS.green : COLORS.red}
+                        icon={notification.isSuccess ? faCheck : faXmark}
+                        color={
+                          notification.isSuccess ? COLORS.green : COLORS.red
+                        }
                         size={24}
                         style={{marginRight: 12}}
                       />
                       <Text style={globalStyles.modalText}>
-                        {isSuccess
-                          ? 'Change password successfully!'
-                          : 'Please enter new password!'}
+                        {notification.message}
                       </Text>
                     </View>
                     <TouchableOpacity

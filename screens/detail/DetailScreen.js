@@ -26,7 +26,6 @@ import {
 } from '../favorite/FavoriteScreenSlice';
 
 export default function DetailScreen({route}) {
-  console.log('---------------');
   const {idScreen, nameScreen, idProduct} = route.params;
 
   //--------//

@@ -10,10 +10,10 @@ export const getProfile = createAsyncThunk('token/getProfile', async token => {
       Accept: 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    // body: JSON.stringify(data)
   });
 
   const json = await resp.json();
+  console.log("~ json.content", json.content.ordersHistory)
   return json.content;
 });
 
@@ -65,14 +65,24 @@ export const changePassword = createAsyncThunk(
   },
 );
 
-export const getLocalOrders = createAsyncThunk(
-  'orders/getLocalOrders',
-  async () => {
-    let orders = await getLocalStorage(KEY_LOCAL_ORDERS);
-    if (orders === undefined || orders === null) {
-      return [];
-    } else {
-      return orders;
-    }
+export const deleteOrder = createAsyncThunk(
+  'profile/deleteOrder',
+  async dataUpdateProfile => {
+    const resp = await fetch(
+      'https://shop.cyberlearn.vn/api/Users/deleteOrder',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${dataUpdateProfile.token}`,
+        },
+        body: JSON.stringify({
+          orderId: dataUpdateProfile.orderId,
+        }),
+      },
+    );
+    const json = await resp.json();
+    return json;
   },
 );

@@ -50,7 +50,10 @@ export default function LoginScreen() {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [notification, setNotification] = useState({
+    isSuccess: false,
+    message: '',
+  });
 
   const initialValues = {
     email: '',
@@ -77,7 +80,10 @@ export default function LoginScreen() {
       result.payload.statusCode === 400
     ) {
       console.log('Login failed');
-      setIsSuccess(false);
+      setNotification({
+        isSuccess: false,
+        message: 'Incorrect email address or password!',
+      });
       setModalVisible(true);
     } else if (
       result.payload.statusCode === 201 ||
@@ -85,7 +91,7 @@ export default function LoginScreen() {
     ) {
       console.log('Login successful');
       dispatch(getLocalAccessToken());
-      setIsSuccess(true);
+      setNotification({isSuccess: true, message: 'Login Successfully!'});
       setModalVisible(true);
       setTimeout(() => {
         setModalVisible(!modalVisible);
@@ -242,28 +248,28 @@ export default function LoginScreen() {
                         style={[
                           globalStyles.modalView,
                           {
-                            backgroundColor: isSuccess
+                            backgroundColor: notification.isSuccess
                               ? COLORS.backgroundSuccess
                               : COLORS.backgroundError,
-                            borderColor: isSuccess
+                            borderColor: notification.isSuccess
                               ? COLORS.borderSuccess
                               : COLORS.borderError,
                           },
                         ]}>
                         <View style={globalStyles.modalView_container}>
                           <FontAwesomeIcon
-                            icon={isSuccess ? faCheck : faXmark}
-                            color={isSuccess ? COLORS.green : COLORS.red}
+                            icon={notification.isSuccess ? faCheck : faXmark}
+                            color={
+                              notification.isSuccess ? COLORS.green : COLORS.red
+                            }
                             size={24}
                             style={{marginRight: 12}}
                           />
                           <Text style={globalStyles.modalText}>
-                            {isSuccess
-                              ? 'Login Successfully!'
-                              : 'Incorrect email address or password!'}
+                            {notification.message}
                           </Text>
                         </View>
-                        {!isSuccess && (
+                        {!notification.isSuccess && (
                           <TouchableOpacity
                             style={[
                               globalStyles.button,

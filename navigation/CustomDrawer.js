@@ -9,9 +9,6 @@ import CustomDrawerContent from './components/CustomDrawerContent';
 import Animated from 'react-native-reanimated';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import FavoriteScreen from '../screens/favorite/FavoriteScreen';
-import NotificationScreen from '../screens/notification/NotificationScreen';
-import SettingScreen from '../screens/setting/SettingScreen';
-import LoginScreen from '../screens/login/LoginScreen';
 import CartScreen from '../screens/cart/CartScreen';
 
 const Drawer = createDrawerNavigator();
@@ -30,7 +27,6 @@ export default function CustomDrawer() {
     outputRange: [0, 24],
   });
 
-  const animatedStyle = {borderRadius, transform: [{scale}]};
   return (
     <ImageBackground source={IMAGES.drawer_background} style={{flex: 1}}>
       <Drawer.Navigator
@@ -55,21 +51,10 @@ export default function CustomDrawer() {
           }, 0);
           return <CustomDrawerContent navigation={props.navigation} />;
         }}>
-        {/* <Drawer.Screen name={screens.tab_home}>
-          {props => (
-            <HomeScreen {...props} drawerAnimationStyle={animatedStyle} />
-          )}
-        </Drawer.Screen> */}
         <Drawer.Screen name={screens.tab_home} component={HomeScreen} />
         <Drawer.Screen name={screens.tab_profile} component={ProfileScreen} />
         <Drawer.Screen name={screens.tab_cart} component={CartScreen} />
         <Drawer.Screen name={screens.tab_like} component={FavoriteScreen} />
-        <Drawer.Screen
-          name={screens.tab_notifications}
-          component={NotificationScreen}
-        />
-        <Drawer.Screen name={screens.tab_settings} component={SettingScreen} />
-        {/* <Drawer.Screen name={screens.login_screen} component={LoginScreen} /> */}
       </Drawer.Navigator>
     </ImageBackground>
   );

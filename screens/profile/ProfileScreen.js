@@ -15,23 +15,23 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {styles} from './style/profileStyle';
-import { saveLocalStorage } from '../../common/LocalStorage';
+import {saveLocalStorage} from '../../common/LocalStorage';
 
 export default function ProfileScreen() {
-  const orders = useSelector(state => state.profileReducer.orders);
   const profileData = useSelector(state => state.profileReducer.profile);
+  const countProfile = useSelector(state => state.profileReducer.count);
   const token = useSelector(state => state.loginReducer.accessToken);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useEffect(() => {
     dispatch(getProfile(token));
-  }, [profileData]);
+  }, [countProfile]);
 
-  const onSignOut = ()=>{
+  const onSignOut = () => {
     navigation.dispatch(StackActions.replace(screens.login_screen));
     saveLocalStorage(KEY_ACCESS_TOKEN, '');
-  }
+  };
 
   return (
     <>
@@ -162,14 +162,25 @@ export default function ProfileScreen() {
             <View style={styles.tag_profile_container_content_left}>
               <Image
                 source={ICONS.logOut}
-                style={[styles.tag_profile_container_content_left__image, styles.logout_icon_color]}
+                style={[
+                  styles.tag_profile_container_content_left__image,
+                  styles.logout_icon_color,
+                ]}
               />
-              <Text style={[styles.tag_profile_container_content_left__text, styles.logout_color]}>
+              <Text
+                style={[
+                  styles.tag_profile_container_content_left__text,
+                  styles.logout_color,
+                ]}>
                 Log Out
               </Text>
             </View>
             {/* tag profile content right */}
-            <FontAwesomeIcon icon={faChevronRight} size={22} color={COLORS.red}/>
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              size={22}
+              color={COLORS.red}
+            />
           </TouchableOpacity>
         </View>
       </View>

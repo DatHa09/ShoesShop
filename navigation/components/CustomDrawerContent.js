@@ -152,18 +152,7 @@ export default function CustomDrawerContent({navigation}) {
           )}
           {TabButton(currentTab, screens.tab_cart, ICONS.buy)}
           {TabButton(currentTab, screens.tab_like, ICONS.heart)}
-          {TabButton(
-            currentTab,
-
-            screens.tab_notifications,
-            ICONS.notification,
-          )}
-          {TabButton(
-            currentTab,
-
-            screens.tab_settings,
-            ICONS.setting,
-          )}
+         
         </View>
         {/* Logout */}
         <TouchableOpacity

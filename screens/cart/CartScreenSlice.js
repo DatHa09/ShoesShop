@@ -6,7 +6,6 @@ const initialState = {
   cart: [],
   isLoading: false,
   count: 0,
-  checkoutMessage:{}
 };
 
 const cartSlice = createSlice({
@@ -24,10 +23,6 @@ const cartSlice = createSlice({
       .addCase(getLocalCart.fulfilled, (state, action) => {
         state.cart = action.payload;
       })
-      .addCase(checkoutOrder.fulfilled, (state, action) => {
-        console.log(action.payload)
-        state.checkoutMessage = action.payload;
-      });
   },
 });
 

@@ -33,6 +33,10 @@ export const styles = StyleSheet.create({
     color: COLORS.black,
   },
 
+  editable_text_input:{
+    opacity: 0.5,
+  },
+
   validate_container: {
     flexDirection: 'row',
     alignItems: 'center',

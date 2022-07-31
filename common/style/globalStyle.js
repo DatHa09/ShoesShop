@@ -52,6 +52,9 @@ export const globalStyles = StyleSheet.create({
   buttonClose: {
     backgroundColor: '#2196F3',
   },
+  buttonDelete:{
+    backgroundColor:COLORS.red,
+  },
   textStyle: {
     color: 'white',
     fontFamily: FONTS.fontFamilyBold,
