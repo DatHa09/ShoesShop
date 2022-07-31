@@ -24,20 +24,10 @@ import Categories from './components/categories/Categories';
 import ProductByCategory from './components/productByCategory/ProductByCategory';
 import Animated from 'react-native-reanimated';
 
-export default function HomeScreen({drawerAnimationStyle}) {
-  // const dispatch = useDispatch();
-  // const showMenu = useSelector(state => state.homeReducer.showMenu);
-  // //Animated Properties...
-  // const offsetValue = useRef(new Animated.Value(0)).current;
-
-  // //Scale Initially must be One...
-  // const scaleValue = useRef(new Animated.Value(1)).current;
-  // const closeButtonOffset = useRef(new Animated.Value(0)).current;
-
+export default function HomeScreen() {
   return (
-    <Animated.View
+    <View
       style={{
-        ...drawerAnimationStyle,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -49,23 +39,15 @@ export default function HomeScreen({drawerAnimationStyle}) {
         <ImageBackground
           source={IMAGES.background7}
           style={{
-            backgroundColor: COLORS.secondary,
             flex: 1,
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
-          }}
-          imageStyle={{borderRadius: 24}}>
+          }}>
           <View
             style={{
               flex: 1,
               backgroundColor: 'rgba(0, 0, 0, 0.2)',
             }}>
             {/* app bar */}
-            <AppBar
-            // offsetValue={offsetValue}
-            // scaleValue={scaleValue}
-            // closeButtonOffset={closeButtonOffset}
-            />
+            <AppBar />
 
             {/* title */}
             <View style={styles.title_container}>
@@ -90,6 +72,6 @@ export default function HomeScreen({drawerAnimationStyle}) {
           {/* <ProductByCategory /> */}
         </View>
       </ScrollView>
-    </Animated.View>
+    </View>
   );
 }

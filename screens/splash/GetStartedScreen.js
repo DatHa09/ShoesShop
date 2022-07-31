@@ -18,7 +18,7 @@ export default function GetStartedScreen() {
 
   const onPressStarted = () => {
     if (token !== '') {
-      navigation.dispatch(StackActions.replace(screens.drawer_menu));
+      navigation.dispatch(StackActions.replace(screens.bottom_tab_home));
     } else {
       navigation.dispatch(StackActions.replace(screens.login_screen));
     }

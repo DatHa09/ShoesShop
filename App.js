@@ -9,7 +9,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 //import screens
 import LoginScreen from './screens/login/LoginScreen';
 import RegisterScreen from './screens/register/RegisterScreen';
-import HomeScreen from './screens/home/HomeScreen';
 
 //import theme
 import {COLORS} from './common/Theme';
@@ -21,13 +20,13 @@ import store from './store';
 import DetailScreen from './screens/detail/DetailScreen';
 import ProductsScreen from './screens/products/ProductsScreen';
 import CartScreen from './screens/cart/CartScreen';
-import CustomDrawer from './navigation/CustomDrawer';
 import SearchScreen from './screens/search/SearchScreen';
 import FavoriteScreen from './screens/favorite/FavoriteScreen';
 import GetStartedScreen from './screens/splash/GetStartedScreen';
 import EditProfileScreen from './screens/editProfile/EditProfileScreen';
 import ChangePasswordScreen from './screens/changePassword/ChangePasswordScreen';
 import OrderHistoryScreen from './screens/orderHistory/OrderHistoryScreen';
+import BottomTabHomeScreen from './navigation/BottomTabHomeScreen';
 
 const Stack = createStackNavigator();
 
@@ -45,16 +44,21 @@ export default function App() {
             name={screens.get_started_screen}
             component={GetStartedScreen}
           />
+          <Stack.Screen
+            name={screens.bottom_tab_home}
+            options={{headerShown: false}}
+            component={BottomTabHomeScreen}
+          />
           <Stack.Screen name={screens.login_screen} component={LoginScreen} />
-          <Stack.Screen name={screens.drawer_menu} component={CustomDrawer} />
+      
           <Stack.Screen name={screens.detail_screen} component={DetailScreen} />
           <Stack.Screen name={screens.products} component={ProductsScreen} />
-          <Stack.Screen name={screens.cart_screen} component={CartScreen} />
+          {/* <Stack.Screen name={screens.cart_screen} component={CartScreen} /> */}
           <Stack.Screen name={screens.search_screen} component={SearchScreen} />
-          <Stack.Screen
+          {/* <Stack.Screen
             name={screens.favorite_screen}
             component={FavoriteScreen}
-          />
+          /> */}
           <Stack.Screen
             name={screens.register_screen}
             component={RegisterScreen}

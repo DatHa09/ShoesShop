@@ -167,9 +167,9 @@ export default function FavoriteScreen() {
             contentContainerStyle={{marginHorizontal: 8}}
           />
         </View>
-        {wishList.length === 0 ? (
+        {wishList.length === 0 && (
           <TouchableOpacity
-            onPress={() => navigation.navigate(screens.tab_home)} //screen default của drawer_menu là home screen
+            onPress={() => navigation.navigate(screens.home_screen)}
             style={{
               justifyContent: 'flex-end',
               marginVertical: 24,
@@ -190,16 +190,6 @@ export default function FavoriteScreen() {
               Shopping now
             </Text>
           </TouchableOpacity>
-        ) : (
-          // Button add and price
-          <View
-            style={{
-              justifyContent: 'flex-end',
-              backgroundColor: COLORS.lightGray,
-              paddingHorizontal: 16,
-              borderTopWidth: 1,
-              borderTopColor: COLORS.secondary,
-            }}></View>
         )}
       </View>
 
