@@ -1,5 +1,5 @@
 import {View, Text, Image} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {screens} from '../common/Contants';
 import HomeScreen from '../screens/home/HomeScreen';
@@ -8,10 +8,33 @@ import CartScreen from '../screens/cart/CartScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import {ICONS} from '../common/Images';
 import {COLORS} from '../common/Theme';
+import {useDispatch, useSelector} from 'react-redux';
+import {getLocalWishList} from '../screens/favorite/FavoriteScreenThunk';
+import {getLocalCart} from '../screens/cart/CartScreenThunk';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabHomeScreen() {
+  const wishList = useSelector(state => state.favoriteReducer.wishlist);
+  const cart = useSelector(state => state.cartReducer.cart);
+
+  //Với mỗi lần press delete thì sẽ get cart và wishlist
+  const badgeWishlist = useSelector(state => state.favoriteReducer.badge);
+  const badgeCart = useSelector(state => state.cartReducer.badge);
+
+  const [countItemCart, setCountItemCart] = useState(badgeCart);
+  const [countItemWishList, setCountItemWishList] = useState(badgeWishlist);
+
+  useEffect(() => {
+    setCountItemWishList(badgeWishlist);
+  }, [badgeWishlist]);
+
+  useEffect(() => {
+    setCountItemCart(badgeCart);
+  }, [badgeCart]);
+
+  const dispatch = useDispatch();
+
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -56,12 +79,21 @@ export default function BottomTabHomeScreen() {
       />
       <Tab.Screen
         name={screens.favorite_screen}
-        option={{tabBarShowLabel: false, headerShown: false}}
+        // option={{tabBarShowLabel: false, headerShown: false}}
+        options={{
+          tabBarBadge: countItemWishList,
+          tabBarShowLabel: false,
+          headerShown: false,
+        }}
         component={FavoriteScreen}
       />
       <Tab.Screen
         name={screens.cart_screen}
-        option={{tabBarShowLabel: false, headerShown: false}}
+        options={{
+          tabBarBadge: countItemCart,
+          tabBarShowLabel: false,
+          headerShown: false,
+        }}
         component={CartScreen}
       />
       <Tab.Screen

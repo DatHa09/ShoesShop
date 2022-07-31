@@ -6,6 +6,7 @@ const initialState = {
   cart: [],
   isLoading: false,
   count: 0,
+  badge: 0,
 };
 
 const cartSlice = createSlice({
@@ -19,10 +20,10 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder
-      .addCase(getLocalCart.fulfilled, (state, action) => {
-        state.cart = action.payload;
-      })
+    builder.addCase(getLocalCart.fulfilled, (state, action) => {
+      state.badge = action.payload.length;
+      state.cart = action.payload;
+    });
   },
 });
 
