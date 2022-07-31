@@ -6,19 +6,29 @@ import {
   TextInput,
   Modal,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {COLORS, FONTS, SIZES} from './Theme';
 import {ICONS} from './Images';
 import {screens} from './Contants';
 import {useNavigation} from '@react-navigation/native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {fetchSearchProducts} from '../screens/search/SearchThunk';
+import {Badge} from 'react-native-paper';
 
 export default function AppBarProduct({idScreen, nameScreen, gender}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+  const badgeCart = useSelector(state => state.cartReducer.badge);
+
+  const [countItemCart, setCountItemCart] = useState(badgeCart);
+
+  //nếu badge thay đổi thì render set count lại
+  useEffect(() => {
+    setCountItemCart(badgeCart);
+  }, [badgeCart]);
 
   const goBack = () => {
     return (
@@ -106,6 +116,12 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
             onPress={() => navigation.navigate(screens.cart_screen)}
             style={{marginLeft: 32}}>
             <Image source={ICONS.buy} style={{height: 24, width: 24}} />
+            {/* có sản phẩm mới hiện badge */}
+            {countItemCart !== 0 && (
+              <Badge style={{position: 'absolute', top: -8, right: -8}}>
+                {countItemCart}
+              </Badge>
+            )}
           </TouchableOpacity>
         </View>
       </>
@@ -165,6 +181,12 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
             onPress={() => navigation.navigate(screens.cart_screen)}
             style={{marginLeft: 32}}>
             <Image source={ICONS.buy} style={{height: 24, width: 24}} />
+            {/* có sản phẩm mới hiện badge */}
+            {countItemCart !== 0 && (
+              <Badge style={{position: 'absolute', top: -8, right: -8}}>
+                {countItemCart}
+              </Badge>
+            )}
           </TouchableOpacity>
         </View>
       </>
@@ -235,6 +257,12 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
             onPress={() => navigation.navigate(screens.cart_screen)}
             style={{marginLeft: 32}}>
             <Image source={ICONS.buy} style={{height: 24, width: 24}} />
+            {/* có sản phẩm mới hiện badge */}
+            {countItemCart !== 0 && (
+              <Badge style={{position: 'absolute', top: -8, right: -8}}>
+                {countItemCart}
+              </Badge>
+            )}
           </TouchableOpacity>
         </View>
       </>
@@ -252,16 +280,16 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
         {/* GoBack */}
         {goBack()}
         <View style={{justifyContent: 'center', marginLeft: 16}}>
-            <Text
-              style={{
-                fontFamily: FONTS.fontFamilyBold,
-                color: COLORS.black3,
-                fontSize: 16,
-                paddingBottom: 4,
-              }}>
-              My Profile
-            </Text>
-          </View>
+          <Text
+            style={{
+              fontFamily: FONTS.fontFamilyBold,
+              color: COLORS.black3,
+              fontSize: 16,
+              paddingBottom: 4,
+            }}>
+            My Profile
+          </Text>
+        </View>
       </View>
     );
   };

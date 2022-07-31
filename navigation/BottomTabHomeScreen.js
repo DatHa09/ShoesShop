@@ -9,22 +9,17 @@ import ProfileScreen from '../screens/profile/ProfileScreen';
 import {ICONS} from '../common/Images';
 import {COLORS} from '../common/Theme';
 import {useDispatch, useSelector} from 'react-redux';
-import {getLocalWishList} from '../screens/favorite/FavoriteScreenThunk';
-import {getLocalCart} from '../screens/cart/CartScreenThunk';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabHomeScreen() {
-  const wishList = useSelector(state => state.favoriteReducer.wishlist);
-  const cart = useSelector(state => state.cartReducer.cart);
-
-  //Với mỗi lần press delete thì sẽ get cart và wishlist
   const badgeWishlist = useSelector(state => state.favoriteReducer.badge);
   const badgeCart = useSelector(state => state.cartReducer.badge);
 
   const [countItemCart, setCountItemCart] = useState(badgeCart);
   const [countItemWishList, setCountItemWishList] = useState(badgeWishlist);
 
+  //nếu badge thay đổi thì render set count lại
   useEffect(() => {
     setCountItemWishList(badgeWishlist);
   }, [badgeWishlist]);
@@ -81,7 +76,12 @@ export default function BottomTabHomeScreen() {
         name={screens.favorite_screen}
         // option={{tabBarShowLabel: false, headerShown: false}}
         options={{
-          tabBarBadge: countItemWishList,
+          //có sản phẩm mới hiện badge
+          tabBarBadge: countItemWishList !== 0 ? countItemWishList : '',
+          tabBarBadgeStyle: {
+            backgroundColor:
+              countItemWishList !== 0 ? COLORS.red : COLORS.transparent,
+          },
           tabBarShowLabel: false,
           headerShown: false,
         }}
@@ -90,7 +90,12 @@ export default function BottomTabHomeScreen() {
       <Tab.Screen
         name={screens.cart_screen}
         options={{
-          tabBarBadge: countItemCart,
+          //có sản phẩm mới hiện badge
+          tabBarBadge: countItemCart !== 0 ? countItemCart : '',
+          tabBarBadgeStyle: {
+            backgroundColor:
+              countItemCart !== 0 ? COLORS.red : COLORS.transparent,
+          },
           tabBarShowLabel: false,
           headerShown: false,
         }}

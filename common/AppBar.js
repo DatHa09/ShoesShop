@@ -1,12 +1,23 @@
 import {View, Text, Image, TextInput, TouchableOpacity} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {COLORS, FONTS} from './Theme';
 import {ICONS} from './Images';
 import {useNavigation} from '@react-navigation/native';
 import {screens} from './Contants';
+import {Badge} from 'react-native-paper';
+import {useSelector} from 'react-redux';
 
 export default function AppBar() {
   const navigation = useNavigation();
+
+  const badgeCart = useSelector(state => state.cartReducer.badge);
+
+  const [countItemCart, setCountItemCart] = useState(badgeCart);
+
+  //nếu badge thay đổi thì render set count lại
+  useEffect(() => {
+    setCountItemCart(badgeCart);
+  }, [badgeCart]);
 
   return (
     <View
@@ -27,7 +38,7 @@ export default function AppBar() {
           flexDirection: 'row',
           flexGrow: 1,
           alignItems: 'center',
-          paddingHorizontal: 8,
+          paddingHorizontal: 14,
           marginLeft: 16,
           marginRight: 8,
           borderRadius: 99,
@@ -58,13 +69,19 @@ export default function AppBar() {
           borderRadius: 32,
           height: 48,
           width: 48,
-          alignItems: "center",
-          justifyContent: "center"
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
         <Image
           source={ICONS.buy}
           style={{height: 24, width: 24, tintColor: COLORS.secondary}}
         />
+        {/* có sản phẩm mới hiện badge */}
+        {countItemCart !== 0 && (
+          <Badge style={{position: 'absolute', top: 2, right: 2}}>
+            {countItemCart}
+          </Badge>
+        )}
       </TouchableOpacity>
     </View>
   );
