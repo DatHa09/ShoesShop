@@ -28,7 +28,6 @@ export default function CartScreen() {
   const navigation = useNavigation();
 
   const cart = useSelector(state => state.cartReducer.cart) || [];
-  console.log('~ cart', cart);
   const token = useSelector(state => state.loginReducer.accessToken);
 
   const countCartChange = useSelector(state => state.cartReducer.count);

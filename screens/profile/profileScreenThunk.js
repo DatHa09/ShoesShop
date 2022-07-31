@@ -13,7 +13,6 @@ export const getProfile = createAsyncThunk('token/getProfile', async token => {
   });
 
   const json = await resp.json();
-  console.log("~ json.content", json.content.ordersHistory)
   return json.content;
 });
 

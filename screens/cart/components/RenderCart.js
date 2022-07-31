@@ -8,8 +8,8 @@ import {useNavigation} from '@react-navigation/native';
 import Animated from 'react-native-reanimated';
 import {Swipeable} from 'react-native-gesture-handler';
 import {ICONS} from '../../../common/Images';
-import { onSizeSelected } from '../../detail/DetailScreenSlice';
-import { useDispatch } from 'react-redux';
+import {onSizeSelected} from '../../detail/DetailScreenSlice';
+import {useDispatch} from 'react-redux';
 
 export default function RenderCart({
   item,
@@ -32,7 +32,7 @@ export default function RenderCart({
   const onSelectedItem = () => {
     //set default value
     dispatch(onSizeSelected(''));
-    
+
     navigation.navigate(screens.detail_screen, {
       idScreen: screens.detail_screen,
       nameScreen: item.name,
@@ -42,21 +42,25 @@ export default function RenderCart({
 
   const onPressMinus = async () => {
     let newQuantity = quantity - 1;
-    if (quantity <= 1) {
+    // nếu số lượng = 1 thì button - sẽ disable đi
+    if (quantity === 1) {
       newQuantity = 1;
       setQuantity(1);
-      let price = quantity * item.price;
-      updateItemCart(item.id, item.size, newQuantity, price);
     } else {
       setQuantity(quantity - 1);
-      let price = quantity * item.price;
-      updateItemCart(item.id, item.size, newQuantity, price);
     }
+    let price = quantity * item.price;
+    updateItemCart(item.id, item.size, newQuantity, price);
   };
 
   const onPressPlus = () => {
     let newQuantity = quantity + 1;
-    setQuantity(quantity + 1);
+    if (quantity === 5) {
+      newQuantity = 5;
+      setQuantity(5);
+    } else {
+      setQuantity(quantity + 1);
+    }
     let price = quantity * item.price;
     updateItemCart(item.id, item.size, newQuantity, price);
   };
@@ -200,11 +204,11 @@ export default function RenderCart({
                 </Text>
                 <TouchableOpacity
                   onPress={() => onPressPlus()}
-                  disabled={quantity === 30 ? true : false}>
+                  disabled={quantity === 5 ? true : false}>
                   <FontAwesomeIcon
                     icon={faPlus}
                     size={20}
-                    color={quantity === 30 ? COLORS.lightGray4 : COLORS.black3}
+                    color={quantity === 5 ? COLORS.lightGray4 : COLORS.black3}
                   />
                 </TouchableOpacity>
               </View>

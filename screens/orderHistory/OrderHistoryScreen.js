@@ -27,7 +27,6 @@ import {useNavigation} from '@react-navigation/native';
 
 export default function OrderHistoryScreen() {
   const profileData = useSelector(state => state.profileReducer.profile);
-  console.log('~ profileData', profileData.ordersHistory);
   const token = useSelector(state => state.loginReducer.accessToken);
   const countProfile = useSelector(state => state.profileReducer.count);
   const countCartChange = useSelector(state => state.cartReducer.count);
@@ -41,11 +40,6 @@ export default function OrderHistoryScreen() {
   useEffect(() => {
     dispatch(getProfile(token));
   }, [countProfile]);
-
-  // useEffect(() => {
-  //   getProfile(token);
-  //   console.log('countCartChange ', countCartChange);
-  // }, [countCartChange]);
 
   //đổi tên key orderDetail thành data cho đúng format rồi mới sử dụng sectionList
   const newProfileData = profileData.ordersHistory
