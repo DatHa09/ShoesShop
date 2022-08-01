@@ -1,38 +1,20 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ImageBackground,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import React, {useEffect, useRef} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {View, Text, ImageBackground, ScrollView} from 'react-native';
+import React from 'react';
 
 //import app bar top
 import AppBar from '../../common/AppBar';
 
 //import theme
-import {COLORS, FONTS} from '../../common/Theme';
 import {styles} from './style/HomeScreenStyle';
-import {ICONS, IMAGES} from '../../common/Images';
+import {IMAGES} from '../../common/Images';
 
 //import component
-import Products from './components/products/Products';
 import Categories from './components/categories/Categories';
-import ProductByCategory from './components/productByCategory/ProductByCategory';
-import Animated from 'react-native-reanimated';
+import BrandAndFeaturedShoes from './components/brandAndFeaturedShoes/BrandAndFeaturedShoes';
 
 export default function HomeScreen() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: COLORS.lightGray,
-      }}>
+    <View style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[0]}>
@@ -50,7 +32,7 @@ export default function HomeScreen() {
             <AppBar />
 
             {/* title */}
-            <View style={styles.title_container}>
+            <View style={styles.container_title}>
               <Text style={[styles.title_text, styles.title_text__secondary]}>
                 SPECIAL
               </Text>
@@ -67,9 +49,7 @@ export default function HomeScreen() {
           <Categories />
 
           {/*brand &  featured shoes */}
-          <Products />
-
-          {/* <ProductByCategory /> */}
+          <BrandAndFeaturedShoes />
         </View>
       </ScrollView>
     </View>

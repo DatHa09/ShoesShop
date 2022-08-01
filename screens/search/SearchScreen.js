@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import StaggeredList from '@mindinventory/react-native-stagger-view';
 import {IMAGES} from '../../common/Images';
 import {useNavigation} from '@react-navigation/native';
+import {styles} from './style/SearchScreenStyle';
 
 export default function SearchScreen() {
   const dataSearch = useSelector(state => state.searchReducer.dataSearch);
@@ -22,80 +23,28 @@ export default function SearchScreen() {
     return (
       <TouchableOpacity
         onPress={() => onSelectedItem(item)}
-        style={{
-          width: SIZES.width / 2 - 24,
-          margin: 8,
-          padding: 16,
-          borderRadius: 5,
-          backgroundColor: '#FFF',
-        }}>
+        style={styles.container}>
         {/* TAG */}
         {item.feature ? (
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              margin: 16,
-              backgroundColor: COLORS.secondary,
-              borderRadius: 8,
-              padding: 4,
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 80,
-            }}>
-            <Text
-              style={{
-                color: '#000',
-                fontSize: 14,
-                fontWeight: '500',
-                fontFamily: FONTS.fontFamilyBold,
-              }}>
-              Featured
-            </Text>
+          <View style={styles.container_tag}>
+            <Text style={styles.container_tag__title}>Featured</Text>
           </View>
         ) : null}
+        {/* IMAGE */}
         <Image
           resizeMode="contain"
           source={{uri: item.image}}
-          style={{width: '100%', height: 100, marginTop: 24}}
+          style={styles.container__image}
         />
-        <Text
-          style={{
-            color: '#000',
-            fontSize: 16,
-            fontWeight: '500',
-            fontFamily: FONTS.fontFamilyBold,
-            marginBottom: 8,
-          }}>
-          {item.name}
+        {/* NAME */}
+        <Text style={styles.container__name_text}>{item.name}</Text>
+        {/* SHORT DESCRIPTION */}
+        <Text style={styles.container__short_description}>
+          {item.shortDescription.trim()}
         </Text>
-        <Text
-          style={{
-            color: COLORS.black3,
-            fontFamily: FONTS.fontFamilyRegular,
-            fontSize: 14,
-          }}>
-          {item.shortDescription}
-        </Text>
-        <View
-          style={{
-            flexGrow: 1,
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            width: 56,
-          }}>
-          <Text
-            style={{
-              padding: 8,
-              borderRadius: 8,
-              backgroundColor: COLORS.gray,
-              color: COLORS.secondary,
-              fontSize: 16,
-              fontFamily: FONTS.fontFamilySemiBold,
-            }}>
-            ${item.price}
-          </Text>
+        {/* PRICE */}
+        <View style={styles.container_price}>
+          <Text style={styles.container_price_content}>${item.price}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -103,30 +52,10 @@ export default function SearchScreen() {
 
   const emptySearchedList = () => {
     return (
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginHorizontal: 16,
-        }}>
+      <View style={styles.container_empty_search}>
         <Image source={IMAGES.not_found} />
-        <Text
-          style={{
-            fontFamily: FONTS.fontFamilyBold,
-            color: COLORS.black3,
-            textAlign: 'center',
-            fontSize: 24,
-            marginBottom: 16,
-          }}>
-          Item not found
-        </Text>
-        <Text
-          style={{
-            fontFamily: FONTS.fontFamilyMedium,
-            color: COLORS.black3,
-            textAlign: 'center',
-            fontSize: 16,
-          }}>
+        <Text style={styles.container_empty_search__title}>Item not found</Text>
+        <Text style={styles.container_empty_search__text}>
           Try a more generic search term {'\n'}or try looking for alternative
           products.
         </Text>

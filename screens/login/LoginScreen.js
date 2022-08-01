@@ -26,22 +26,19 @@ import {
 import {styles} from './styles/LoginStyles';
 import {ICONS, IMAGES} from '../../common/Images';
 import {
-  KEY_ACCESS_TOKEN,
   lowercaseRegex,
   numericRegex,
-  phoneRegex,
   screens,
   specialCharsRegex,
   uppercaseRegex,
 } from '../../common/Contants';
 import {StackActions, useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {checkLogin, getLocalAccessToken} from './LoginThunk';
-import {COLORS, FONTS} from '../../common/Theme';
+import {COLORS} from '../../common/Theme';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {globalStyles} from '../../common/style/globalStyle';
-import {getLocalStorage} from '../../common/LocalStorage';
 export default function LoginScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -135,10 +132,6 @@ export default function LoginScreen() {
                 <View style={styles.input_container}>
                   {/* Email */}
                   <View style={styles.input_container__input}>
-                    {/* <Image
-                      source={ICONS.email}
-                      style={{width: 24, height: 24}}
-                    /> */}
                     <FontAwesomeIcon icon={faEnvelope} />
                     <TextInput
                       placeholder={`Email`}
@@ -167,10 +160,6 @@ export default function LoginScreen() {
                   <View style={styles.marginVertical16}>
                     <View style={styles.input_container__input}>
                       <FontAwesomeIcon icon={faUnlock} size={20} />
-                      {/* <Image
-                        source={ICONS.password}
-                        style={{width: 24, height: 24}}
-                      /> */}
                       <TextInput
                         secureTextEntry={isHideNewPassword}
                         placeholder={`Password`}
@@ -188,10 +177,6 @@ export default function LoginScreen() {
                           source={isHideNewPassword ? ICONS.hide : ICONS.show}
                           style={{width: 24, height: 24}}
                         />
-                        {/* <FontAwesomeIcon
-                          icon={isHideNewPassword ? faEyeSlash : faEye}
-                          style={{flexGrow: 1}}
-                        /> */}
                       </TouchableOpacity>
                     </View>
                     {props.touched.password && props.errors.password && (

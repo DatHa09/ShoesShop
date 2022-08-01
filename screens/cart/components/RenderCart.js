@@ -10,6 +10,7 @@ import {Swipeable} from 'react-native-gesture-handler';
 import {ICONS} from '../../../common/Images';
 import {onSizeSelected} from '../../detail/DetailScreenSlice';
 import {useDispatch} from 'react-redux';
+import {styles} from '../style/CartScreenStyle';
 
 export default function RenderCart({
   item,
@@ -72,23 +73,12 @@ export default function RenderCart({
           onPressDeleteItem(index);
           swipeableRef.current.close();
         }}
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderTopRightRadius: 24,
-          borderBottomRightRadius: 24,
-          marginVertical: 8,
-          paddingHorizontal: 16,
-          paddingBottom: 8,
-          height: 100,
-        }}>
+        style={styles.btn_delete_swipable}>
         <Image
           source={ICONS.trash}
           style={{width: 24, height: 24, tintColor: COLORS.white}}
         />
-        <Text style={{fontFamily: FONTS.fontFamilyMedium, color: COLORS.white}}>
-          Delete
-        </Text>
+        <Text style={styles.btn_delete_swipable__text}>Delete</Text>
       </TouchableOpacity>
     );
   };
@@ -96,135 +86,77 @@ export default function RenderCart({
   return (
     <>
       {/* background overlay delete button */}
-      <TouchableOpacity
-        style={{
-          borderRadius: 24,
-          margin: 8,
-          backgroundColor: COLORS.red,
-          height: 100,
-          position: 'absolute',
-          width: SIZES.width - 24, //24 = margin(8) chính nó + margin(8) của RenderRight + margin(8) của FlatList
-        }}
-      />
+      <TouchableOpacity style={styles.container__bg_overlay_delete_btn} />
       <Swipeable
         ref={swipeableRef}
         friction={2}
-        // onSwipeableOpen={() => closeSwipeable()}
         renderRightActions={renderRight}>
-        <Animated.View
-          style={[
-            {
-              borderRadius: 24,
-              borderColor: COLORS.secondary,
-              marginVertical: 8,
-              paddingHorizontal: 8,
-              backgroundColor: COLORS.white,
-            },
-          ]}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            {/* content left */}
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              {/* product image */}
-              <TouchableOpacity onPress={() => onSelectedItem()}>
-                <Image
-                  source={{uri: item.image}}
-                  style={{width: 100, height: 100}}
+        <Animated.View style={styles.container_swipable}>
+          {/* content left */}
+          <View style={styles.container_swipable_content_left}>
+            {/* product image */}
+            <TouchableOpacity onPress={() => onSelectedItem()}>
+              <Image
+                source={{uri: item.image}}
+                style={styles.container_swipable_content_left__image}
+              />
+            </TouchableOpacity>
+
+            {/* product name, size */}
+            <View style={styles.container_swipable_content_left_info}>
+              <Text
+                numberOfLines={1}
+                style={styles.container_swipable_content_left_info__name}>
+                {item.name}
+              </Text>
+              <View
+                style={
+                  styles.container_swipable_content_left_info_size_container
+                }>
+                <Text
+                  style={
+                    styles.container_swipable_content_left_info_size_container__text
+                  }>
+                  size {item.size}
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          {/* content right */}
+          {/* price, qty */}
+          <View>
+            <View style={styles.container_swipable_content_right}>
+              <TouchableOpacity
+                onPress={() => onPressMinus()}
+                disabled={quantity === 1 ? true : false}
+                style={{marginRight: 4}}>
+                <FontAwesomeIcon
+                  icon={faMinus}
+                  size={20}
+                  color={quantity === 1 ? COLORS.lightGray4 : COLORS.black3}
                 />
               </TouchableOpacity>
-
-              {/* product name, size */}
-              <View style={{marginLeft: 8, width: 168}}>
-                <Text
-                  numberOfLines={1}
-                  style={{
-                    fontFamily: FONTS.fontFamilyBold,
-                    color: COLORS.black3,
-                  }}>
-                  {item.name}
-                </Text>
-                <View
-                  style={{
-                    width: 64,
-                    height: 32,
-                    borderColor: COLORS.secondary,
-                    borderWidth: 1,
-                    marginTop: 8,
-                    paddingBottom: 4,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 16,
-                  }}>
-                  <Text
-                    style={{
-                      fontFamily: FONTS.fontFamilyBold,
-                      color: COLORS.secondary,
-                      fontSize: 14,
-                    }}>
-                    size {item.size}
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            {/* content right */}
-            {/* price, qty */}
-            <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <TouchableOpacity
-                  onPress={() => onPressMinus()}
-                  disabled={quantity === 1 ? true : false}
-                  style={{marginRight: 4}}>
-                  <FontAwesomeIcon
-                    icon={faMinus}
-                    size={20}
-                    color={quantity === 1 ? COLORS.lightGray4 : COLORS.black3}
-                  />
-                </TouchableOpacity>
-                {/* qty */}
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    marginRight: 4,
-                    color: COLORS.black3,
-                    fontSize: 24,
-                    fontFamily: FONTS.fontFamilyMedium,
-                    paddingBottom: 4,
-                    width: 32,
-                  }}>
-                  {quantity}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => onPressPlus()}
-                  disabled={quantity === 5 ? true : false}>
-                  <FontAwesomeIcon
-                    icon={faPlus}
-                    size={20}
-                    color={quantity === 5 ? COLORS.lightGray4 : COLORS.black3}
-                  />
-                </TouchableOpacity>
-              </View>
-              <Text
-                style={{
-                  fontFamily: FONTS.fontFamilyBold,
-                  color: COLORS.black3,
-                  fontSize: 16,
-                  paddingBottom: 8,
-                }}>
-                $
-                {(quantity * item.price)
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              {/* qty */}
+              <Text style={styles.container_swipable_content_right__qty}>
+                {quantity}
               </Text>
+              <TouchableOpacity
+                onPress={() => onPressPlus()}
+                disabled={quantity === 5 ? true : false}>
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  size={20}
+                  color={quantity === 5 ? COLORS.lightGray4 : COLORS.black3}
+                />
+              </TouchableOpacity>
             </View>
+            <Text style={styles.container_swipable_content_right__price}>
+              $
+              {(quantity * item.price)
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            </Text>
           </View>
         </Animated.View>
       </Swipeable>

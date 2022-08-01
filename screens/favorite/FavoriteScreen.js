@@ -7,7 +7,7 @@ import {
   Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {COLORS, FONTS} from '../../common/Theme';
+import {COLORS} from '../../common/Theme';
 import {screens} from '../../common/Contants';
 import AppBarProduct from '../../common/AppBarProduct';
 import {globalStyles} from '../../common/style/globalStyle';
@@ -21,6 +21,7 @@ import {onUpdateWishList} from './FavoriteScreenSlice';
 import {getLocalWishList} from './FavoriteScreenThunk';
 import {getLocalCart} from '../cart/CartScreenThunk';
 import {onUpdateCart} from '../cart/CartScreenSlice';
+import {styles} from './style/FavoriteScreenStyle';
 
 export default function FavoriteScreen() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -119,30 +120,12 @@ export default function FavoriteScreen() {
 
   const emptyWishList = () => {
     return (
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginHorizontal: 16,
-        }}>
+      <View style={styles.empty_wishlist_container}>
         <Image source={IMAGES.favorite_not_found} />
-        <Text
-          style={{
-            fontFamily: FONTS.fontFamilyBold,
-            color: COLORS.black3,
-            textAlign: 'center',
-            fontSize: 24,
-            marginBottom: 16,
-          }}>
+        <Text style={styles.empty_wishlist_container__title}>
           There are no favorite yet.
         </Text>
-        <Text
-          style={{
-            fontFamily: FONTS.fontFamilyMedium,
-            color: COLORS.black3,
-            textAlign: 'center',
-            fontSize: 16,
-          }}>
+        <Text style={styles.empty_wishlist_container__text}>
           Items added to your Favorites{'\n'} will be saved here.
         </Text>
       </View>
@@ -151,13 +134,8 @@ export default function FavoriteScreen() {
   return (
     <View style={{flex: 1}}>
       <AppBarProduct idScreen={screens.favorite_screen} />
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          backgroundColor: COLORS.lightGray,
-        }}>
-        <View style={{flex: 3}}>
+      <View style={styles.container}>
+        <View style={styles.container_list_item}>
           <FlatList
             showsVerticalScrollIndicator={false}
             data={wishList}
@@ -170,23 +148,8 @@ export default function FavoriteScreen() {
         {wishList.length === 0 && (
           <TouchableOpacity
             onPress={() => navigation.navigate(screens.home_screen)}
-            style={{
-              justifyContent: 'flex-end',
-              marginVertical: 24,
-              marginHorizontal: 16,
-            }}>
-            <Text
-              style={{
-                textAlign: 'center',
-                padding: 4,
-                paddingTop: 8,
-                borderRadius: 8,
-                fontFamily: FONTS.fontFamilySemiBold,
-                color: COLORS.black3,
-                fontSize: 18,
-                backgroundColor: COLORS.secondary,
-                height: 48,
-              }}>
+            style={styles.btn_shopping_empty_wishlist}>
+            <Text style={styles.btn_shopping_empty_wishlist__title}>
               Shopping now
             </Text>
           </TouchableOpacity>

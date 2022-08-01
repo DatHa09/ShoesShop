@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getLocalAccessToken} from '../login/LoginThunk';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {screens} from '../../common/Contants';
-import {COLORS, FONTS, SIZES} from '../../common/Theme';
+import {styles} from './style/GetStartedScreenStyle';
 
 export default function GetStartedScreen() {
   const dispatch = useDispatch();
@@ -24,51 +24,17 @@ export default function GetStartedScreen() {
     }
   };
 
-  
-
   return (
-    <ImageBackground
-      source={IMAGES.splash}
-      style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center'}}>
-      <View
-        style={{
-          flex: 1,
-          marginTop: 56,
-          width: SIZES.width - 56,
-        }}>
-        <Text
-          style={{
-            fontFamily: FONTS.fontFamilyBold,
-            fontSize: 56,
-            color: COLORS.secondary,
-          }}>
-          Find your
-        </Text>
-        <Text
-          style={{
-            fontFamily: FONTS.fontFamilyBold,
-            fontSize: 56,
-            color: COLORS.secondary,
-          }}>
-          Shoes
+    <ImageBackground source={IMAGES.splash} style={styles.container_image_bg}>
+      {/* title */}
+      <View style={styles.container_image_bg_title}>
+        <Text style={styles.container_image_bg_title__text}>
+          Find your{'\n'}Shoes
         </Text>
       </View>
-      <View style={{flex: 3, justifyContent: 'flex-end'}}>
+      <View style={styles.container_image_bg_btn}>
         <TouchableOpacity onPress={() => onPressStarted()}>
-          <Text
-            style={{
-              borderRadius: 8,
-              textAlign: 'center',
-              fontFamily: FONTS.fontFamilyBold,
-              fontSize: 20,
-              color: COLORS.black3,
-              backgroundColor: COLORS.secondary,
-              padding: 16,
-              marginBottom: 56,
-              width: SIZES.width - 56,
-            }}>
-            Get started
-          </Text>
+          <Text style={styles.container_image_bg_btn__text}>Get started</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>

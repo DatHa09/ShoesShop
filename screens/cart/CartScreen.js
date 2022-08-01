@@ -7,7 +7,7 @@ import {
   Modal,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {COLORS, FONTS} from '../../common/Theme';
+import {COLORS} from '../../common/Theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {screens} from '../../common/Contants';
 import {checkoutOrder, getLocalCart} from './CartScreenThunk';
@@ -19,6 +19,7 @@ import {onUpdateCart} from './CartScreenSlice';
 import {IMAGES} from '../../common/Images';
 import {useNavigation} from '@react-navigation/native';
 import {globalStyles} from '../../common/style/globalStyle';
+import {styles} from './style/CartScreenStyle';
 
 export default function CartScreen() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -103,30 +104,12 @@ export default function CartScreen() {
 
   const emptyCart = () => {
     return (
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginHorizontal: 16,
-        }}>
+      <View style={styles.container_empty_cart}>
         <Image source={IMAGES.not_found} />
-        <Text
-          style={{
-            fontFamily: FONTS.fontFamilyBold,
-            color: COLORS.black3,
-            textAlign: 'center',
-            fontSize: 24,
-            marginBottom: 16,
-          }}>
+        <Text style={styles.container_empty_cart__title}>
           Your Bag is empty.
         </Text>
-        <Text
-          style={{
-            fontFamily: FONTS.fontFamilyMedium,
-            color: COLORS.black3,
-            textAlign: 'center',
-            fontSize: 16,
-          }}>
+        <Text style={styles.container_empty_cart__text}>
           When you add products to cart,{'\n'}they'll appear here.
         </Text>
       </View>
@@ -136,12 +119,7 @@ export default function CartScreen() {
   return (
     <>
       <AppBarProduct idScreen={screens.cart_screen} />
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          backgroundColor: COLORS.lightGray,
-        }}>
+      <View style={styles.container}>
         <View style={{flex: 3}}>
           <FlatList
             showsVerticalScrollIndicator={false}
@@ -155,63 +133,20 @@ export default function CartScreen() {
         {cart.length === 0 ? (
           <TouchableOpacity
             onPress={() => navigation.navigate(screens.home_screen)}
-            style={{
-              justifyContent: 'flex-end',
-              marginVertical: 24,
-              marginHorizontal: 16,
-            }}>
-            <Text
-              style={{
-                textAlign: 'center',
-                padding: 4,
-                paddingTop: 8,
-                borderRadius: 8,
-                fontFamily: FONTS.fontFamilySemiBold,
-                color: COLORS.black3,
-                fontSize: 18,
-                backgroundColor: COLORS.secondary,
-                height: 48,
-              }}>
-              Shopping now
-            </Text>
+            style={styles.btn_shopping}>
+            <Text style={styles.btn_shopping__text}>Shopping now</Text>
           </TouchableOpacity>
         ) : (
           // Button add and price
-          <View
-            style={{
-              height: 160,
-              justifyContent: 'flex-end',
-              backgroundColor: COLORS.lightGray,
-              paddingHorizontal: 16,
-            }}>
+          <View style={styles.container_checkout}>
             {/* price info */}
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                borderBottomWidth: 1,
-                borderBottomColor: COLORS.secondary,
-              }}>
+            <View style={styles.container_checkout_price_info}>
               {/* total */}
-              <Text
-                style={{
-                  fontFamily: FONTS.fontFamilySemiBold,
-                  color: COLORS.black3,
-                  fontSize: 20,
-                  marginBottom: 16,
-                  textAlign: 'center',
-                }}>
+              <Text style={styles.container_checkout_price_info__total}>
                 Total
               </Text>
               {/* price */}
-              <Text
-                style={{
-                  fontFamily: FONTS.fontFamilySemiBold,
-                  color: COLORS.black3,
-                  fontSize: 20,
-                  marginBottom: 16,
-                }}>
+              <Text style={styles.container_checkout_price_info__price}>
                 $
                 {totalReduce(cart)
                   .toString()
@@ -221,24 +156,8 @@ export default function CartScreen() {
             {/* button add to cart */}
             <TouchableOpacity
               onPress={() => onPressCheckout()}
-              style={{
-                // justifyContent: 'flex-end',
-                marginVertical: 24,
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  padding: 4,
-                  paddingTop: 8,
-                  borderRadius: 8,
-                  fontFamily: FONTS.fontFamilySemiBold,
-                  color: COLORS.secondary,
-                  fontSize: 18,
-                  backgroundColor: COLORS.black3,
-                  height: 48,
-                }}>
-                Checkout
-              </Text>
+              style={styles.btn_checkout}>
+              <Text style={styles.btn_checkout__text}>Checkout</Text>
             </TouchableOpacity>
           </View>
         )}
