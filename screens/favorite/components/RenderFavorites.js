@@ -1,16 +1,13 @@
-import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCartPlus, faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
-import {COLORS, FONTS, SIZES} from '../../../common/Theme';
 import {screens} from '../../../common/Contants';
 import {useNavigation} from '@react-navigation/native';
 import Animated from 'react-native-reanimated';
 import {Swipeable} from 'react-native-gesture-handler';
 import {ICONS} from '../../../common/Images';
-import {onUpdateCart} from '../../cart/CartScreenSlice';
 import {useDispatch} from 'react-redux';
 import {onSizeSelected} from '../../detail/DetailScreenSlice';
+import {styles} from '../style/FavoriteScreenStyle';
 
 export default function RenderFavorites({
   item,
@@ -54,23 +51,9 @@ export default function RenderFavorites({
           onPressDeleteItem(index);
           swipeableRef.current.close();
         }}
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderTopRightRadius: 24,
-          borderBottomRightRadius: 24,
-          marginVertical: 8,
-          paddingHorizontal: 16,
-          paddingBottom: 8,
-          height: 100,
-        }}>
-        <Image
-          source={ICONS.trash}
-          style={{width: 24, height: 24, tintColor: COLORS.white}}
-        />
-        <Text style={{fontFamily: FONTS.fontFamilyMedium, color: COLORS.white}}>
-          Delete
-        </Text>
+        style={styles.btn_delete_swipable}>
+        <Image source={ICONS.trash} style={styles.btn_delete_swipable__image} />
+        <Text style={styles.btn_delete_swipable__title}>Delete</Text>
       </TouchableOpacity>
     );
   };
@@ -78,126 +61,59 @@ export default function RenderFavorites({
   return (
     <>
       {/* background overlay delete button */}
-      <TouchableOpacity
-        style={{
-          borderRadius: 24,
-          margin: 8,
-          backgroundColor: COLORS.red,
-          height: 100,
-          position: 'absolute',
-          width: SIZES.width - 24, //24 = margin(8) chính nó + margin(8) của RenderRight + margin(8) của FlatList
-        }}
-      />
+      <TouchableOpacity style={styles.container__bg_overlay_delete_btn} />
       <Swipeable
         ref={swipeableRef}
         friction={2}
-        // onSwipeableOpen={() => closeSwipeable()}
         renderRightActions={renderRight}>
-        <Animated.View
-          style={[
-            {
-              borderRadius: 24,
-              borderColor: COLORS.secondary,
-              // borderWidth: 1,
-              // margin: 8,
-              marginVertical: 8,
-              paddingHorizontal: 8,
-              backgroundColor: COLORS.white,
-            },
-            // animatedStyle,
-          ]}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            {/* content left */}
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              {/* product image */}
-              <TouchableOpacity onPress={() => onSelectedItem()}>
-                <Image
-                  source={{uri: item.image}}
-                  style={{width: 100, height: 100}}
-                />
-              </TouchableOpacity>
-
-              {/* product name, size */}
-              <View style={{marginLeft: 8, width: 168}}>
-                <Text
-                  numberOfLines={1}
-                  style={{
-                    fontFamily: FONTS.fontFamilyBold,
-                    color: COLORS.black3,
-                  }}>
-                  {item.name}
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginTop: 8,
-                  }}>
-                  <View
-                    style={{
-                      width: 64,
-                      height: 32,
-                      borderColor: COLORS.secondary,
-                      borderWidth: 1,
-                      // marginTop: 8,
-                      paddingBottom: 4,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 16,
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: FONTS.fontFamilyBold,
-                        color: COLORS.secondary,
-                        fontSize: 14,
-                      }}>
-                      size {item.size}
-                    </Text>
-                  </View>
-
-                  <Text
-                    style={{
-                      height: 32,
-                      fontFamily: FONTS.fontFamilySemiBold,
-                      color: COLORS.black3,
-                      fontSize: 20,
-                      paddingBottom: 8,
-                      marginLeft: 8,
-                    }}>
-                    $
-                    {item.price
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            <TouchableOpacity
-              onPress={() => onCheckItemInCart(item, setIsDisabled)}
-              disabled={isDisabled}>
-              {/* content right */}
-              {/* <FontAwesomeIcon
-                icon={faCartPlus}
-                color={isDisabled ? COLORS.darkGray : COLORS.secondary}
-                size={32}
-                style={{paddingBottom: 8}}
-              /> */}
+        <Animated.View style={styles.container_swipable}>
+          {/* content left */}
+          <View style={styles.container_swipable_content_left}>
+            {/* product image */}
+            <TouchableOpacity onPress={() => onSelectedItem()}>
               <Image
-                source={
-                  isDisabled
-                    ? ICONS.fill_add_to_cart_dark_gray
-                    : ICONS.fill_add_to_cart
-                }
-                style={{width: 32, height: 32}}
+                source={{uri: item.image}}
+                style={styles.container_swipable_content_left__image}
               />
             </TouchableOpacity>
+
+            {/* product name, size */}
+            <View style={styles.container_swipable_content_left_info}>
+              <Text
+                numberOfLines={1}
+                style={styles.container_swipable_content_left_info__name}>
+                {item.name}
+              </Text>
+              <View
+                style={
+                  styles.container_swipable_content_left_info_size_and_price_container
+                }>
+                <View style={styles.size_container}>
+                  <Text style={styles.size_container__text}>
+                    size {item.size}
+                  </Text>
+                </View>
+
+                <Text style={styles.price_text}>
+                  ${item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </Text>
+              </View>
+            </View>
           </View>
+
+          <TouchableOpacity
+            onPress={() => onCheckItemInCart(item, setIsDisabled)}
+            disabled={isDisabled}>
+            {/* content right */}
+            <Image
+              source={
+                isDisabled
+                  ? ICONS.fill_add_to_cart_dark_gray
+                  : ICONS.fill_add_to_cart
+              }
+              style={styles.btn_add_to_cart}
+            />
+          </TouchableOpacity>
         </Animated.View>
       </Swipeable>
     </>

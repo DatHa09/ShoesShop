@@ -24,6 +24,7 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {ICONS, IMAGES} from '../../common/Images';
 import {useNavigation} from '@react-navigation/native';
+import {styles} from './style/OrderHistoryScreenStyle';
 
 export default function OrderHistoryScreen() {
   const profileData = useSelector(state => state.profileReducer.profile);
@@ -53,32 +54,14 @@ export default function OrderHistoryScreen() {
     }))
     .reverse();
 
-  const emptyWishList = () => {
+  const emptyOrderHistory = () => {
     return (
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginHorizontal: 16,
-        }}>
+      <View style={styles.container_empty_order}>
         <Image source={IMAGES.orders_not_found} />
-        <Text
-          style={{
-            fontFamily: FONTS.fontFamilyBold,
-            color: COLORS.black3,
-            textAlign: 'center',
-            fontSize: 24,
-            marginBottom: 16,
-          }}>
+        <Text style={styles.container_empty_order__title}>
           There is no order history yet.
         </Text>
-        <Text
-          style={{
-            fontFamily: FONTS.fontFamilyMedium,
-            color: COLORS.black3,
-            textAlign: 'center',
-            fontSize: 16,
-          }}>
+        <Text style={styles.container_empty_order__text}>
           When you checkout,{'\n'} your order will be saved here.
         </Text>
       </View>
@@ -103,12 +86,12 @@ export default function OrderHistoryScreen() {
   return (
     <>
       <AppBarProduct idScreen={screens.order_history_screen} />
-      <View style={{flex: 1, backgroundColor: COLORS.lightGray2}}>
+      <View style={styles.container}>
         <SectionList
           showsVerticalScrollIndicator={false}
           sections={newProfileData}
           keyExtractor={(item, index) => item + index}
-          ListEmptyComponent={() => emptyWishList()}
+          ListEmptyComponent={() => emptyOrderHistory()}
           renderItem={({item, index}) => {
             return <RenderOrder key={item.name + index} orderItem={item} />;
           }}
@@ -126,23 +109,8 @@ export default function OrderHistoryScreen() {
         {profileData.ordersHistory.length === 0 && (
           <TouchableOpacity
             onPress={() => navigation.navigate(screens.home_screen)}
-            style={{
-              justifyContent: 'flex-end',
-              marginVertical: 24,
-              marginHorizontal: 16,
-            }}>
-            <Text
-              style={{
-                textAlign: 'center',
-                padding: 4,
-                paddingTop: 8,
-                borderRadius: 8,
-                fontFamily: FONTS.fontFamilySemiBold,
-                color: COLORS.black3,
-                fontSize: 18,
-                backgroundColor: COLORS.secondary,
-                height: 48,
-              }}>
+            style={styles.btn_shopping_empty_order_history}>
+            <Text style={styles.btn_shopping_empty_order_history__title}>
               Shopping now
             </Text>
           </TouchableOpacity>

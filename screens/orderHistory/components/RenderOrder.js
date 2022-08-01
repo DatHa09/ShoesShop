@@ -1,34 +1,21 @@
 import {View, Text, Image} from 'react-native';
 import React from 'react';
-import {COLORS, FONTS, SIZES} from '../../../common/Theme';
+import {styles} from '../style/OrderHistoryScreenStyle';
 
 export default function RenderOrder({orderItem}) {
   return (
-    <View
-      style={{
-        marginTop: 2,
-        flexDirection: 'row',
-        backgroundColor: COLORS.white,
-        paddingBottom: 4,
-      }}>
+    <View style={styles.container_render_order}>
       {/* image */}
       <Image
         source={{uri: orderItem.image}}
-        style={{width: 100, height: 100}}
+        style={styles.container_render_order__image}
       />
       {/* name, short description */}
-      <View style={{width: SIZES.width - 110, marginLeft: 8}}>
-        <Text
-          style={{
-            fontFamily: FONTS.fontFamilyBold,
-            color: COLORS.black3,
-            fontSize: 16,
-            marginTop: 4,
-            marginBottom: 8,
-          }}>
+      <View style={styles.container_render_order_info}>
+        <Text style={styles.container_render_order_info__name}>
           {orderItem.name}
         </Text>
-        <Text style={{color: COLORS.black3, fontSize: 16, paddingRight: 8}}>
+        <Text style={styles.container_render_order_info__short_description}>
           {orderItem.shortDescription.trim()}
         </Text>
       </View>

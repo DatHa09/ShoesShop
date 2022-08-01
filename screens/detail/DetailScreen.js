@@ -8,7 +8,7 @@ import {
   Modal,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {COLORS, FONTS, SIZES} from '../../common/Theme';
+import {COLORS} from '../../common/Theme';
 import AppBarProduct from '../../common/AppBarProduct';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchProductDetails} from './DetailScreenThunk';
@@ -16,7 +16,7 @@ import RenderSizes from './components/RenderSizes';
 import RenderRelatedProduct from './components/RenderRelatedProduct';
 import {globalStyles} from '../../common/style/globalStyle';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCheck, faHeart, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {faCheck, faXmark} from '@fortawesome/free-solid-svg-icons';
 import {getLocalCart} from '../cart/CartScreenThunk';
 import {onAddToCart} from './DetailScreenSlice';
 import {getLocalWishList} from '../favorite/FavoriteScreenThunk';
@@ -25,6 +25,7 @@ import {
   onUpdateWishList,
 } from '../favorite/FavoriteScreenSlice';
 import {ICONS} from '../../common/Images';
+import {styles} from './style/DetailScreen';
 
 export default function DetailScreen({route}) {
   const {idScreen, nameScreen, idProduct} = route.params;
@@ -159,9 +160,6 @@ export default function DetailScreen({route}) {
     const newWishList = [...wishlist];
     if (isLike) {
       setIsLike(false);
-      // const newWishList = wishlist.filter(
-      //   (item, index) => item.id !== idProduct && currentSize === item.size,
-      // );
       wishlist.forEach((wishlistItem, wishlistIndex) => {
         if (
           wishlistItem.id === idProduct &&
@@ -172,7 +170,10 @@ export default function DetailScreen({route}) {
         }
       });
       setModalVisible(true);
-        setNotification({isSuccess: true, message: 'Deleted from wishlist successfully!'});
+      setNotification({
+        isSuccess: true,
+        message: 'Deleted from wishlist successfully!',
+      });
     } else {
       //chưa like -> isLike false
       if (currentSize === '') {
@@ -231,90 +232,48 @@ export default function DetailScreen({route}) {
   return (
     <>
       <AppBarProduct idScreen={idScreen} idProduct={idProduct} />
-      <ScrollView style={{flex: 1}} ref={scrollRef}>
-        <View style={{flex: 1, backgroundColor: COLORS.lightGray}}>
-          <View style={{flex: 1, width: '100%'}}>
+      <ScrollView style={styles.container} ref={scrollRef}>
+        <View style={styles.container_info}>
+          <View style={styles.container_info_image_container}>
             {/* Image */}
             <Image
               source={{uri: productDetails.image}}
-              style={{width: '100%', height: 272}}
+              style={styles.container_info_image_container_image}
             />
             {/* Featured */}
             <View
               style={
-                productDetails.feature && {
-                  position: 'absolute',
-                  left: 0,
-                  bottom: 0,
-                  marginLeft: 16,
-                  marginBottom: 8,
-                  backgroundColor: COLORS.black3,
-                  paddingHorizontal: 16,
-                  paddingVertical: 8,
-                  borderRadius: 99,
-                }
+                productDetails.feature &&
+                styles.container_info_image_container_image_featured
               }>
               <Text
-                style={{
-                  fontFamily: FONTS.fontFamilyBold,
-                  color: COLORS.secondary,
-                }}>
+                style={
+                  styles.container_info_image_container_image_featured__text
+                }>
                 {productDetails.feature ? 'Featured' : null}
               </Text>
             </View>
             {/* Like */}
             <TouchableOpacity
               onPress={() => onPressLike()}
-              style={{
-                position: 'absolute',
-                right: 0,
-                top: 0,
-                marginRight: 16,
-                marginBottom: 16,
-              }}>
-              {/* <FontAwesomeIcon
-                icon={faHeart}
-                size={32}
-                color={isLike ? COLORS.secondary : COLORS.lightGray4}
-              /> */}
+              style={styles.container_info_image_container_image_like}>
               <Image
                 source={isLike ? ICONS.fill_heart_red : ICONS.heart}
-                style={{width: 32, height: 32}}
+                style={styles.container_info_image_container_image_like__icon}
               />
             </TouchableOpacity>
           </View>
 
           {/* detail info */}
-          <View
-            style={{
-              flex: 2,
-              width: '100%',
-              borderTopLeftRadius: 24,
-              borderTopRightRadius: 24,
-              backgroundColor: COLORS.white,
-            }}>
+          <View style={styles.container_info_detail_info}>
             {/* product name */}
-            <Text
-              style={{
-                fontFamily: FONTS.fontFamilyBold,
-                color: COLORS.secondary,
-                fontSize: 32,
-                paddingLeft: 16,
-                marginBottom: 16,
-              }}>
+            <Text style={styles.container_info_detail_info__product_name}>
               {productDetails.name}
             </Text>
 
             {/* sizes */}
-            <View style={{marginBottom: 16}}>
-              <Text
-                style={{
-                  fontFamily: FONTS.fontFamilySemiBold,
-                  color: COLORS.black3,
-                  fontSize: 24,
-                  paddingLeft: 16,
-                  marginBottom: 8,
-                }}>
+            <View style={styles.container_info_detail_info_size}>
+              <Text style={styles.container_info_detail_info_size__title}>
                 Sizes
               </Text>
               <FlatList
@@ -329,35 +288,20 @@ export default function DetailScreen({route}) {
             {/* description */}
             <View>
               <Text
-                style={{
-                  fontFamily: FONTS.fontFamilySemiBold,
-                  color: COLORS.black3,
-                  fontSize: 24,
-                  paddingLeft: 16,
-                  marginBottom: 8,
-                }}>
+                style={styles.container_info_detail_info_description__title}>
                 Description
               </Text>
               <Text
-                style={{
-                  fontFamily: FONTS.fontFamilyRegular,
-                  color: COLORS.black3,
-                  fontSize: 16,
-                  paddingLeft: 24,
-                }}>
+                style={styles.container_info_detail_info_description__content}>
                 {productDetails.description}
               </Text>
             </View>
             {/* Related Products */}
             <View>
               <Text
-                style={{
-                  fontFamily: FONTS.fontFamilySemiBold,
-                  color: COLORS.black3,
-                  fontSize: 24,
-                  paddingLeft: 16,
-                  marginBottom: 8,
-                }}>
+                style={
+                  styles.container_info_detail_info__related_products_title
+                }>
                 Related Products
               </Text>
               <FlatList
@@ -376,41 +320,13 @@ export default function DetailScreen({route}) {
       </ScrollView>
 
       {/* Button add and price */}
-      <View
-        style={{
-          height: 160,
-          justifyContent: 'flex-end',
-          backgroundColor: COLORS.lightGray,
-          paddingHorizontal: 16,
-        }}>
+      <View style={styles.btn_buy_and_price_container}>
         {/* price info */}
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            borderBottomWidth: 1,
-            borderBottomColor: COLORS.secondary,
-          }}>
+        <View style={styles.price_info}>
           {/* total */}
-          <Text
-            style={{
-              fontFamily: FONTS.fontFamilySemiBold,
-              color: COLORS.black3,
-              fontSize: 24,
-              marginBottom: 16,
-              textAlign: 'center',
-            }}>
-            Total
-          </Text>
+          <Text style={styles.price_info__title}>Total</Text>
           {/* price */}
-          <Text
-            style={{
-              fontFamily: FONTS.fontFamilySemiBold,
-              color: COLORS.black3,
-              fontSize: 24,
-              marginBottom: 16,
-            }}>
+          <Text style={styles.price_info__content}>
             ${productDetails.price}
           </Text>
         </View>
@@ -418,24 +334,8 @@ export default function DetailScreen({route}) {
         {/* button add to cart */}
         <TouchableOpacity
           onPress={() => onPressAddToCart()}
-          style={{
-            justifyContent: 'flex-end',
-            marginVertical: 24,
-          }}>
-          <Text
-            style={{
-              textAlign: 'center',
-              padding: 4,
-              paddingTop: 8,
-              borderRadius: 8,
-              fontFamily: FONTS.fontFamilySemiBold,
-              color: COLORS.secondary,
-              fontSize: 18,
-              backgroundColor: COLORS.black3,
-              height: 48,
-            }}>
-            Add to Bag
-          </Text>
+          style={styles.btn_buy}>
+          <Text style={styles.btn_buy__title}>Add to Bag</Text>
         </TouchableOpacity>
       </View>
 

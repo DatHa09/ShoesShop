@@ -4,11 +4,11 @@ import {COLORS, FONTS, SIZES} from '../../../../common/Theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {onSelectedCategory} from '../../HomeSlice';
 import {
-  fetchCategories,
   fetchCategoriesFirstTime,
   fetchCategoriesGender,
   fetchProducts,
 } from '../../HomeThunk';
+import {styles} from './style/CategoriesStyle';
 
 export default function Categories() {
   const dispatch = useDispatch();
@@ -49,43 +49,25 @@ export default function Categories() {
       <>
         <TouchableOpacity
           onPress={() => dispatch(onSelectedCategory(item.id))}
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 56,
-            width: SIZES.width / 2 - 16,
-          }}>
+          style={styles.container_categories_gender}>
           <Text
-            style={{
-              fontFamily: FONTS.fontFamilyBold,
-              fontSize: 16,
-              color:
-                item.id === currentCategory ? COLORS.secondary : COLORS.black3,
-            }}>
+            style={[
+              styles.container_categories_gender__title,
+              {
+                color:
+                  item.id === currentCategory
+                    ? COLORS.secondary
+                    : COLORS.black3,
+              },
+            ]}>
             {item.category}
           </Text>
-          {currentCategory === item.id && (
-            <View
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                width: SIZES.width / 4,
-                height: 3,
-                backgroundColor: COLORS.secondary,
-              }}
-            />
-          )}
+          {currentCategory === item.id && <View style={styles.under_line} />}
         </TouchableOpacity>
+        {/* vách ngăn giữa MEN và WOMEN */}
         {!isEnd && (
           <View style={{justifyContent: 'center'}}>
-            <View
-              style={{
-                height: 32,
-                width: 1,
-                backgroundColor: COLORS.black,
-                borderRadius: 8,
-              }}
-            />
+            <View style={styles.line_right} />
           </View>
         )}
       </>
@@ -94,26 +76,7 @@ export default function Categories() {
   return (
     <>
       {/* show categories */}
-      <View
-        style={{
-          heigh: 56,
-          flexDirection: 'row',
-          marginHorizontal: 16,
-          marginBottom: 16,
-          alignItems: 'center',
-          borderRadius: 8,
-
-          shadowColor: COLORS.black3,
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-
-          elevation: 10,
-          backgroundColor: COLORS.lightGray,
-        }}>
+      <View style={styles.container_categories}>
         <FlatList
           data={dataCategoriesGender}
           horizontal

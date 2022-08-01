@@ -1,7 +1,13 @@
 import {StyleSheet} from 'react-native';
 import {COLORS, FONTS} from '../../../common/Theme';
 export const styles = StyleSheet.create({
-  title_container: {
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.lightGray,
+  },
+  container_title: {
     flexGrow: 1,
     marginLeft: 16,
     marginBottom: 55,

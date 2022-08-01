@@ -8,6 +8,7 @@ import {screens} from '../../common/Contants';
 import AppBarProduct from '../../common/AppBarProduct';
 import {useNavigation} from '@react-navigation/native';
 import {onSizeSelected} from '../detail/DetailScreenSlice';
+import {styles} from './style/ProductsScreenStyle';
 
 export default function ProductsScreen({route}) {
   const {idScreen, nameScreen, gender} = route.params;
@@ -46,78 +47,25 @@ export default function ProductsScreen({route}) {
     return (
       <TouchableOpacity
         onPress={() => onselectProduct(item)}
-        style={{
-          width: SIZES.width / 2 - 24,
-          margin: 8,
-          padding: 16,
-          borderRadius: 5,
-          backgroundColor: '#FFF',
-        }}>
+        style={styles.container_item}>
         {/* TAG */}
         {item.feature ? (
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              margin: 16,
-              backgroundColor: COLORS.secondary,
-              borderRadius: 8,
-              padding: 4,
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 80,
-            }}>
-            <Text
-              style={{
-                color: '#000',
-                fontSize: 14,
-                fontWeight: '500',
-                fontFamily: FONTS.fontFamilyBold,
-              }}>
-              Featured
-            </Text>
+          <View style={styles.container_item_tag}>
+            <Text style={styles.container_item_tag__title}>Featured</Text>
           </View>
         ) : null}
         <Image
           resizeMode="contain"
           source={{uri: item.image}}
-          style={{width: '100%', height: 100, marginTop: 24}}
+          style={styles.container_item_image}
         />
-        <Text
-          style={{
-            color: '#000',
-            fontSize: 16,
-            fontWeight: '500',
-            fontFamily: FONTS.fontFamilyBold,
-            marginBottom: 8,
-          }}>
-          {item.name}
+        <Text style={styles.container_item_name}>{item.name}</Text>
+        <Text style={styles.container_item_short_description}>
+          {item.shortDescription.trim()}
         </Text>
-        <Text
-          style={{
-            color: COLORS.black3,
-            fontFamily: FONTS.fontFamilyRegular,
-            fontSize: 14,
-          }}>
-          {item.shortDescription}
-        </Text>
-        <View
-          style={{
-            flexGrow: 1,
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            width: 56,
-          }}>
+        <View style={styles.container_item_price}>
           <Text
-            style={{
-              padding: 8,
-              borderRadius: 8,
-              backgroundColor: COLORS.gray,
-              color: COLORS.secondary,
-              fontSize: 16,
-              fontFamily: FONTS.fontFamilySemiBold,
-            }}>
+            style={styles.container_item_price__content}>
             ${item.price}
           </Text>
         </View>
@@ -149,15 +97,8 @@ export default function ProductsScreen({route}) {
         gender={gender}
       />
       {isLoading ? (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <Text
-            style={{
-              fontFamily: FONTS.fontFamilyBold,
-              color: COLORS.black3,
-              fontSize: 24,
-            }}>
-            Loading...
-          </Text>
+        <View style={styles.container_loading}>
+          <Text style={styles.container_loading__text}>Loading...</Text>
         </View>
       ) : (
         <StaggeredList
