@@ -42,6 +42,7 @@ export const styles = StyleSheet.create({
 
   text_container: {
     alignItems: 'center',
+    marginBottom: 40,
   },
   title: {
     fontSize: 32,
@@ -72,10 +73,5 @@ export const styles = StyleSheet.create({
   text_gray: {
     fontFamily: FONTS.fontFamilyBold,
     color: COLORS.lightGray4,
-  },
-
-  forgot_password: {
-    marginTop: 16,
-    marginBottom: 45,
   },
 });
