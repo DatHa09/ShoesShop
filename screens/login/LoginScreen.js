@@ -101,10 +101,6 @@ export default function LoginScreen() {
     navigation.navigate(screens.register_screen);
   };
 
-  const onForgotPassword = () => {
-    navigation.navigate(screens.forgot_password_screen);
-  };
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView>
@@ -279,13 +275,6 @@ export default function LoginScreen() {
                   <Text style={styles.text_secondary}> REGISTER </Text>
                 </TouchableOpacity>
                 <Text style={styles.text_gray}>here.</Text>
-              </View>
-
-              {/* FORGOT PASSWORD */}
-              <View style={styles.forgot_password}>
-                <TouchableOpacity onPress={() => onForgotPassword()}>
-                  <Text style={styles.text_secondary}>Forgot Password?</Text>
-                </TouchableOpacity>
               </View>
             </View>
           </View>
