@@ -33,7 +33,6 @@ import {editProfile, getProfile} from '../profile/profileScreenThunk';
 
 export default function EditProfileScreen() {
   const profileData = useSelector(state => state.profileReducer.profile);
-  console.log("~ profileData", profileData)
   const countProfile = useSelector(state => state.profileReducer.count);
   const token = useSelector(state => state.loginReducer.accessToken);
 

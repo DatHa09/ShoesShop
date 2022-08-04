@@ -1,13 +1,9 @@
 import {View, Text, TouchableOpacity, FlatList} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {COLORS, FONTS, SIZES} from '../../../../common/Theme';
+import React, {useEffect} from 'react';
+import {COLORS} from '../../../../common/Theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {onSelectedCategory} from '../../HomeSlice';
-import {
-  fetchCategoriesFirstTime,
-  fetchCategoriesGender,
-  fetchProducts,
-} from '../../HomeThunk';
+import {fetchCategoriesFirstTime, fetchCategoriesGender} from '../../HomeThunk';
 import {styles} from './style/CategoriesStyle';
 
 export default function Categories() {
@@ -17,25 +13,19 @@ export default function Categories() {
     state => state.homeReducer.dataCategoriesGender,
   );
 
+  //hiển thị danh mục đầu tiên, sau đó sẽ thay đổi theo onSelectedCategory
   const currentCategory = useSelector(
     state => state.homeReducer.categorySelected,
   );
 
-  const categorySelectedFirstTime = useSelector(
-    state => state.homeReducer.categorySelectedFirstTime,
-  );
-
   useEffect(() => {
+    //lấy danh mục đầu tiên trong (MEN, WOMEN)
     dispatch(fetchCategoriesFirstTime());
-  }, [categorySelectedFirstTime]);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchCategoriesGender());
   }, [currentCategory]);
-
-  useEffect(() => {
-    dispatch(fetchProducts());
-  });
 
   const renderItem = (item, index) => {
     //C1
@@ -45,6 +35,7 @@ export default function Categories() {
     // }
     //C2
     let isEnd = index === dataCategoriesGender.length - 1;
+
     return (
       <>
         <TouchableOpacity

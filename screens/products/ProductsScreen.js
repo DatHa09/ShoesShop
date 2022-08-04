@@ -1,6 +1,5 @@
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect} from 'react';
-import {COLORS, FONTS, SIZES} from '../../common/Theme';
 import {fetchProducts, fetchProductsByBrand} from '../home/HomeThunk';
 import {useDispatch, useSelector} from 'react-redux';
 import StaggeredList from '@mindinventory/react-native-stagger-view';
@@ -28,8 +27,8 @@ export default function ProductsScreen({route}) {
   const dataProducts = useSelector(state => state.homeReducer.dataProducts);
 
   useEffect(() => {
-    dispatch(fetchProductsByBrand(params));
     dispatch(fetchProducts());
+    dispatch(fetchProductsByBrand(params));
   }, [idScreen || gender]);
 
   const onselectProduct = item => {
@@ -38,7 +37,6 @@ export default function ProductsScreen({route}) {
 
     navigation.navigate(screens.detail_screen, {
       idScreen: screens.detail_screen,
-      nameScreen: item.name,
       idProduct: item.id,
     });
   };
