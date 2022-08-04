@@ -57,7 +57,7 @@ export default function ProfileOption() {
             style={styles.tag_profile_container_content_left__image}
           />
           <Text style={styles.tag_profile_container_content_left__text}>
-            Order History
+            Orders History
           </Text>
         </View>
         {/* tag profile content right */}

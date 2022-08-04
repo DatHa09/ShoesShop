@@ -318,7 +318,7 @@ export default function AppBarProduct({idScreen, nameScreen, gender}) {
                 ? 'Change Password'
                 : idScreen === screens.edit_profile_screen
                 ? 'Edit Profile'
-                : idScreen === screens.order_history_screen && 'Order History'}
+                : idScreen === screens.order_history_screen && 'Orders History'}
             </Text>
           </View>
         </View>

@@ -134,7 +134,7 @@ export default function DetailScreen({route}) {
           setModalVisible(true);
           setNotification({
             isSuccess: true,
-            message: 'Added to Cart Successfully!',
+            message: 'Added to cart successfully!',
           });
           const newCart = [...cart, item];
           dispatch(onAddToCart(newCart));
@@ -143,7 +143,7 @@ export default function DetailScreen({route}) {
         setModalVisible(true);
         setNotification({
           isSuccess: true,
-          message: 'Add to Cart Successfully!',
+          message: 'Add to cart successfully!',
         });
         const newCart = [...cart, item];
         dispatch(onAddToCart(newCart));
@@ -168,7 +168,7 @@ export default function DetailScreen({route}) {
       setModalVisible(true);
       setNotification({
         isSuccess: true,
-        message: 'Deleted from wishlist successfully!',
+        message: 'Deleted from favorite successfully!',
       });
     } else {
       //chưa like -> isLike false
@@ -191,7 +191,7 @@ export default function DetailScreen({route}) {
         setModalVisible(true);
         setNotification({
           isSuccess: true,
-          message: 'Add to Favorite Successfully!',
+          message: 'Add to favorite Successfully!',
         });
         const newWishList = [...wishlist, item];
         dispatch(onAddToWishList(newWishList));
