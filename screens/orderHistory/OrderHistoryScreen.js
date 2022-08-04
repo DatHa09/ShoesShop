@@ -71,7 +71,7 @@ export default function OrderHistoryScreen() {
   const onPressDeleteItem = id => {
     setModalVisible(true);
     setChangeOrderId(id);
-    setChangeMessage('Do you really want to delete this order?');
+    setChangeMessage(`Do you really want to delete order #${id}?`);
   };
 
   const confirmDelete = () => {
