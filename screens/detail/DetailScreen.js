@@ -97,15 +97,16 @@ export default function DetailScreen({route}) {
     );
   };
 
-  /*  cart có item?
-        true  -> trùng id item?
-            false  -> trùng size?
-                true  -> thông báo 'trùng size'
-                false  -> thêm mới 1 item vào cart
-            false  -> thêm mới item vào cart
-        false  -> thêm mới item vào cart
-   */
   const onPressAddToCart = () => {
+    /**   cart có item?
+     *      đúng -> trùng id item trong cart?
+     *          đúng -> có trùng size luôn ko?
+     *            đúng -> thông báo 'trùng size'
+     *            sai  -> thêm mới item vào cart
+     *          sai  -> thêm mới item vào cart
+     *      sai -> thêm mới item vào cart
+     */
+
     if (currentSize === '') {
       setModalVisible(true);
       setNotification({isSuccess: false, message: 'Please select a size'});
@@ -177,6 +178,7 @@ export default function DetailScreen({route}) {
     } else {
       //chưa like -> isLike false
       if (currentSize === '') {
+        // chưa chọn size -> chọn size
         setModalVisible(true);
         setNotification({isSuccess: false, message: 'Please select a size!'});
       } else {
@@ -189,42 +191,15 @@ export default function DetailScreen({route}) {
           qty: 1,
           totalPrice: productDetails.price * 1,
         };
-        // existProductIndex
-        const existProductIndex = wishlist.findIndex(
-          item => item.id === productDetails.id,
-        );
-        const existSizeInProductIndex = wishlist.findIndex(
-          item => item.size === currentSize && item.id === productDetails.id,
-        );
 
-        if (existProductIndex !== -1) {
-          if (existSizeInProductIndex !== -1) {
-            setModalVisible(true);
-            setNotification({
-              isSuccess: false,
-              message:
-                'Already this product with the same size in your wishlist!',
-            });
-          } else {
-            setIsLike(!isLike);
-            setModalVisible(true);
-            setNotification({
-              isSuccess: true,
-              message: 'Add to Wishlist Successfully!',
-            });
-            const newWishList = [...wishlist, item];
-            dispatch(onAddToWishList(newWishList));
-          }
-        } else {
-          setIsLike(!isLike);
-          setModalVisible(true);
-          setNotification({
-            isSuccess: true,
-            message: 'Add to Wishlist Successfully!',
-          });
-          const newWishList = [...wishlist, item];
-          dispatch(onAddToWishList(newWishList));
-        }
+        setIsLike(!isLike);
+        setModalVisible(true);
+        setNotification({
+          isSuccess: true,
+          message: 'Add to Favorite Successfully!',
+        });
+        const newWishList = [...wishlist, item];
+        dispatch(onAddToWishList(newWishList));
       }
     }
   };
