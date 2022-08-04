@@ -28,7 +28,7 @@ import {ICONS} from '../../common/Images';
 import {styles} from './style/DetailScreen';
 
 export default function DetailScreen({route}) {
-  const {idScreen, nameScreen, idProduct} = route.params;
+  const {idScreen, idProduct} = route.params;
 
   //--------//
   const productDetails = useSelector(
@@ -36,13 +36,6 @@ export default function DetailScreen({route}) {
   );
 
   const wishlist = useSelector(state => state.favoriteReducer.wishlist);
-
-  //lọc các sản phẩm trong wishlist có id === id product detail
-  const checkLikeProduct = wishlist.findIndex(
-    item => item.id === productDetails.id,
-  );
-
-  // const wishListByProductId = wishlist.filter(item => item.id === productDetails.id);
 
   const relatedProducts = useSelector(
     state => state.detailReducer.relatedProducts,
@@ -99,12 +92,12 @@ export default function DetailScreen({route}) {
 
   const onPressAddToCart = () => {
     /**   cart có item?
-     *      đúng -> trùng id item trong cart?
-     *          đúng -> có trùng size luôn ko?
-     *            đúng -> thông báo 'trùng size'
-     *            sai  -> thêm mới item vào cart
-     *          sai  -> thêm mới item vào cart
-     *      sai -> thêm mới item vào cart
+          đúng -> trùng id item trong cart?
+                  đúng -> có trùng size luôn ko?
+                          đúng -> thông báo 'trùng size'
+                          sai  -> thêm mới item vào cart
+                  sai  -> thêm mới item vào cart
+          sai -> thêm mới item vào cart
      */
 
     if (currentSize === '') {
@@ -120,10 +113,12 @@ export default function DetailScreen({route}) {
         qty: 1,
         totalPrice: productDetails.price * 1,
       };
-      // existProductIndex
+      // tồn tại sản phẩm này trong cart?
       const existProductIndex = cart.findIndex(
         item => item.id === productDetails.id,
       );
+
+      // tồn tại sản phẩm này với size này trong cart?
       const existSizeInProductIndex = cart.findIndex(
         item => item.size === currentSize && item.id === productDetails.id,
       );

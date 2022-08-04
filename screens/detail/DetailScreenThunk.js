@@ -1,7 +1,8 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 export const fetchProductDetails = createAsyncThunk(
   'productDetail/fetchProductDetails',
-  async (idProduct, {dispatch, getState}) => {
+  async (idProduct, {dispatch}) => {
+    //không sử dụng api /api/Product/getProductByFeature vì feature toàn false
     const resp = await fetch('https://shop.cyberlearn.vn/api/Product');
     const json = await resp.json();
     let data = json.content.filter(item => item.id === idProduct);

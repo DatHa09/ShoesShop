@@ -35,6 +35,7 @@ export default function CartScreen() {
   const profileData = useSelector(state => state.profileReducer.profile);
 
   useEffect(() => {
+    //khi có sự kiện nào được thực thi thì gọi lại cart trong storage
     dispatch(getLocalCart());
   }, [countCartChange]);
 
@@ -79,6 +80,7 @@ export default function CartScreen() {
 
     setModalVisible(true);
     setNotification("Your order has been placed!\nWe'll contact to you soon!");
+
     //delete cart khi nhấn checkout
     dispatch(onUpdateCart([]));
     setTimeout(() => {

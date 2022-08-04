@@ -1,21 +1,19 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {categories} from '../../common/Contants';
 import {
   fetchCategoriesFirstTime,
   fetchCategoriesGender,
   fetchProducts,
   fetchProductsByBrand,
-  fetchProductsByFeature,
 } from './HomeThunk';
 const initialState = {
   isLoading: false,
-  isLoadingFeatured: false,
   dataProducts: [],
   dataProductsByCategory: [],
 
   dataMenShoes: [],
   dataWomenShoes: [],
   dataFeaturedShoes: [],
-  // dataCategories: [],
 
   dataCategoriesGender: [],
   dataCategoriesBrand: [],
@@ -23,9 +21,6 @@ const initialState = {
   dataProductsByBrandAndWomen: [],
 
   categorySelected: '',
-  categorySelectedFirstTime: '',
-
-  showMenu: false,
 };
 
 const homeSlice = createSlice({
@@ -34,12 +29,8 @@ const homeSlice = createSlice({
   reducers: {
     onSelectedCategory: (state, action) => {
       let categoryId = action.payload;
-      state.categorySelected = categoryId;
-    },
 
-    onSelectedMenu: (state, action) => {
-      let showMenu = action.payload;
-      state.showMenu = showMenu;
+      state.categorySelected = categoryId;
     },
   },
   extraReducers: builder => {
@@ -52,42 +43,27 @@ const homeSlice = createSlice({
 
         state.isLoading = false;
       })
-      // .addCase(fetchCategories.pending, (state, action) => {
-      //   state.isLoading = true;
-      // })
-      // .addCase(fetchCategories.fulfilled, (state, action) => {
-      //   state.dataCategories = action.payload;
-      // })
-      .addCase(fetchCategoriesGender.pending, (state, action) => {
-        state.isLoading = true;
-      })
       .addCase(fetchCategoriesGender.fulfilled, (state, action) => {
         let dataCategoriesGender = action.payload.filter(
           item => item.id === 'MEN' || item.id === 'WOMEN',
         );
-        // console.log(dataCategoriesGender);
+
         state.dataCategoriesGender = dataCategoriesGender;
 
         //lọc MEN từ dataCategoriesGender
-        let dataBrand = action.payload.filter(item => item.id === 'MEN');
-
-        //get all brand của MEN => gán vào dataCategoriesBrand
-        //Vì ở MEN và WOMEN đều có NIKE, VANS_CONVERSE, ADIDAS nên ta lọc brand của 1 gender là được
-        state.dataCategoriesBrand = JSON.parse(dataBrand[0].categoryChild);
-
-        //gán dataLít của MEN vào dataMenShoes
-        state.dataMenShoes = JSON.parse(dataBrand[0].productList);
-
+        let dataMen = action.payload.filter(item => item.id === 'MEN');
         //lọc WOMEN từ dataCategoriesGender
         let dataWomen = action.payload.filter(item => item.id === 'WOMEN');
 
-        //gán dataLít của WOMEN vào dataWomenShoes
+        //productList dạng string -> JSON
+        //gán danh sách sản phẩm của MEN vào dataMenShoes
+        state.dataMenShoes = JSON.parse(dataMen[0].productList);
+        //gán danh sách sản phẩm của WOMEN vào dataWomenShoes
         state.dataWomenShoes = JSON.parse(dataWomen[0].productList);
 
-        state.isLoading = false;
-      })
-      .addCase(fetchProductsByBrand.pending, (state, action) => {
-        state.isLoading = true;
+        //get all brand của MEN => gán vào dataCategoriesBrand
+        //Vì ở MEN và WOMEN đều có NIKE, VANS_CONVERSE, ADIDAS nên ta lọc brand của 1 gender là được
+        state.dataCategoriesBrand = JSON.parse(dataMen[0].categoryChild);
       })
       .addCase(fetchProductsByBrand.fulfilled, (state, action) => {
         const gender = action.payload.gender;
@@ -96,66 +72,34 @@ const homeSlice = createSlice({
         const dataWomenShoes = state.dataWomenShoes;
 
         //lọc sản phẩm có category MEN + Brand(NIKE, ADIDAS,...)
-        if (gender === 'MEN') {
+        if (gender === categories.men) {
           let data = [];
-          dataMenShoes.forEach(menShoe => {
+          dataMenShoes.forEach(menShoes => {
             dataProductByBrand.forEach((item, index) => {
-              if (menShoe === item.id) {
-                const obj = {
-                  id: item.id,
-                  name: item.name,
-                };
+              if (menShoes === item.id) {
                 data.push(item);
               }
             });
           });
           state.dataProductsByBrandAndMen = data;
-        } else if (gender === 'WOMEN') {
+        } else if (gender === categories.women) {
+          //lọc sản phẩm có category WOMEN + Brand(NIKE, ADIDAS,...)
           let data = [];
-          dataWomenShoes.forEach(womenShoe => {
+          dataWomenShoes.forEach(womenShoes => {
             dataProductByBrand.forEach((item, index) => {
-              if (womenShoe === item.id) {
-                const obj = {
-                  id: item.id,
-                  name: item.name,
-                };
+              if (womenShoes === item.id) {
                 data.push(item);
               }
             });
           });
           state.dataProductsByBrandAndWomen = data;
         }
-        state.isLoading = false;
       })
-      // .addCase(fetchCategoriesFirstTime.pending, (state, action) => {
-      //   state.isLoading = true;
-      // })
       .addCase(fetchCategoriesFirstTime.fulfilled, (state, action) => {
-        state.categorySelectedFirstTime = action.payload[0].id;
+        //lấy danh mục đầu tiên là MEN để hiển thị
         state.categorySelected = action.payload[0].id;
-
-        // state.isLoading = false;
       });
-    // .addCase(fetchProductsByMenShoes.pending, (state, action) => {
-    //   state.isLoading = true;
-    // })
-    // .addCase(fetchProductsByMenShoes.fulfilled, (state, action) => {
-    //   state.dataMenShoes = action.payload;
-    // })
-    // .addCase(fetchProductsByWomenShoes.pending, (state, action) => {
-    //   state.isLoading = true;
-    // })
-    // .addCase(fetchProductsByWomenShoes.fulfilled, (state, action) => {
-    //   state.dataWomenShoes = action.payload;
-    // })
-    // .addCase(fetchProductsByFeature.pending, (state, action) => {
-    //   state.isLoadingFeatured = true;
-    // })
-    // .addCase(fetchProductsByFeature.fulfilled, (state, action) => {
-    //   state.dataFeaturedShoes = action.payload;
-    //   state.isLoadingFeatured = false;
-    // });
   },
 });
-export const {onSelectedCategory, onSelectedMenu} = homeSlice.actions;
+export const {onSelectedCategory} = homeSlice.actions;
 export default homeSlice.reducer;

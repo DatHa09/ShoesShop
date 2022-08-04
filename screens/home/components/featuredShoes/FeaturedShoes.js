@@ -1,13 +1,11 @@
 import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchProducts} from '../../../HomeThunk';
-import {COLORS, FONTS, SIZES} from '../../../../../common/Theme';
 import {useNavigation} from '@react-navigation/native';
-import {screens} from '../../../../../common/Contants';
-import {getLocalCart} from '../../../../cart/CartScreenThunk';
-import {onSizeSelected} from '../../../../detail/DetailScreenSlice';
-import {styles} from '../style/BrandAndFeaturedShoesStyle';
+import {fetchProducts} from '../../HomeThunk';
+import {onSizeSelected} from '../../../detail/DetailScreenSlice';
+import {styles} from './style/FeaturedShoesStyle';
+import {screens} from '../../../../common/Contants';
 
 export default function FeaturedShoes() {
   const dispatch = useDispatch();
@@ -22,7 +20,6 @@ export default function FeaturedShoes() {
 
   useEffect(() => {
     dispatch(fetchProducts());
-    // dispatch(getLocalCart())
   }, []);
   const featuredShoes = length => {
     let newDataProducts = [];
@@ -38,12 +35,11 @@ export default function FeaturedShoes() {
   };
 
   const onSelectedItem = item => {
-    //set default value
+    //bỏ chọn size khi nhấn vào sản phẩm lần nữa hoặc các sản phẩm khác
     dispatch(onSizeSelected(''));
 
     navigation.navigate(screens.detail_screen, {
       idScreen: screens.detail_screen,
-      nameScreen: item.name,
       idProduct: item.id,
     });
   };

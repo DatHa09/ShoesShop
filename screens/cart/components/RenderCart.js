@@ -18,7 +18,7 @@ export default function RenderCart({
   updateItemCart,
   onPressDeleteItem,
 }) {
-  //sử dụng reference để tránh swipeable vẫn active khi delete item
+  //sử dụng reference để tránh swipeable còn active khi delete item
 
   const swipeableRef = useRef(null);
 
@@ -27,6 +27,8 @@ export default function RenderCart({
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // set lại qty của item khi qty thay đổi
+    // để khi goBack() vào lại sẽ update qty mới
     setQuantity(item.qty);
   }, [item.qty]);
 
@@ -44,24 +46,27 @@ export default function RenderCart({
   const onPressMinus = async () => {
     let newQuantity = quantity - 1;
     // nếu số lượng = 1 thì button - sẽ disable đi
-    if (quantity === 1) {
+    if (quantity <= 1) {
       newQuantity = 1;
       setQuantity(1);
     } else {
       setQuantity(quantity - 1);
     }
+    // console.log('~ quantity', quantity);
     let price = quantity * item.price;
     updateItemCart(item.id, item.size, newQuantity, price);
   };
 
   const onPressPlus = () => {
     let newQuantity = quantity + 1;
-    if (quantity === 5) {
+    // nếu số lượng = 5 thì button + sẽ disable đi
+    if (quantity >= 5) {
       newQuantity = 5;
       setQuantity(5);
     } else {
       setQuantity(quantity + 1);
     }
+    // console.log('~ quantity', quantity);
     let price = quantity * item.price;
     updateItemCart(item.id, item.size, newQuantity, price);
   };
@@ -89,7 +94,7 @@ export default function RenderCart({
       <TouchableOpacity style={styles.container__bg_overlay_delete_btn} />
       <Swipeable
         ref={swipeableRef}
-        friction={2}
+        friction={2} //tốc độ swipe, 1 là nhanh, 2 là chậm
         renderRightActions={renderRight}>
         <Animated.View style={styles.container_swipable}>
           {/* content left */}

@@ -10,7 +10,8 @@ import {IMAGES} from '../../common/Images';
 
 //import component
 import Categories from './components/categories/Categories';
-import BrandAndFeaturedShoes from './components/brandAndFeaturedShoes/BrandAndFeaturedShoes';
+import FeaturedShoes from './components/featuredShoes/FeaturedShoes';
+import Brand from './components/brand/Brand';
 
 export default function HomeScreen() {
   return (
@@ -47,9 +48,10 @@ export default function HomeScreen() {
         <View style={{paddingVertical: 16}}>
           {/* categories */}
           <Categories />
-
-          {/*brand &  featured shoes */}
-          <BrandAndFeaturedShoes />
+          {/* brand */}
+          <Brand />
+          {/* featured shoes */}
+          <FeaturedShoes />
         </View>
       </ScrollView>
     </View>
