@@ -318,7 +318,7 @@ export default function RegisterForm() {
                           : COLORS.black3,
                     },
                   ]}>
-                  Confirmation
+                  REGISTER
                 </Text>
               </TouchableOpacity>
             </View>
